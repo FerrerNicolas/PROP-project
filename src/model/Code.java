@@ -2,33 +2,33 @@ package model;
 
 import java.util.Vector;
 
-public class code {
-    private Vector Code ;
+public class Code {
+    private Vector<Integer> code;
 
     //Getter
-    public Vector getCode() {
-        return Code;
+    public Vector<Integer> getCode() {
+        return code;
     }
 
     //Setter
-    public void setCode(Vector code) {
-        Code = code;
+    public void setCode(Vector<Integer> code) {
+    	code = code;
     }
     
     /*
      Compares two codes and give the result of the solution in position correct colors
      and right color in wrong position.
     */
-    public void correct(code code2) {
+    public void correct(Code code2) {
         int white_pins, black_pins;
         white_pins = black_pins = 0;
-        Vector OriginalCode = this.Code;
-        Vector codeToCompare = getCode();
+        Vector<Integer> OriginalCode = this.code;
+        Vector<Integer> codeToCompare = getCode();
         for (int i = 0; i < OriginalCode.size(); i++) {
-            if (OriginalCode[i] == codeToCompare[i]) {
+            if (OriginalCode.elementAt(i) == codeToCompare.elementAt(i)) {
                 ++black_pins;
-                OriginalCode[i] = -1;
-                codeToCompare[i] = -2;
+                OriginalCode.elementAt(i) = -1;
+                codeToCompare.elementAt(i) = -2;
             }
         }
         for (int i = 0; i < OriginalCode.size(); ++i) {
