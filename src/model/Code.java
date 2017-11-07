@@ -44,7 +44,8 @@ public class Code {
         }
         // Needs to return the white pins and black pins, in which order and how(??)
         // Do we need a correction class, if not we need to define the way in which
-        // corrections are given.
+        // corrections are given. 
+        // VICTORS RESPONSE: WE DO HAVE A CORRECTION CLASS, NOW UP AND RUNNING :)
 
     }
 
