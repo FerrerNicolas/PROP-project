@@ -12,7 +12,7 @@ public class Code {
 
     //Setter
     public void setCode(Vector<Integer> code) {
-    	code = code;
+    	this.code = code;
     }
     
     /*
