@@ -1,0 +1,44 @@
+﻿New Game
+The user must choose a game difficulty, whether he’ll be playing as Code-Maker or Code-breaker and, in case of playing Maker, the AI he’ll be playing against.
+Load Game (Main Menu)
+The user gets sent to the Load Game Management View, loaded with a list of his saved games.
+View Records
+The user can see their personal information as well as the best records out of all existing users. The records saved are from finished and scored games. The data stored is the number of games, the number of won and lost games, the maximum score of a single game and the minimum guesses in a single game, and the total score of the user.
+View Rankings
+The user is shown the 10 best scores of each type alongside the name of the user each of them belongs to. *Isn’t rankings global?*
+Change User
+The user gets logged off, and sent to the User Management View. 
+Exit
+The user closes the app.
+
+
+Create Code
+The user playing as code-maker creates a colored code. The code longitud and definition of valid codes depends on the difficulty of the game.
+Correct Guess
+The user, as code-maker, sends their correction of the last guess via the black and white pegs.
+Save and Quit Game
+The user gets a prompt to input a name for the game (which must be unique in the list of his saved game names), then he gets sent to the Main Menu. The information that gets stored about the game is the state of the board, and the Game options (difficulty, roles and possibly AI opponent).
+Quit Game without saving
+The user quits the current game to the main menu without saving it.
+
+
+Make Guess
+The user playing as code-breaker inputs a guess. If the guess is not valid, it does not count against the number of guesses (the validity is specified by the game difficulty).
+Get a hint
+The user's current guess as code-breaker has one of its incorrect pegs, chosen at random, substituted with the one corresponding to the correct code and the game becomes non-scorable.
+
+
+Load Game (Under Load Game)
+The user loads a specific game from the list of his saved games, restoring the board and options to the state before exiting that game. The saved version is destroyed in the process to avoid cheating.
+
+
+Discard Saved Game
+The user discards one of his saved games.
+Return to Main Menu
+The user gets sent back to the Main Menu.
+
+
+Create User
+A user creates a new profile, identified by a unique Player name (different from other users and the AIs) and with all records blank. 
+Log in
+The user is shown a list of existing profiles and is prompted to choose the one into which he’ll be logged in; after which he’ll be sent to the main menu.

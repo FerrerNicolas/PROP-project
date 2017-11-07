@@ -1,0 +1,28 @@
+﻿Poder jugar una partida de Mastermind como code-breaker y code-maker contra la IA.
+* Una partida en un único juego, el usuario escogerá si quiere jugar como Code-Maker o Code-Breaker, además de seleccionar una dificultad (ver niveles de dificultad).
+* Una partida tiene potencialmente un ganador, dependiendo en si el code-breaker puede resolver el código antes de 12 turnos.
+* El score de la partida se define como (13 - n) * F, donde n es el número de intentos realizados por el code-breaker [1..12] o 13 en caso de no acertar, y F es el factor de dificultad (Mirar Niveles de dificultad). En caso de que se haya usado una pista, el score será directamente 0. El score es del code-breaker exclusivamente. 
+* (Change later if want to add time)
+Niveles de dificultad
+* El nivel de dificultad marca las reglas específicas de una partida de Mastermind, y se escoge junto a los roles.
+* Se puede escoger, específicamente: fácil (6 colores, 4 agujeros, sin repeticiones de color, sin agujeros, F=0.5), normal (6 colores, 4 agujeros, con repeticiones de color, sin agujeros, F=1) y difícil (6 colores, 4 agujeros, con repeticiones de color y con agujeros, F=1.5).
+Mantener sistema de ranking y records
+* El sistema guarda la siguiente información sobre un player: su mínima duración de una partida (as code-breaker (?)), su número de partidas ganadas / perdidas (total for both code-maker & breaker), su número de partidas puntuables terminadas (total, sin hint!), su máxima puntuación en un juego (score), su mínimo de intentos de un juego, y su score total. TIME IS NOT SPECED.
+* Una vez una partida termina está información es actualizada, a no ser que el usuario sea code-breaker y haya usado una pista.
+* El usuario puede acceder a su información desde el menú principal bajo el apartado de récord.
+* A su vez dentro del apartado de récords un usuario puede ver cual es el mejor valor de entre todos los usuarios junto al nombre al usuario al cual pertenece.
+* Bajo el apartado de ránkings se encuentra una lista de los 10 mejores valores de cada una de estas estadísticas junto al nombre de los usuarios a quienes pertenecen.
+Salir de la partida
+* Esta opción está disponible en ciertos momentos de la partida: Siendo code-maker, mientras se hace el código o mientras se corrige un intento. Siendo code-breaker, mientras estemos formando un código, antes de enviarlo para comprobar.
+* Salir está distribuido en dos opciones: guardar y salir o salir sin guardar. En caso de salir, se vuelve al menú principal. En caso de guardar y salir el usuario le dará un nombre a la partida, único respecto a los guardados del usuario, y regresará al menú principal.
+* Esta opción guardará el tablero y las opciones de dicha partida, específicamente: parámetros de dificultad, el rol actual de máquina y usuario y el historial de intentos hechos y correcciones hasta ahora. También guarda el estado del código o corrección no enviados.
+Gestión de partidas guardadas
+* Al seleccionar está opción el usuario podrá cargar, eliminar o renombrar una partida guardada de su perfil.
+Asegurar que se cumplan las reglas.
+Hints
+* Esta opción estará disponible mientras sea el turno de adivinar del usuario, siendo code-breaker.
+* Si se usa una hint, el resultado de la partida no contará para los récords ni para el ranking.
+* Una hint corregirá uno de las posiciones del intento actual del usuario, de manera aleatoria, pero descontando los correctamente colocados.
+Usuarios
+* Al iniciar el juego se muestra una lista de nombres de usuarios existentes. El usuario puede elegir loggearse con una cuenta existente de la lista, o crear uno nuevo bajo un apartado que le permite introducir un nombre de usuario válido.
+* Un nombre de usuario válido es aquél sin caracteres espacio con al menos un caracter, y es único.
