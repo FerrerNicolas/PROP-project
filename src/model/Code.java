@@ -19,7 +19,7 @@ public class Code {
      Compares two codes and give the result of the solution in position correct colors
      and right color in wrong position.
     */
-    public void correct(Code code2) {
+    public Correction correct(Code code2) {
         int white_pins, black_pins;
         white_pins = black_pins = 0;
         Vector<Integer> OriginalCode = this.code;

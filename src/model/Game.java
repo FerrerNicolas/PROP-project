@@ -6,7 +6,7 @@ public class Game {
 	private Boolean userIsBreaker;
 	private Diff difficulty;
 	private Ai ai;
-	private User u;
+	private User user;
 	private Board board;
 	
 	
@@ -22,8 +22,11 @@ public class Game {
 	public Diff getDifficulty() {
 		return difficulty;
 	}
-	//FUNCTION RECENTLY ADDED
+	//FUNCTIONS RECENTLY ADDED
 	public Boolean codeIsValid(Code c) {
 		return true; //NEED TO CHANGE
+	}
+	public Boolean getUserIsBreaker() {
+		return userIsBreaker;
 	}
 }
