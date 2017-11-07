@@ -1,16 +1,21 @@
-package mastermind;
+package model;
 
 public class code {
     private int[] Code;
 
+    //getter
     public int[] getCode() {
         return Code;
     }
-
+    //Setter
     public void setCode(int[] code) {
         Code = code;
     }
-
+    
+    /*
+     Compares two codes and give the result of the solution in position correct colors
+     and right color in wrong position.
+    */
     public void correct(code code2) {
         int white_pins, black_pins;
         white_pins = black_pins = 0;
