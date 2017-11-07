@@ -1,14 +1,17 @@
 package model;
 
-public class code {
-    private int[] Code;
+import java.util.Vector;
 
-    //getter
-    public int[] getCode() {
+public class code {
+    private Vector Code ;
+
+    //Getter
+    public Vector getCode() {
         return Code;
     }
+
     //Setter
-    public void setCode(int[] code) {
+    public void setCode(Vector code) {
         Code = code;
     }
     
@@ -19,18 +22,18 @@ public class code {
     public void correct(code code2) {
         int white_pins, black_pins;
         white_pins = black_pins = 0;
-        int[] OriginalCode = this.Code;
-        int[] codeToCompare = getCode();
-        for (int i = 0; i < OriginalCode.length; i++) {
+        Vector OriginalCode = this.Code;
+        Vector codeToCompare = getCode();
+        for (int i = 0; i < OriginalCode.size(); i++) {
             if (OriginalCode[i] == codeToCompare[i]) {
                 ++black_pins;
                 OriginalCode[i] = -1;
                 codeToCompare[i] = -2;
             }
         }
-        for (int i = 0; i < OriginalCode.length; ++i) {
+        for (int i = 0; i < OriginalCode.size(); ++i) {
             if (OriginalCode[i] != -1) {
-                for (int j = 0; j < codeToCompare.length; ++j) {
+                for (int j = 0; j < codeToCompare.size(); ++j) {
                     if (OriginalCode[i] == codeToCompare[j]) {
                         ++white_pins;
                         codeToCompare[j] = -2;
