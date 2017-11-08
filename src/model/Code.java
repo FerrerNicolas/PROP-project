@@ -2,33 +2,30 @@ package model;
 
 import java.util.Vector;
 
+
 public class Code implements Cloneable {
-    private Vector<Integer> code; // CHANGE TO INTEGER! SIMPLIFIES CODE ALL AROUND
+    private Integer code; // CHANGE TO INTEGER! SIMPLIFIES CODE ALL AROUND
 
     //Getter
-    public Vector<Integer> getCode() {
+    public Integer getCode() {
         return code;
     }
 
     //Setter
-    public void setCode(Vector<Integer> code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
     public Code() {
         // Default Constructor, need to make
         // Note: create attribute code to 0000
-        for (int i = 0; i < 4; ++i) {
-            this.code.add(0);
-        }
+        this.code = 0000;
 
     }
 
     public Code(Integer X) {
         // Note: create attribute code to X!
-        for (int i = 0; i < 4; ++i) {
-            this.code.add(X);
-        }
+        this.code = X;
     }
 
     /*
@@ -38,22 +35,27 @@ public class Code implements Cloneable {
     public Correction correct(Code code2) {
         int white_pins, black_pins;
         white_pins = black_pins = 0;
-        Vector<Integer> originalCode = this.code;
-        Vector<Integer> codeToCompare = getCode();
-        for (int i = 0; i < originalCode.size(); i++) {
-            //Changed == to equals function
-            if (originalCode.elementAt(i).equals(codeToCompare.elementAt(i))) {
-                ++black_pins;
-                originalCode.set(i, -1); //
-                codeToCompare.set(i, -2);
+        Integer originalCode = this.code;
+        Integer codeToCompare = code2.getCode();
+        int[] originalCodeNumbers = {0,0,0,0};
+        int[] codeToCompareNumbers = {0,0,0,0};
+        for (int i = 0; i < 4; i++) {
+                if (originalCode%10 == codeToCompare%10) {
+                    ++black_pins;
+                    originalCodeNumbers[i] = -1;
+                    codeToCompareNumbers[i] = -2;
             }
+            originalCodeNumbers[i] = originalCode%10;
+            codeToCompareNumbers[i] = codeToCompare%10;
+            originalCode = originalCode /10;
+            codeToCompare = codeToCompare / 10;
         }
-        for (int i = 0; i < originalCode.size(); ++i) {
-            if (!originalCode.elementAt(i).equals(-1)) {
-                for (int j = 0; j < codeToCompare.size(); ++j) {
-                    if (originalCode.elementAt(i).equals(codeToCompare.elementAt(j))) {
-                        ++white_pins;
-                        codeToCompare.set(j, -2); //codeToCompare[j] = -2
+        for (int i = 0; i < 4; ++i) {
+            if (originalCodeNumbers[i] != -1) {
+                for (int j = 0; j < 4; ++j) {
+                    if (originalCodeNumbers[i] == codeToCompareNumbers[j]) {
+                        codeToCompareNumbers[j] = -2;
+                        ++black_pins;
                         break;
                     }
                 }
@@ -76,7 +78,7 @@ public class Code implements Cloneable {
             //throw new WrongColorException();
         }
         try {
-            this.code.set(Index, Color);
+
         } catch (ArrayIndexOutOfBoundsException e) {
             //What to do if exception???
         }
@@ -85,28 +87,33 @@ public class Code implements Cloneable {
 
     public Boolean hasRepetitions() {
         //Selfexplanatory, need to change
-        for (int i = 0; i < this.code.size(); ++i) {
-            int a = this.code.elementAt(i);
-            for (int j = i; j < this.code.size(); ++j) {
-                if (a == this.code.elementAt(j)) return true;
-            }
+        int codeCopy = this.code;
+         Vector<Integer> numbers = new Vector<Integer>(0);
+        for (int i = 0; i < 4; ++i) {
+            int tmp = codeCopy%10;
+            if (!numbers.isEmpty() && numbers.contains(tmp)) return true;
+            numbers.add(tmp);
+            codeCopy /= 10;
         }
         return false;
     }
 
     public Boolean hasBlanks() {
-        for (int i = 0; i < this.code.size(); ++i) {
-            if (this.code.elementAt(i).equals(0)) return true;
+        int codeCopy = this.code;
+        for (int i = 0; i < 4; ++i) {
+            if (codeCopy %10 == 0) return true;
+            codeCopy = codeCopy/10;
         }
         return false;
     }
 
-    public void setCode(Integer X) {
-        for (int i = 0; i < this.code.size(); ++i) {
-            this.code.set(i, X);
-        }
-    }
+    /*
+    Do we still need this set code??
 
+    public void setCode(Integer X) {
+        this.code = X;
+    }
+    */
     public Code clone() { //NEED TO TEST FOR SURE
         Code code = null;
         try {
