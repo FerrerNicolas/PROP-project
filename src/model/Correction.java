@@ -24,4 +24,10 @@ public class Correction {
 	public void setBlackPins(int bPins){
 		blackPins = bPins;
 	}
+
+	public boolean equals(Correction c2) {
+	    int wPins = getWhitePins();
+	    int bPins = getBlackPins();
+	    return (this.blackPins == bPins && this.whitePins == wPins);
+    }
 }
