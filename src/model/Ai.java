@@ -4,7 +4,7 @@ import java.util.*;
 
 
 public abstract class Ai extends Player {
-	private Game game;
+	protected Game game;
 	
 	public Ai(String name) {
 		super(name);
