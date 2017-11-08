@@ -22,11 +22,16 @@ public class Game {
 	public Diff getDifficulty() {
 		return difficulty;
 	}
-	//FUNCTIONS RECENTLY ADDED
-	public Boolean codeIsValid(Code c) {
-		return true; //NEED TO CHANGE
-	}
 	public Boolean getUserIsBreaker() {
 		return userIsBreaker;
+	}
+	//FUNCTIONS RECENTLY ADDED
+	public Boolean codeIsValid(Code c) {
+		if(difficulty == Diff.EASY)
+			return (!c.hasRepetitions()) && (!c.hasBlanks());
+		else if (difficulty == Diff.NORMAL)
+			return !c.hasBlanks();
+		else
+			return true;
 	}
 }
