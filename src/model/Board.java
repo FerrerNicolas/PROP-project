@@ -1,6 +1,6 @@
 package model;
 import java.util.ArrayList;
-
+// Guillem
 public class Board {
 	private ArrayList<Code> guesses;
 	private ArrayList<Correction> corrections;

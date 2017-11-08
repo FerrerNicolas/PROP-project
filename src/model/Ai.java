@@ -2,17 +2,14 @@ package model;
 
 import java.util.*;
 
-
-public abstract class Ai extends Player {
+//Victor
+public abstract class Ai {
 	protected Game game;
+	// AI to player!
 	
-	public Ai(String name) {
-		super(name);
-	}
+	public abstract Code codeBreakerTurn(Code code, Correction correction);
 	
-	public abstract Code codeBreakerTurn(Code code, Correction correction); //CHANGE IN VPP!
-	
-	public Code generateSecretCode() {
+	public Code generateSecretCode() { //Need to reimplement to follow code setters
 		Random rand = new Random();
 		Boolean isValid = false;
 		Vector<Integer> v = new Vector<Integer>(4);
@@ -32,7 +29,6 @@ public abstract class Ai extends Player {
 		}
 		return c;
 	}
-	//NEED TO CHANGE IN VPP
 	public Correction correctGuess(Code guess) {
 		Code c = game.getBoard().getSecretCode();
 		return guess.correct(c);

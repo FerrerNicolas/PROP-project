@@ -1,12 +1,12 @@
 package model;
 
-import java.util.*;
-
+//import java.util.*;
+//Victor
 public class Game {
 	private Boolean userIsBreaker;
 	private Diff difficulty;
-	private Ai ai;
-	private User user;
+	private Ai ai; // not needed?
+	private User user; // not needed?
 	private Board board;
 	
 	

@@ -1,19 +1,19 @@
 package model;
 import java.util.*;
-
+//Victor
 public class User extends Player {
-	private ArrayList<String> SavedGames;
+	private ArrayList<String> savedGames;
 	public User(String name) {
 		super(name);
-		SavedGames = new ArrayList<String>();
+		savedGames = new ArrayList<String>();
 	}
 	public ArrayList<String> getSavedGames(){
-		return SavedGames;
+		return savedGames;
 	}
 	public void saveGame(String gameID) {
-		SavedGames.add(gameID); //SHOULD CHECK REPEATED!! procrastinated until exception implementing
+		savedGames.add(gameID); //SHOULD CHECK REPEATED!! procrastinated until exception implementing
 	}
 	public void deleteSavedGame(String gameID) {
-		SavedGames.remove(gameID); 
+		savedGames.remove(gameID); 
 	}
 }

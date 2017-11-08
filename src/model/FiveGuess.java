@@ -1,14 +1,13 @@
 package model;
 import java.util.*;
 
-//remember to change vpp documentation
+//Victor & Guillem
 public class FiveGuess extends Ai {
 	private ArrayList<Code> unusedGuesses;
 	private ArrayList<Code> S;
 
 	
 	public FiveGuess() {
-		super("FiveGuess");
 		unusedGuesses = new ArrayList<Code>();
 		S = new ArrayList<Code>();
 		Integer c = 0000;

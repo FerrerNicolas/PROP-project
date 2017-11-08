@@ -1,5 +1,5 @@
 package model;
-
+//Victor
 public abstract class Player  {
 	private String playerName;
 	private Float gamesWon;
@@ -16,19 +16,11 @@ public abstract class Player  {
 		maxScore = 0.0f;
 		minGuesses = 13.0f; //this is maximum
 	}
-	public Float getFinishedGames() { // UPDATE in VPP
-		return gamesWon+gamesLost;
-	}
-	public void updateRecords(Boolean hasWonGame, int score, Integer nGuesses) { //Update in VPP
-		if(hasWonGame) {
-			gamesWon++;
-			totalScore+=score;
-			maxScore = Math.max(maxScore, score);
-			minGuesses = Math.min(minGuesses, nGuesses);
-		} else gamesLost++;
-	}
 	public String getPlayerName() {
 		return playerName;
+	}
+	public Float getFinishedGames() { // UPDATE in VPP
+		return gamesWon+gamesLost;
 	}
 	public Float getGamesWon() {
 		return gamesWon;
@@ -46,4 +38,12 @@ public abstract class Player  {
 		return minGuesses;
 	}
 	
+	public void updateRecords(Boolean hasWonGame, Float score, Integer nGuesses) { //Update in VPP
+		if(hasWonGame) {
+			gamesWon++;
+			totalScore+=score;
+			maxScore = Math.max(maxScore, score);
+			minGuesses = Math.min(minGuesses, nGuesses);
+		} else gamesLost++;
+	}
 }

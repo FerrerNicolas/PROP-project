@@ -1,5 +1,5 @@
 package model;
-
+// Guillem
 public class Correction {
 	private int whitePins;
 	private int blackPins;
