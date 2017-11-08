@@ -2,8 +2,8 @@ package model;
 
 import java.util.Vector;
 
-public class Code {
-    private Vector<Integer> code;
+public class Code implements Cloneable {
+    private Vector<Integer> code; // CHANGE TO INTEGER! SIMPLIFIES CODE ALL AROUND
 
     //Getter
     public Vector<Integer> getCode() {
@@ -14,7 +14,10 @@ public class Code {
     public void setCode(Vector<Integer> code) {
     	this.code = code;
     }
-    
+    public Code() {
+    	// Default Constructor, need to make
+    	// Note: create attribute code to 0000
+    }
     /*
      Compares two codes and give the result of the solution in position correct colors
      and right color in wrong position.
@@ -55,5 +58,25 @@ public class Code {
     public void setColorAt(int Index, int Color) {
     	//This function will put the color Color at position Index between 1 and 4
     	//Color must be a digit between 0 and 6 included, else exception 
+    }
+    public Boolean hasRepetitions() {
+    	//Selfexplanatory, need to change
+    	return false;
+    }
+    public Boolean hasBlanks() {
+    	//same
+    	return false;
+    }
+    public void setCode(Integer X) {
+    	//setter by single Integer
+    }
+    public Code clone() { //NEED TO TEST FOR SURE
+    	Code code = null;
+    	try{
+    		code = (Code) super.clone();
+    	} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+    	return code;
     }
 }
