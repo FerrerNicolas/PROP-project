@@ -10,7 +10,8 @@ public abstract class Ai extends Player {
 		super(name);
 	}
 	
-	public abstract Code codeBreakerTurn();
+	public abstract Code codeBreakerTurn(Code code, Correction correction); //CHANGE IN VPP!
+	
 	public Code generateSecretCode() {
 		Random rand = new Random();
 		Boolean isValid = false;

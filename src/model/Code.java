@@ -18,6 +18,9 @@ public class Code implements Cloneable {
     	// Default Constructor, need to make
     	// Note: create attribute code to 0000
     }
+    public Code(Integer X) {
+    	// Note: create attribute code to X!
+    }
     /*
      Compares two codes and give the result of the solution in position correct colors
      and right color in wrong position.
@@ -51,7 +54,9 @@ public class Code implements Cloneable {
         // VICTORS RESPONSE: WE DO HAVE A CORRECTION CLASS, NOW UP AND RUNNING :)
 
     }
-    
+    public Boolean isCompatible(Code c2, Correction correction) {
+    	return true;
+    }
     
     //EXTRA 
     // Individual color setter
