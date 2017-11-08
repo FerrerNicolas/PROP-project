@@ -9,22 +9,23 @@ public abstract class Ai {
 	
 	public abstract Code codeBreakerTurn(Code code, Correction correction);
 	
-	public Code generateSecretCode() { //Need to reimplement to follow code setters
+	public Code generateSecretCode() {
 		Random rand = new Random();
 		Boolean isValid = false;
-		Vector<Integer> v = new Vector<Integer>(4);
+		Integer code = new Integer(0);
 		Diff d = game.getDifficulty();
 		Code c = new Code();
 		while(!isValid) {
+			code = 0;
 			Integer  n;
 			for(int i=0; i < 4; i++) {
 				if(d != Diff.HARD) 
 					n = rand.nextInt(7);
 				else 
 					n = rand.nextInt(6)+1;
-				v.set(i, n);
+				code=code*10+n;
 			}
-			c.setCode(v);
+			c.setCode(code);
 			isValid = game.codeIsValid(c);
 		}
 		return c;

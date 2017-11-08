@@ -8,7 +8,7 @@ public abstract class Player  {
 	private Float maxScore;
 	private Float minGuesses;
 	
-	public Player(String name) { //UPDATE in VPP
+	public Player(String name) {
 		playerName = name;
 		gamesWon = 0.0f;
 		gamesLost = 0.0f;
@@ -19,7 +19,7 @@ public abstract class Player  {
 	public String getPlayerName() {
 		return playerName;
 	}
-	public Float getFinishedGames() { // UPDATE in VPP
+	public Float getFinishedGames() {
 		return gamesWon+gamesLost;
 	}
 	public Float getGamesWon() {
@@ -38,7 +38,7 @@ public abstract class Player  {
 		return minGuesses;
 	}
 	
-	public void updateRecords(Boolean hasWonGame, Float score, Integer nGuesses) { //Update in VPP
+	public void updateRecords(Boolean hasWonGame, Float score, Integer nGuesses) {
 		if(hasWonGame) {
 			gamesWon++;
 			totalScore+=score;
