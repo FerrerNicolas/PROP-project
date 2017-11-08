@@ -77,11 +77,15 @@ public class Code implements Cloneable {
         if (Color < 0 || Color > 6) {
             //throw new WrongColorException();
         }
-        try {
-
-        } catch (ArrayIndexOutOfBoundsException e) {
+        if (Index < 0 || Index > 4) throw new ArrayIndexOutOfBoundsException();
             //What to do if exception???
-        }
+        int divider = (int)Math.pow(10, Index); // divisor = 10 ^ Index;
+        int code_copy = this.code % divider;
+        divider = divider /10;
+        int colorAtIndex = code_copy / divider;
+        int diff = Color - colorAtIndex;
+        diff *= divider;
+        this.code += diff;
 
     }
 
