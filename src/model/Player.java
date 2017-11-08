@@ -10,7 +10,7 @@ public abstract class Player  {
 	
 	public Player(String name) { //UPDATE in VPP
 		playerName = name;
-		gamesWon = 0.0f; 
+		gamesWon = 0.0f;
 		gamesLost = 0.0f;
 		totalScore = 0.0f;
 		maxScore = 0.0f;

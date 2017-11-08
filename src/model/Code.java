@@ -48,5 +48,12 @@ public class Code {
         // VICTORS RESPONSE: WE DO HAVE A CORRECTION CLASS, NOW UP AND RUNNING :)
 
     }
-
+    
+    
+    //EXTRA 
+    // Individual color setter
+    public void setColorAt(int Index, int Color) {
+    	//This function will put the color Color at position Index between 1 and 4
+    	//Color must be a digit between 0 and 6 included, else exception
+    }
 }
