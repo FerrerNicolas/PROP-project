@@ -33,7 +33,7 @@ public class Code implements Cloneable {
      and right color in wrong position.
     */
     public Correction correct(Code code2) {
-        int white_pins, black_pins;
+        /*int white_pins, black_pins;
         white_pins = black_pins = 0;
         Integer originalCode = this.code;
         Integer codeToCompare = code2.getCode();
@@ -60,7 +60,20 @@ public class Code implements Cloneable {
                     }
                 }
             }
-        }
+        }*/
+    	Integer c1 = code;
+    	Integer c2 = code2.getCode();
+    	int white_pins = 0, black_pins = 0;
+    	Boolean[] checklist = {false, false, false, false};
+    	for (int i = 0; i < 4; i++) {
+    		if(c1%10 == c2%10) { black_pins++; checklist[i]=true;}
+    		c1 /=10; c2 /= 10;
+    	}
+    	for(int i = 0; i<4; i++) {
+    		for(int j = 0; j<4; j++) {
+    			
+    		}
+    	}
         return new Correction(white_pins, black_pins);
     }
 

@@ -2,12 +2,16 @@ package model;
 
 import java.util.*;
 
+import exceptions.*;
+
 //Victor
 public abstract class Ai {
 	protected Game game;
 	// AI to player!
-	
-	public abstract Code codeBreakerTurn(Code code, Correction correction);
+	public Ai (Game g) {
+		game = g;
+	}
+	public abstract Code codeBreakerTurn(Code code, Correction correction) throws CodeOrCorrectionNull, CodeAlreadyUsed;
 	
 	public Code generateSecretCode() {
 		Random rand = new Random();

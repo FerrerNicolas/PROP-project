@@ -1,13 +1,14 @@
 package model;
 import java.util.*;
-
+import exceptions.*;
 //Victor & Guillem
 public class FiveGuess extends Ai {
 	private ArrayList<Code> unusedGuesses;
 	private ArrayList<Code> S;
 
 	
-	public FiveGuess() {
+	public FiveGuess(Game g) {
+		super(g);
 		unusedGuesses = new ArrayList<Code>();
 		S = new ArrayList<Code>();
 		Integer c = 0000;
@@ -26,14 +27,13 @@ public class FiveGuess extends Ai {
 		//RN this should build all the set!
 	}
 	
-	public Code codeBreakerTurn(Code code, Correction correction) { //In case javi does not have it, consulting board may be best (through game)
+	public Code codeBreakerTurn(Code code, Correction correction) throws CodeOrCorrectionNull, CodeAlreadyUsed { //In case javi does not have it, consulting board may be best (through game)
 		if(code == null && correction == null) {
 			if(game.getDifficulty() == Diff.EASY)  
 				return new Code(1234);
 			return new Code(1122);
-		}
-		//Exception handling! 1 null or whatevs
-
+		} else if (code == null || correction == null) throw (new CodeOrCorrectionNull());
+		if (!unusedGuesses.contains(code)) throw (new CodeAlreadyUsed());
 		unusedGuesses.remove(code);
 		// eliminate from S
 		int i=0;

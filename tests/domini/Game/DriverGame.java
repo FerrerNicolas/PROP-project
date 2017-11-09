@@ -24,7 +24,7 @@ public class DriverGame {
 			sc.nextLine();
 			switch(option) {
 			case 1:
-				System.out.println("Input (b,m) for player breaker/maker, enter and e,n,d for difficulty.");
+				System.out.println("Input (b,m) for player breaker/maker, enter and e,n,h for difficulty.");
 				String A = sc.nextLine();
 				Boolean uIB = true, correctinput = true;
 				if(A.equalsIgnoreCase("b")) uIB = true;
@@ -45,12 +45,12 @@ public class DriverGame {
 				else if (A.equalsIgnoreCase("d")) g = new Game(uIB, Diff.HARD);
 				else correctinput = false;
 				while(!correctinput) {
-					System.out.println("Input not valid, expected e|n|d, please repeat");
+					System.out.println("Input not valid, expected e|n|h, please repeat");
 					A = sc.nextLine();
 					correctinput = true;
 					if(A.equalsIgnoreCase("e")) g = new Game(uIB, Diff.EASY);
 					else if (A.equalsIgnoreCase("n")) g = new Game(uIB, Diff.NORMAL);
-					else if (A.equalsIgnoreCase("d")) g = new Game(uIB, Diff.HARD);
+					else if (A.equalsIgnoreCase("h")) g = new Game(uIB, Diff.HARD);
 					else correctinput = false;
 				}
 				System.out.println("Game initialized");
