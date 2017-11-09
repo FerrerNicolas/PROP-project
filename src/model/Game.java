@@ -5,16 +5,13 @@ package model;
 public class Game {
 	private Boolean userIsBreaker;
 	private Diff difficulty;
-	//private Ai ai; // not needed?
-	//private User user; // not needed?
 	private Board board;
 	
 	
-	public Game(Boolean uIB, Diff d/*, Ai a, User u*/) {
+	public Game(Boolean uIB, Diff d) {
 		userIsBreaker = uIB;
 		difficulty = d;
-		/*ai = a;
-		user = u;*/
+		board = new Board();
 	}
 	public Board getBoard() {
 		return board;

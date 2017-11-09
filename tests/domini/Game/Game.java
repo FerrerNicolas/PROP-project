@@ -4,17 +4,17 @@ import model.Board;
 import model.Code;
 import model.Diff;
 
+//Victor. Board & Code already tested.
 public class Game {
 	private Boolean userIsBreaker;
 	private Diff difficulty;
 	private Board board;
 	
 	
-	public Game(Boolean uIB, Diff d/*, Ai a, User u*/) {
+	public Game(Boolean uIB, Diff d) {
 		userIsBreaker = uIB;
 		difficulty = d;
-		/*ai = a;
-		user = u;*/
+		board = new Board();
 	}
 	public Board getBoard() {
 		return board;
