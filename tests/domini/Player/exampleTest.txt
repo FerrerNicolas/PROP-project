@@ -1,0 +1,228 @@
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+1
+Input name
+Forest
+Player created
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+2
+Forest
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+8
+13.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+4
+0.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+9
+Input w|l for win or lose, the score and the guesses in the game
+w
+10
+4
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+3
+1.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+4
+1.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+5
+0.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+6
+10.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+7
+10.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+8
+4.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+9
+Input w|l for win or lose, the score and the guesses in the game
+w
+20
+2
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+8
+2.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+7
+20.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+6
+30.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+4
+2.0
+Input number for test
+1. Instance Player
+2. getPlayerName
+3. getFinishedGames
+4. getGamesWon
+5. getGamesLost
+6. getTotalScore
+7. getMaxScore
+8. getMinGuesses
+9. updateRecords
+10. Exit Driver
+10
