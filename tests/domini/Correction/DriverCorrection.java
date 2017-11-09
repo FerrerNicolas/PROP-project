@@ -54,12 +54,19 @@ public class DriverCorrection {
 		if (correction == null) {
     		System.out.println("Invalid Operation, you need to create a correction first using Option 1");
     	}else {
-    		System.out.print("Input number of pins: ");
-    		int q = sc.nextInt();
-    		correction.setBlackPins(q);
+    		Correction tmp = new Correction(0,0);
+    		System.out.print("Input number of white pins for the correction to compare to: ");
+    		int w = sc.nextInt();
+    		tmp.setWhitePins(w);
+    		System.out.print("Input number of black pins for the correction to compare to: ");
+    		int b = sc.nextInt();
+    		tmp.setBlackPins(b);
+    		
     		int p = correction.getBlackPins();
-    		System.out.print("Set number of black pins to: ");
-    		System.out.println(p);
+    		int q = correction.getWhitePins();
+    		
+    		boolean isEqual = correction.equals(tmp)
+    		System.out.println("Compared to " + q + " white pins and " + p + " black pins, got ");
     	}
 	}
 	

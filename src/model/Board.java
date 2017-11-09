@@ -8,6 +8,8 @@ public class Board {
 	
 	
 	public Board() {
+		guesses = new ArrayList<Code>();
+		corrections = new ArrayList<Correction>();
 	}
 	
 	//

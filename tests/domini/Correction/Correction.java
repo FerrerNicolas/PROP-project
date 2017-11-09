@@ -26,8 +26,8 @@ public class Correction {
 	}
 
 	public boolean equals(Correction c2) {
-	    int wPins = getWhitePins();
-	    int bPins = getBlackPins();
+	    int wPins = c2.getWhitePins();
+	    int bPins = c2.getBlackPins();
 	    return (this.blackPins == bPins && this.whitePins == wPins);
     }
 }
