@@ -22,7 +22,6 @@ public class Game {
 	public Boolean getUserIsBreaker() {
 		return userIsBreaker;
 	}
-	//FUNCTIONS RECENTLY ADDED
 	public Boolean codeIsValid(Code c) {
 		if(difficulty == Diff.EASY)
 			return (!c.hasRepetitions()) && (!c.hasBlanks());
