@@ -10,35 +10,11 @@ import model.*;
 //VictorGuillem
 public class EmuladorFGRandom {
 	public static void main (String[] args) {
-		System.out.println("Input Game Difficulty e|n|h");
-		Scanner sc= new Scanner(System.in);
-		Boolean correctinput = false;
 		Game g = new Game(false, Diff.EASY);
-		while(!correctinput) {
-			String A = sc.nextLine();
-			correctinput = true;
-			if(A.equalsIgnoreCase("e")) g = new Game(false, Diff.EASY);
-			else if (A.equalsIgnoreCase("n")) g = new Game(false, Diff.NORMAL);
-			else if (A.equalsIgnoreCase("h")) g = new Game(false, Diff.HARD);
-			else correctinput = false;
-			if (!correctinput) System.out.println("Input Game Difficulty e|n|h");
-		}
-		System.out.println("Input Secret Code");
-		correctinput = false;
-		Integer secret;
-		Code secretCode = new Code();
-		Board b = g.getBoard();
-		while(!correctinput) {
-			secret = sc.nextInt();
-			secretCode = new Code(secret);
-			correctinput = true;
-			if(g.codeIsValid(secretCode)) 
-				b.setSecretCode(secretCode);
-			else correctinput = false;
-			if (!correctinput) System.out.println("Input Valid Secret Code for the chosen difficulty");
-		}
-		System.out.println("Playing game on difficulty " + g.getDifficulty() + " with secret code " + secretCode.getCode().toString());
 		FiveGuess fg = new FiveGuess(g);
+		Board b = g.getBoard();
+		Code secretCode = fg.generateSecretCode();
+		System.out.println("Playing game on difficulty " + g.getDifficulty() + " with secret code " + secretCode.getCode().toString());
 		Code nextGuess = new Code();
 		try {
 			nextGuess = fg.codeBreakerTurn(null, null);
