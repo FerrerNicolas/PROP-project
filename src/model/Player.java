@@ -1,6 +1,6 @@
 package model;
 //Victor
-public abstract class Player  {
+public class Player  {
 	private String playerName;
 	private Float gamesWon;
 	private Float gamesLost;
