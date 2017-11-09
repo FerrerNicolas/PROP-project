@@ -33,7 +33,6 @@ public class FiveGuess extends Ai {
 	
 	public Code codeBreakerTurn(Code code, Correction correction) throws CodeOrCorrectionNull, CodeAlreadyUsed { //In case javi does not have it, consulting board may be best (through game)
 		if(code == null && correction == null) {
-			//System.out.println("FIRST TURN");
 			if(game.getDifficulty() == Diff.EASY)  
 				return new Code(1234);
 			return new Code(1122);
