@@ -2,6 +2,8 @@ package model;
 
 import java.util.Vector;
 
+import domini.Correction.Correction;
+
 
 public class Code implements Cloneable {
     private Integer code; // CHANGE TO INTEGER! SIMPLIFIES CODE ALL AROUND
@@ -69,12 +71,20 @@ public class Code implements Cloneable {
     		if(c1%10 == c2%10) { black_pins++; checklist[i]=true;}
     		c1 /=10; c2 /= 10;
     	}
-    	for(int i = 0; i<4; i++) {
-    		for(int j = 0; j<4; j++) {
-    			
+    	/*for(int i = 1; i<5; i++) {
+    		for(int j = 1; j<5; j++) {
+    			if (i != j) {
+    				if ( c1/ ((5-i)*10) )
+    			}
     		}
-    	}
+    	}*/
         return new Correction(white_pins, black_pins);
+    }
+    
+    public boolean equals(Code code2) {
+	    Integer c2 = code2.getCode();
+	    Integer c1 = this.code;
+	    return (c1 == c2);
     }
 
     public Boolean isCompatible(Code c2, Correction correction) {
