@@ -71,13 +71,13 @@ public class Code implements Cloneable {
     		if(c1%10 == c2%10) { black_pins++; checklist[i]=true;}
     		c1 /=10; c2 /= 10;
     	}
-    	for(int i = 1; i<5; i++) {
+    	/*for(int i = 1; i<5; i++) {
     		for(int j = 1; j<5; j++) {
     			if (i != j) {
     				if ( c1/ ((5-i)*10) )
     			}
     		}
-    	}
+    	}*/
         return new Correction(white_pins, black_pins);
     }
     
