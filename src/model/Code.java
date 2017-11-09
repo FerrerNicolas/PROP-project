@@ -73,15 +73,15 @@ public class Code implements Cloneable {
     		c1 /=10; c2 /= 10;
     	}
     	c1 = code;
-    	for(int i = 0; i<4; i++) {
+    	for(int i = 0; i<4; i++) {//6643 & SC(c2) 6634
     		Integer tmp1 = c1 % 10;
     		c1 = c1/10;
     		c2 = code2.getCode();
    			for(int j = 0; j<4; j++) {
    				Integer tmp2 = c2 % 10;
 				c2 = c2 / 10;
-   				if (checklist[i] != true && checklist[j]!=true) {
-   					if (tmp2 == tmp1) { white_pins++; checklist[i]=true; checklist[j]=true; }
+   				if (checklist[i] != true && checklist2[j]!=true) {
+   					if (tmp2.equals(tmp1)) { white_pins++; checklist[i]=true; checklist2[j]=true; }
    				}
        		}
     	}
