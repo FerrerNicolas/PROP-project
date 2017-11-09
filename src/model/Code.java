@@ -73,7 +73,7 @@ public class Code implements Cloneable {
     		c1 /=10; c2 /= 10;
     	}
     	c1 = code;
-    	for(int i = 0; i<5; i++) {
+    	for(int i = 0; i<4; i++) {
     		Integer tmp1 = c1 % 10;
     		c1 = c1/10;
     		c2 = code2.getCode();
