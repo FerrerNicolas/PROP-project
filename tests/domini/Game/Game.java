@@ -1,12 +1,12 @@
-package model;
+package domini.Game;
 
-//import java.util.*;
-//Victor
+import model.Board;
+import model.Code;
+import model.Diff;
+
 public class Game {
 	private Boolean userIsBreaker;
 	private Diff difficulty;
-	//private Ai ai; // not needed?
-	//private User user; // not needed?
 	private Board board;
 	
 	
