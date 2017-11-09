@@ -40,7 +40,7 @@ public class Board {
 	
 	//assumes the code is valid
 	public void addGuess(Code guess){
-		guesses.add(guess);
+		guesses.add(guess); //clone guesses
 	}
 	
 	//returns true if 12 turns have passed, false otherwise
