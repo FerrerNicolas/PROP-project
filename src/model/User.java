@@ -1,6 +1,6 @@
 package model;
 import java.util.*;
-import exceptions.UserSavesExistingID;;
+import exceptions.*;
 //Victor
 public class User extends Player {
 	private ArrayList<String> savedGames;
@@ -13,9 +13,10 @@ public class User extends Player {
 	}
 	public void saveGame(String gameID) throws UserSavesExistingID {
 		if (savedGames.contains(gameID)) throw (new UserSavesExistingID());
-		savedGames.add(gameID); //SHOULD CHECK REPEATED!! procrastinated until exception implementing
+		savedGames.add(gameID);
 	}
-	public void deleteSavedGame(String gameID) {
+	public void deleteSavedGame(String gameID) throws UserTriedDeletingUnexistent {
+		if (!savedGames.contains(gameID)) throw (new UserTriedDeletingUnexistent());
 		savedGames.remove(gameID); 
 	}
 }
