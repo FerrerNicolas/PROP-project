@@ -16,7 +16,7 @@ public class Genetic  extends Ai{
         Assigns a fitnessScore to a guess, the fitness score is used to find a suitable
         code to be the next guess.
         For the code to assign a suitable fitnessScore it gets as parameters a previous guess
-        a possible next guess and the correction the first guess got.
+        a possible next guess and the correction of the first guess.
      */
     private int fitnessScore(Code guess, Code guessed, Correction correction) {
         Correction comparison = guessed.correct(guess);
@@ -30,6 +30,42 @@ public class Genetic  extends Ai{
         int bPinsDifference = bPinsCorrrection - bPinsComparison;
 
         return wPinsDifference + bPinsDifference;
+    }
+
+
+    private Code crossover(Code c1, Code c2) {
+         Random rnJesus = new Random();
+         Code codeRes = new Code();
+         int code1 = c1.getCode();
+         int code2 = c2.getCode();
+         for (int i = 1; i <= 4; ++i) {
+             if (rnJesus.nextFloat() < 0.5) {
+                 codeRes.setColorAt(i, code1%10);
+             }
+             else {
+                 codeRes.setColorAt(i, code2%10);
+             }
+             code1 /= 10;
+             code2 /= 10;
+         }
+         return codeRes;
+    }
+
+    private Code mutate(Code code) {
+        Random rnJesus = new Random();
+        int index = (rnJesus.nextInt() % 4) +1;
+        int color = rnJesus.nextInt() % AvailableColors.length;
+        code.setColorAt(index, AvailableColors[color]);
+        return code;
+    }
+
+    private Code permute(Code code) {
+        Random rnJesus = new Random();
+        int cd = code.getCode();
+        int index1 = rnJesus.nextInt() % 4;
+        int index2 = rnJesus.nextInt() % 4;
+        //Not finished yet.
+        return code;
     }
 
     public Genetic() {
@@ -70,13 +106,24 @@ public class Genetic  extends Ai{
         ArrayList<Correction> previousCorrections = game.getBoard().getCorrections();
         while (chosenOnes.size() < pop_size || gen_num < max_generations) {
             //To-do: add mutation functions
+            ArrayList<Code> sons = new ArrayList<Code>();
             for (int i = 0; i < population.size(); ++i) {
+                if (i == population.size()-1) {
+                    sons.add(population.get(i));
+                    break;
+                }
+                Code son = new Code();
+                son = crossover(population.get(i), population.get(i+1));
+                if (rng.nextFloat() < 0.03) son = mutate(son);
+                if (rng.nextFloat() < 0.03) son = permute(son);
+            }
+            for (int i = 0; i < sons.size(); ++i) {
                 int fitness = 0;
                 for (int j = 0; j < previousGuesses.size(); ++j) {
-                    fitness += fitnessScore(population.get(i), previousGuesses.get(j), previousCorrections.get(j));
+                    fitness += fitnessScore(sons.get(i), previousGuesses.get(j), previousCorrections.get(j));
                 }
-                if (fitness == 0 && !chosenOnes.contains(population.get(i)) && !previousGuesses.contains(population.get(i))) {
-                    chosenOnes.add(population.get(i));
+                if (fitness == 0 && !chosenOnes.contains(sons.get(i)) && !previousGuesses.contains(sons.get(i))) {
+                    chosenOnes.add(sons.get(i));
                     if (chosenOnes.size() > pop_size) break;
                 }
             }
