@@ -67,24 +67,33 @@ public class Code implements Cloneable {
     	Integer c2 = code2.getCode();
     	int white_pins = 0, black_pins = 0;
     	Boolean[] checklist = {false, false, false, false};
+    	Boolean[] checklist2 = {false, false, false, false};
     	for (int i = 0; i < 4; i++) {
-    		if(c1%10 == c2%10) { black_pins++; checklist[i]=true;}
+    		if(c1%10 == c2%10) { black_pins++; checklist[i]=true; checklist2[i]=true; }
     		c1 /=10; c2 /= 10;
     	}
-    	/*for(int i = 1; i<5; i++) {
-    		for(int j = 1; j<5; j++) {
-    			if (i != j) {
-    				if ( c1/ ((5-i)*10) )
-    			}
-    		}
-    	}*/
+    	c1 = code;
+    	for(int i = 1; i<5; i++) {
+    		Integer tmp1 = c1 % 10;
+    		c1 = c1/10;
+    		c2 = code2.getCode();
+   			for(int j = 1; j<5; j++) {
+   				if (checklist[i] != true && checklist[j]!=true) {
+   					Integer tmp2 = c2 % 10;
+   					c2 = c2 / 10;
+   					if (tmp2 == tmp1) { white_pins++; checklist[i]=true; checklist[j]=true; }
+   				}
+       		}
+    	}
         return new Correction(white_pins, black_pins);
     }
     
-    public boolean equals(Code code2) {
-	    Integer c2 = code2.getCode();
-	    Integer c1 = this.code;
-	    return (c1 == c2);
+    public boolean equals(Object object) {
+        boolean same = false;
+        if (object != null && object instanceof Code) {
+            same = this.code.equals(((Code) object).getCode());
+        }
+        return same;
     }
 
     public Boolean isCompatible(Code c2, Correction correction) {

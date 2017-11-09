@@ -25,9 +25,12 @@ public class Correction {
 		blackPins = bPins;
 	}
 
-	public boolean equals(Correction c2) {
-	    int wPins = c2.getWhitePins();
-	    int bPins = c2.getBlackPins();
-	    return (this.blackPins == bPins && this.whitePins == wPins);
+	public boolean equals(Object object) {
+        boolean same = false;
+        if (object != null && object instanceof Correction) {
+            same = this.whitePins == ((Correction)object).getWhitePins() && this.blackPins == ((Correction)object).getBlackPins();
+        }
+        return same;
     }
+
 }
