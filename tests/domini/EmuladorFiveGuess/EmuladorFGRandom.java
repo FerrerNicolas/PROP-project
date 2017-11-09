@@ -8,7 +8,7 @@ import exceptions.CodeOrCorrectionNull;
 import model.*;
 
 //VictorGuillem
-public class EmuladorFiveGuess {
+public class EmuladorFGRandom {
 	public static void main (String[] args) {
 		System.out.println("Input Game Difficulty e|n|h");
 		Scanner sc= new Scanner(System.in);

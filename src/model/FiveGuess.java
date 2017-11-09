@@ -24,16 +24,27 @@ public class FiveGuess extends Ai {
 			if ((c%100/10)   == 7) c +=  30;
 			if ((c%1000/100) == 7) c += 300; //Overflow managing
 		}
+		/*for(int i = 0; i < S.size(); i++) {
+			System.out.print(S.get(i).getCode() + " ");
+			System.out.println(unusedGuesses.get(i).getCode());
+		}*/
 		//RN this should build all the set!
 	}
 	
 	public Code codeBreakerTurn(Code code, Correction correction) throws CodeOrCorrectionNull, CodeAlreadyUsed { //In case javi does not have it, consulting board may be best (through game)
 		if(code == null && correction == null) {
+			//System.out.println("FIRST TURN");
 			if(game.getDifficulty() == Diff.EASY)  
 				return new Code(1234);
 			return new Code(1122);
 		} else if (code == null || correction == null) throw (new CodeOrCorrectionNull());
-		if (!unusedGuesses.contains(code)) throw (new CodeAlreadyUsed());
+		if (!unusedGuesses.contains(code)) {
+			/*System.out.println(code.getCode() + " already used (?)");
+			for(int i = 0; i < 20; i++) {
+				System.out.println(unusedGuesses.get(i).getCode());
+			}*/
+			throw (new CodeAlreadyUsed());
+		}
 		unusedGuesses.remove(code);
 		// eliminate from S
 		int i=0;
