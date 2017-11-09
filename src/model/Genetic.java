@@ -68,7 +68,8 @@ public class Genetic  extends Ai{
         return code;
     }
 
-    public Genetic() {
+    public Genetic(Game g) {
+    	super(g);
         //We initialize the array of available colors.
 
         if (game.getDifficulty() != Diff.HARD)
