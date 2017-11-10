@@ -80,6 +80,7 @@ public class EmulatorFiveGuessAll {
 					} catch (CorrectionIsInvalid e2) {
 						System.out.println("This should not happen, but Correction " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B is invalid!");
 					}
+					//System.out.println("Turn: "+ b.turnsDone() +"  Played "+nextGuess.getCode()+" got " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B");
 					Integer tmp = 0;
 					try {
 						while (!b.hasWon() && ! (b.turnsDone()== 12)) {
@@ -97,7 +98,7 @@ public class EmulatorFiveGuessAll {
 							} catch (CorrectionIsInvalid e2) {
 								System.out.println("This should not happen, but Correction " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B is invalid!");
 							}
-						
+							//System.out.println("Turn: "+ b.turnsDone() +"  Played "+nextGuess.getCode()+" got " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B");
 						}
 						if (!b.hasWon())// System.out.println("AI won by guessing " + nextGuess.getCode());
 							System.out.println("AI Lost by guessing  " + nextGuess.getCode());
@@ -147,7 +148,7 @@ public class EmulatorFiveGuessAll {
 			if ((code%1000/100) == 7) code += 300; //Overflow managing
 		}
 		System.out.println("Played " + easygames + " EASY games: Won in at most " + maxeasyturns + " turns. Took " + totaleasyturns/easygames + " turns in average to win." );
-		System.out.println("Played " + normalgames + " EASY games: Won in at most " + maxnormalturns + " turns. Took " + totalnormalturns/normalgames + " turns in average to win." );
-		System.out.println("Played " + hardgames + " EASY games: Won in at most " + maxhardturns + " turns. Took " + totalhardturns/hardgames + " turns in average to win." );
+		System.out.println("Played " + normalgames + " NORMAL games: Won in at most " + maxnormalturns + " turns. Took " + totalnormalturns/normalgames + " turns in average to win." );
+		System.out.println("Played " + hardgames + " HARD games: Won in at most " + maxhardturns + " turns. Took " + totalhardturns/hardgames + " turns in average to win." );
 	}	
 }

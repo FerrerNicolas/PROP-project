@@ -77,7 +77,7 @@ public class FiveGuess extends Ai {
 			if (score > minScore) {
 				minScore = score;
 				nextGuess = unusedGuesses.get(i).clone();
-			} else if(score == minScore && S.contains( unusedGuesses.get(i) ) ) {
+			} else if( (score == minScore && S.contains( unusedGuesses.get(i) ) && !S.contains(nextGuess) ) || (score == minScore && S.contains( unusedGuesses.get(i) ) && S.contains(nextGuess) && nextGuess.getCode() > unusedGuesses.get(i).getCode()) ) {
 				nextGuess = unusedGuesses.get(i).clone();
 				// We do this to ensure picking elements preferably from S
 			}
