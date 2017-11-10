@@ -1,15 +1,17 @@
 package model;
 import java.util.ArrayList;
+import exceptions.*;
 // Guillem
 public class Board {
 	private ArrayList<Code> guesses;
 	private ArrayList<Correction> corrections;
 	private Code secretCode;
+	private Game game; //modify vpp to reflect this
 	
-	
-	public Board() {
+	public Board(Game g) {
 		guesses = new ArrayList<Code>();
 		corrections = new ArrayList<Correction>();
+		game = g;
 	}
 	
 	//
@@ -32,8 +34,11 @@ public class Board {
 	//setters
 	//
 	
-	public void setSecretCode(Code secretC) {
-		secretCode = secretC;
+	public void setSecretCode(Code secretC) throws CodeIsInvalid{
+		if(game.codeIsValid(secretC))
+			secretCode = secretC;
+		else
+			throw (new CodeIsInvalid());
 	}
 	
 	//
@@ -41,17 +46,24 @@ public class Board {
 	//
 	
 	//assumes the code is valid
-	public void addGuess(Code guess){
-		guesses.add(guess); //clone guesses
+	public void addGuess(Code guess) throws CodeIsInvalid{
+		if(game.codeIsValid(guess))
+			guesses.add(guess); //clone guesses
+		else
+			throw (new CodeIsInvalid());
 	}
 	
 	//returns true if 12 turns have passed, false otherwise
 	//assumes the correction is valid
-	public Boolean addCorrection(Correction corr) {
-		corrections.add(corr);
-		if (corrections.size() == 12)
-			return true;
-		return false;
+	public Boolean addCorrection(Correction corr) throws CorrectionIsInvalid{
+		if (corr.getBlackPins() < 5 && corr.getBlackPins() > -1 && corr.getWhitePins() < 5 && corr.getWhitePins()>-1 && corr.getWhitePins() + corr.getBlackPins() < 4) {
+			corrections.add(corr);
+			if (corrections.size() == 12)
+				return true;
+			return false;
+		}else {
+			throw (new CorrectionIsInvalid());
+		}
 	}
 	
 	//checks, using the last correction, if the game has been won
