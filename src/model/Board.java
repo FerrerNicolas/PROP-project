@@ -68,10 +68,13 @@ public class Board {
 	
 	//checks, using the last correction, if the game has been won
 	public Boolean hasWon() {
-		Correction lastCorrection = corrections.get( corrections.size() - 1 );
-		if (lastCorrection.getBlackPins() == 4)
-			return true;
-		return false;
+		if (corrections.size() != 0) {
+			Correction lastCorrection = corrections.get( corrections.size() - 1 );
+			if (lastCorrection.getBlackPins() == 4)
+				return true;
+			return false;
+		}else return false;
+		
 	}
 	
 	//returns the number of corrections
