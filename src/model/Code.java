@@ -2,7 +2,7 @@ package model;
 
 import java.util.Vector;
 
-//import domini.*;
+import domini.*;
 
 
 public class Code implements Cloneable {
