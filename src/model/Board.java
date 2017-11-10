@@ -56,7 +56,7 @@ public class Board {
 	//returns true if 12 turns have passed, false otherwise
 	//assumes the correction is valid
 	public Boolean addCorrection(Correction corr) throws CorrectionIsInvalid{
-		if (corr.getBlackPins() < 5 && corr.getBlackPins() > -1 && corr.getWhitePins() < 5 && corr.getWhitePins()>-1 && corr.getWhitePins() + corr.getBlackPins() < 4) {
+		if (corr.getBlackPins() < 5 && corr.getBlackPins() > -1 && corr.getWhitePins() < 5 && corr.getWhitePins()>-1 && corr.getWhitePins() + corr.getBlackPins() < 5) {
 			corrections.add(corr);
 			if (corrections.size() == 12)
 				return true;
