@@ -53,8 +53,8 @@ public class Genetic  extends Ai{
 
     private Code mutate(Code code) {
         Random rnJesus = new Random();
-        int index = (rnJesus.nextInt() % 4) +1;
-        int color = rnJesus.nextInt() % AvailableColors.length;
+        int index = (rnJesus.nextInt(4) +1);
+        int color = rnJesus.nextInt(AvailableColors.length);
         code.setColorAt(index, AvailableColors[color]);
         return code;
     }
@@ -73,8 +73,8 @@ public class Genetic  extends Ai{
         int color2 = cd%i2;
         i2 /= 10;
         color2 /= i2;
-        code.setColorAt(i1, color2);
-        code.setColorAt(i2, color1);
+        code.setColorAt(index1, color2);
+        code.setColorAt(index2, color1);
         return code;
     }
 
@@ -86,6 +86,7 @@ public class Genetic  extends Ai{
             AvailableColors = new int[]{1, 2, 3, 4, 5, 6};
         else
             AvailableColors = new int[]{0, 1, 2, 3, 4, 5, 6};
+        population = new ArrayList<>();
     }
 
     public Code codeBreakerTurn(Code code, Correction correction) {
@@ -99,24 +100,22 @@ public class Genetic  extends Ai{
                 return new Code(1123);
             }
         }
-        chosenOnes.clear();
+        chosenOnes = new ArrayList<>();
         //first we fill the population with random codes
         Random rng = new Random();
         if (population.isEmpty() || population.size() < pop_size) {
-            int i = population.size();
-            while( i < pop_size) {
-                Code c = new Code(rng.nextInt() % 7000);
-                if (game.codeIsValid(c)) {
-                    population.add(c);
-                    ++i;
+            for (int i = population.size(); i < pop_size; ++i) {
+                Code c = new Code();
+                for (int j = 1; j < 5; ++j) {
+                    c.setColorAt(j, rng.nextInt(AvailableColors.length));
                 }
+                population.add(c);
             }
         }
         int gen_num = 1;
         ArrayList<Code> previousGuesses= game.getBoard().getGuesses();
         ArrayList<Correction> previousCorrections = game.getBoard().getCorrections();
-        while (chosenOnes.size() < pop_size || gen_num < max_generations) {
-            //To-do: add mutation functions
+        while (chosenOnes.size() < pop_size && gen_num < max_generations) {
             ArrayList<Code> sons = new ArrayList<Code>();
             for (int i = 0; i < population.size(); ++i) {
                 if (i == population.size()-1) {
@@ -126,9 +125,12 @@ public class Genetic  extends Ai{
                 Code son = new Code();
                 son = crossover(population.get(i), population.get(i+1));
                 if (rng.nextFloat() < 0.03) son = mutate(son);
-                if (rng.nextFloat() < 0.03) son = permute(son);
+                if (rng.nextFloat() < 0.02) son = permute(son);
+                System.out.println(son.getCode().toString());
+                sons.add(son);
             }
             for (int i = 0; i < sons.size(); ++i) {
+                if (!game.codeIsValid(sons.get(i))) break;
                 int fitness = 0;
                 for (int j = 0; j < previousGuesses.size(); ++j) {
                     fitness += fitnessScore(sons.get(i), previousGuesses.get(j), previousCorrections.get(j));
@@ -144,7 +146,6 @@ public class Genetic  extends Ai{
         }
         //Right now code searches for a random guess, best solution would be to add the most similar to the previous
         //guesses
-
-        return chosenOnes.get(rng.nextInt() % chosenOnes.size());
+        return chosenOnes.get(rng.nextInt(chosenOnes.size()));
     }
 }

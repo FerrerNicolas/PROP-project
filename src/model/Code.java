@@ -2,7 +2,7 @@ package model;
 
 import java.util.Vector;
 
-import domini.*;
+//import domini.*;
 
 
 public class Code implements Cloneable {
@@ -109,7 +109,7 @@ public class Code implements Cloneable {
         if (Color < 0 || Color > 6) {
             //throw new WrongColorException();
         }
-        if (Index < 0 || Index > 4) throw new ArrayIndexOutOfBoundsException();
+        if (Index < 1 || Index > 4) throw new ArrayIndexOutOfBoundsException();
             //What to do if exception???
         int divider = (int)Math.pow(10, Index); // divisor = 10 ^ Index;
         int code_copy = this.code % divider;
