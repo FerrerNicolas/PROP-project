@@ -25,11 +25,11 @@ public class Correction {
 		return blackPins;
 	}
 	
-	public void setWhitePins(int wPins) throws InvalidNumberOfPins{
+	public void setWhitePins(int wPins)/* throws InvalidNumberOfPins*/{
 		whitePins = wPins;
 	}
 	
-	public void setBlackPins(int bPins) throws InvalidNumberOfPins{
+	public void setBlackPins(int bPins)/* throws InvalidNumberOfPins*/{
 		blackPins = bPins;
 	}
 
