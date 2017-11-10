@@ -62,9 +62,19 @@ public class Genetic  extends Ai{
     private Code permute(Code code) {
         Random rnJesus = new Random();
         int cd = code.getCode();
-        int index1 = rnJesus.nextInt() % 4;
-        int index2 = rnJesus.nextInt() % 4;
-        //Not finished yet.
+        int index1 = (rnJesus.nextInt(4) + 1);
+        int index2 = (rnJesus.nextInt(4) + 1);
+        if (index1 == index2) return code;
+        int i1 = (int)Math.pow(10, index1);
+        int i2 = (int)Math.pow(10, index2);
+        int color1 = cd%i1;
+        i1 /= 10;
+        color1 /= i1;
+        int color2 = cd%i2;
+        i2 /= 10;
+        color2 /= i2;
+        code.setColorAt(i1, color2);
+        code.setColorAt(i2, color1);
         return code;
     }
 
