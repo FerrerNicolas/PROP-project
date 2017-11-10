@@ -1,0 +1,26 @@
+----------------------------
+--- Five Guess Algorithm ---
+----------------------------
+
+
+Five-Guess algorithm works by having a set S of "Potential" guesses. Initially, and before starting the game, it has all the codes that the game considers valid.
+Then, for choosing a guess to play, it must give the one unplayed guess that has the most 'score', which we will define as the minimum number of guesses from S it can 'delete'.
+After playing a guess, the algorithm will get a code correction, which will be used to tell which codes from S are no longer 'Potential', that is, they cannot be the secret code.
+
+Entering into our particular version, what it does is:
+	1. When created, it generates all the valid codes for the game it receives as a parameter. It stores a copy in each of its two sets: unplayed guesses and S.
+	2. When the turn is called for the first time, it receives (null, null) as parameters. Then it plays one guess: 1122 for normal and hard and 1234 for easy.
+	3. In any other case, the algorithm receives the information relative to the last turn played. It removes the code from the unused guesses, and then removes all codes from S 
+	 	which have been discarded by the last guess and correction (those guesses that, were they the secret code, the correction would have been a different one).
+	4. Finally, for selecting a new guess to play, it checks all the unused codes. For each of those, it computes the number of guesses it would NOT remove from S for a certain correction.
+		This will be called hitCount. The score of a certain game will be 'number of guesses in S'-'maximum hitcount', that is, the MINIMUM number of guesses it would knock out of S.
+	5. We want to MAXIMIZE this number, so as to delete as many codes from S as possible. But also, we would prefer to chose codes from S when possible. Thus, we will pick the
+		maximum score, and in case of draw, the maximum score which is in S.
+	6. By playing this guess, we will MAXIMIZE the MINIMUM number of guesses to be removed from S the next time this function is invoked on step 3. As long as S keeps decrementing
+		in size, we will be closer to getting the secret code.
+	
+The algorithm will win in 5 turns maximum for our normal difficulty.
+
+
+----
+Guillem and Victor

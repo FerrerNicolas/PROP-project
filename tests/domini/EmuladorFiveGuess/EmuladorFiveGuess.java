@@ -3,11 +3,9 @@ package domini.EmuladorFiveGuess;
 import java.util.Scanner;
 
 import domini.*;
-import exceptions.CodeAlreadyUsed;
-import exceptions.CodeOrCorrectionNull;
 import model.*;
-
-//VictorGuillem
+import exceptions.*;
+//Victor
 public class EmuladorFiveGuess {
 	public static void main (String[] args) {
 		System.out.println("Input Game Difficulty e|n|h");
@@ -32,9 +30,13 @@ public class EmuladorFiveGuess {
 			secret = sc.nextInt();
 			secretCode = new Code(secret);
 			correctinput = true;
-			if(g.codeIsValid(secretCode)) 
-				b.setSecretCode(secretCode);
-			else correctinput = false;
+			try{
+				if(g.codeIsValid(secretCode)) 
+					b.setSecretCode(secretCode);
+				else correctinput = false;
+			} catch (CodeIsInvalid c) {
+				correctinput = false;
+			}
 			if (!correctinput) System.out.println("Input Valid Secret Code for the chosen difficulty");
 		}
 		System.out.println("Playing game on difficulty " + g.getDifficulty() + " with secret code " + secretCode.getCode().toString());
@@ -45,15 +47,32 @@ public class EmuladorFiveGuess {
 		} catch(Exception e) {
 			System.out.println("This should never happen");
 		}
-		b.addGuess(nextGuess);
+		try {
+			b.addGuess(nextGuess);
+		} catch (CodeIsInvalid e1) {
+			System.out.println("This should not happen, but code " + nextGuess.getCode() + " is invalid!");
+		}
 		Correction correction = nextGuess.correct(secretCode);
-		b.addCorrection(correction);
+		try {
+			b.addCorrection(correction);
+		} catch (CorrectionIsInvalid e2) {
+			System.out.println("This should not happen, but Correction " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B is invalid!");
+		}
 		try {
 			while (!b.hasWon() && ! (b.turnsDone()== 12)) {
 				System.out.println("Tried " + nextGuess.getCode().toString() + ", got correction " + correction.getBlackPins() + "B " + correction.getWhitePins()+"W" );
 					nextGuess=fg.codeBreakerTurn(nextGuess, correction); // CodeOrCorrectionNull, CodeAlreadyUsed
 					correction = nextGuess.correct(secretCode);
-					b.addGuess(nextGuess); b.addCorrection(correction);
+					try {
+						b.addGuess(nextGuess);
+					} catch (CodeIsInvalid e1) {
+						System.out.println("This should not happen, but code " + nextGuess.getCode() + " is invalid!");
+					} 
+					try {
+						b.addCorrection(correction);
+					} catch (CorrectionIsInvalid e2) {
+						System.out.println("This should not happen, but Correction " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B is invalid!");
+					}
 			
 			}
 			if (b.hasWon()) System.out.println("AI won by guessing " + nextGuess.getCode());
