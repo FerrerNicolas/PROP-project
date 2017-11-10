@@ -1,8 +1,16 @@
 package model;
 // Guillem
+
+import exceptions.*;
+
 public class Correction {
 	private int whitePins;
 	private int blackPins;
+	
+	public Correction() { //reflect in vpp
+		whitePins = 0;
+		blackPins = 0;
+	}
 	
 	public Correction(int wPins, int bPins) {
 		whitePins = wPins;
@@ -17,11 +25,11 @@ public class Correction {
 		return blackPins;
 	}
 	
-	public void setWhitePins(int wPins){
+	public void setWhitePins(int wPins) throws InvalidNumberOfPins{
 		whitePins = wPins;
 	}
 	
-	public void setBlackPins(int bPins){
+	public void setBlackPins(int bPins) throws InvalidNumberOfPins{
 		blackPins = bPins;
 	}
 
