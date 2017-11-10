@@ -11,7 +11,7 @@ public class Game {
 	public Game(Boolean uIB, Diff d) {
 		userIsBreaker = uIB;
 		difficulty = d;
-		board = new Board();
+		board = new Board(this);
 	}
 	public Board getBoard() {
 		return board;
