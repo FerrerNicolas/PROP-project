@@ -15,7 +15,7 @@ Entering into our particular version, what it does is:
 	4. Finally, for selecting a new guess to play, it checks all the unused codes. For each of those, it computes the number of guesses it would NOT remove from S for a certain correction.
 		This will be called hitCount. The score of a certain game will be 'number of guesses in S'-'maximum hitcount', that is, the MINIMUM number of guesses it would knock out of S.
 	5. We want to MAXIMIZE this number, so as to delete as many codes from S as possible. But also, we would prefer to chose codes from S when possible. Thus, we will pick the
-		maximum score, and in case of draw, the maximum score which is in S.
+		maximum score, and in case of draw, the maximum score which is in S. If multiple codes in S have that maximum score, then we'll pick the code with the lowest numerical value (ex: we'd pick code 2345 rather than 3456)
 	6. By playing this guess, we will MAXIMIZE the MINIMUM number of guesses to be removed from S the next time this function is invoked on step 3. As long as S keeps decrementing
 		in size, we will be closer to getting the secret code.
 	
