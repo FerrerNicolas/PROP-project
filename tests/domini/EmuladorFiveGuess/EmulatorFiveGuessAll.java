@@ -39,7 +39,12 @@ public class EmulatorFiveGuessAll {
 					break;
 				}
 				Board b = g.getBoard();
-				Code secretCode = new Code(code);
+				Code secretCode = new Code();
+				try {
+					secretCode = new Code(code);
+				} catch (BadlyFormedCode e4) {
+					System.out.println("This should never happen");
+				}
 				Boolean valid = true;
 				try {
 					b.setSecretCode(secretCode);
