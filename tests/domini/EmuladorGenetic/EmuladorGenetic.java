@@ -78,10 +78,7 @@ public class EmuladorGenetic {
                     System.out.println("Correction returned by correct wrong");
                 }
                 if (b.hasWon()) System.out.println("The ai guessed the code! " +guess.getCode().toString());
-                else System.out.println(
-                        "Tried " + guess.getCode().toString() + ", got " + correction.getBlackPins() + " black pins and " +
-                                correction.getWhitePins() + " white pins"
-                );
+
         }
         sc.close();
     }
