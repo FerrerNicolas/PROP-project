@@ -71,7 +71,7 @@ public class DriverPlayer {
 				sc.close();
 				break;
 			default:
-				System.out.println("Option not valid, please input a number from 1 to 9");
+				System.out.println("Option not valid, please input a number from 1 to 10");
 				break;
 			}
 		}
