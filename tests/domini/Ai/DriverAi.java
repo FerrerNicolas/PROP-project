@@ -64,7 +64,7 @@ public class DriverAi {
 					code = sc.nextInt();
 					c = new Code(code);
 					Correction x = a.correctGuess(c);
-					System.out.println(x.getWhitePins()+"W "+x.getWhitePins() + "B");
+					System.out.println(x.getWhitePins()+"W "+x.getBlackPins() + "B");
 				} catch (Exception e) {
 					System.out.println("UNREACHABLE CODE");
 				}

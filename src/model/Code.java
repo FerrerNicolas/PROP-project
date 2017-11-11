@@ -71,7 +71,9 @@ public class Code implements Cloneable {
     	Boolean[] checklist = {false, false, false, false};
     	Boolean[] checklist2 = {false, false, false, false};
     	for (int i = 0; i < 4; i++) {
-    		if(c1%10 == c2%10) { black_pins++; checklist[i]=true; checklist2[i]=true; }
+    		if(c1%10 == c2%10) { 
+    			black_pins++; checklist[i]=true; checklist2[i]=true; 
+    			}
     		c1 /=10; c2 /= 10;
     	}
     	c1 = code;
