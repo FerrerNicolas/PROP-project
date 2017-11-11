@@ -40,7 +40,7 @@ public class EmuladorFGRandom {
 			b.addCorrection(correction);
 			try {
 				while (!b.hasWon() && ! (b.turnsDone()== 12)) {
-					System.out.println("Tried " + nextGuess.getCode().toString() + ", got correction " + correction.getBlackPins() + "B " + correction.getWhitePins()+"W" );
+					System.out.println("Tried " + nextGuess.getCode().toString() + ", got correction " + correction.toString() );
 						nextGuess=fg.codeBreakerTurn(nextGuess, correction); // CodeOrCorrectionNull, CodeAlreadyUsed
 						correction = nextGuess.correct(secretCode);
 						b.addGuess(nextGuess); b.addCorrection(correction);
