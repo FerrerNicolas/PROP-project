@@ -1,0 +1,15 @@
+
+
+Ai: Victor
+Board: Guillem
+Code: Javi
+Correction: Guillem
+Diff: Victor (es una enum)
+FiveGuess: Guillem y Victor
+Game: Victor
+Genetic: Javi
+Player: Victor
+User: Victor
+Global Records: Luis
+Rankings: Luis
+Tuple: Luis
