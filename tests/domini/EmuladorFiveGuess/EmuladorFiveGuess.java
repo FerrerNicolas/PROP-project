@@ -53,7 +53,7 @@ public class EmuladorFiveGuess {
 			System.out.println("This should not happen, but code " + nextGuess.getCode() + " is invalid!");
 		}
 		Correction correction = nextGuess.correct(secretCode);
-		try {
+		/*try {
 			b.addCorrection(correction);
 		} catch (CorrectionIsInvalid e2) {
 			System.out.println("This should not happen, but Correction " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B is invalid!");
@@ -72,6 +72,37 @@ public class EmuladorFiveGuess {
 						b.addCorrection(correction);
 					} catch (CorrectionIsInvalid e2) {
 						System.out.println("This should not happen, but Correction " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B is invalid!");
+					}
+			
+			}
+			if (b.hasWon()) System.out.println("AI won by guessing " + nextGuess.getCode());
+			else System.out.println("AI Lost by guessing  " + nextGuess.getCode());
+		} catch (CodeOrCorrectionNull e) {
+			System.out.println("This should never happen, but one was null");
+		} catch (CodeAlreadyUsed e) {
+			System.out.println("This should never happen, code was already used");
+		}
+		sc.close();*/
+		Boolean end = false;
+		try {
+			end = b.addCorrection(correction);
+		} catch (NoGuessToBeCorrected e2) {
+			System.out.println("This should not happen, but a correction was pushed to board when no guess needed to be corrected ");
+		}
+		try {
+			while (!end) {
+				System.out.println("Tried " + nextGuess.getCode().toString() + ", got correction " + correction.getBlackPins() + "B " + correction.getWhitePins()+"W" );
+					nextGuess=fg.codeBreakerTurn(nextGuess, correction); // CodeOrCorrectionNull, CodeAlreadyUsed
+					correction = nextGuess.correct(secretCode);
+					try {
+						b.addGuess(nextGuess);
+					} catch (CodeIsInvalid e1) {
+						System.out.println("This should not happen, but code " + nextGuess.getCode() + " is invalid!");
+					} 
+					try {
+						end = b.addCorrection(correction);
+					} catch (NoGuessToBeCorrected e2) {
+						System.out.println("This should not happen, but a correction was pushed to board when no guess needed to be corrected ");
 					}
 			
 			}
