@@ -8,7 +8,7 @@ public class GlobalRecords {
 	
 	public void update(Player p) {
 		
-		for(int i=0;i<globalRecords.size();i++) {
+		for(int i=0;i<10;i++) {
 		if(p.getTotalScore() > globalRecords.get(i).getValue()) {
 			
 			Tuple newRecord = new Tuple(p.getPlayerName(),p.getTotalScore());
