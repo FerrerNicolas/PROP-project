@@ -13,3 +13,9 @@ User: Victor
 Global Records: Luis
 Rankings: Luis
 Tuple: Luis
+
+EmuladorFiveGuess: Victor
+EmuladorFGRandom: Victor
+EmuladorFiveGuessAll: Guillem
+
+Every exception and test was done by the one implementing the related class

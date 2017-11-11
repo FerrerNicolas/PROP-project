@@ -44,6 +44,10 @@ public class Correction implements Cloneable{
 			blackPins = bPins;
 		}
 	}
+	
+	public String toString() {
+		return new String(""+whitePins+"W "+blackPins+"B");
+	}
 
 	public boolean equals(Object object) {
         boolean same = false;

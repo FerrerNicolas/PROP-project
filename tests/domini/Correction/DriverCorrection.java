@@ -94,6 +94,13 @@ public class DriverCorrection {
 			}
     	}
 	}
+	public static void test7() {
+		if (correction == null) {
+    		System.out.println("Invalid Operation, you need to create a correction first using Option 1");
+    	}else {
+    		System.out.println(correction.toString());
+    	}
+	}
 	
 	public static void printMenu() {
 		System.out.println("Choose what to test:");
@@ -103,7 +110,8 @@ public class DriverCorrection {
         System.out.println("4- Set number of white pins");
         System.out.println("5- Set number of black pins");
         System.out.println("6- Check wheter the correction equals another");
-        System.out.println("7- End test");
+        System.out.println("7- Print a string representing the correction");
+        System.out.println("8- End test");
 	}
 	
 	public static void main(String[] args) {
@@ -137,6 +145,9 @@ public class DriverCorrection {
                     test6(sc);
                     break;
                 case 7:
+                	test7();
+                	break;
+                case 8:
                 	theresMore = false;
                     break;
                 default:
