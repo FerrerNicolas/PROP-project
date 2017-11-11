@@ -6,7 +6,7 @@ public class Board {
 	private ArrayList<Code> guesses;
 	private ArrayList<Correction> corrections;
 	private Code secretCode;
-	private Game game; //modify vpp to reflect this
+	private Game game;
 	
 	public Board(Game g) {
 		guesses = new ArrayList<Code>();

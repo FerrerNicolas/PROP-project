@@ -1,20 +1,24 @@
 package domini.Correction;
-
+//Guillem
 import java.util.*;
+
+import exceptions.InvalidNumberOfPins;
 
 public class DriverCorrection {
 	private static Correction correction;
 	
 	public static void test1(Scanner sc) {
-    	correction = new Correction(0,0);
     	System.out.println("Input number of white pins for the correction to create: ");
     	int w = sc.nextInt();
-    	correction.setWhitePins(w);
     	System.out.println("Input number of black pins for the correction to create: ");
     	int b = sc.nextInt();
-    	correction.setBlackPins(b);
-
-    	System.out.println("Created correction with " + w + " white pins and " + b + " black pins");
+    	try {
+			correction = new Correction(w,b);
+			System.out.println("Created correction with " + w + " white pins and " + b + " black pins");
+		} catch (InvalidNumberOfPins e) {
+			System.out.println("Please enter a valid amount of pins.");
+    		test1(sc);
+		}
 	}
 	public static void test2() {
 		if (correction == null) {
@@ -40,10 +44,15 @@ public class DriverCorrection {
     	}else {
     		System.out.println("Input number of pins: ");
     		int q = sc.nextInt();
-    		correction.setWhitePins(q);
-    		int p = correction.getWhitePins();
-    		System.out.print("Set number of white pins to: ");
-    		System.out.println(p);
+    		
+    		try {
+				correction.setWhitePins(q);
+				int p = correction.getWhitePins();
+	    		System.out.println("Set number of white pins to: "+p);
+			} catch (InvalidNumberOfPins e) {
+				System.out.println("Please enter a valid amount of pins.");
+	    		test4(sc);
+			}	
     	}
 	}
 	public static void test5(Scanner sc) {
@@ -52,29 +61,37 @@ public class DriverCorrection {
     	}else {
     		System.out.println("Input number of pins: ");
     		int q = sc.nextInt();
-    		correction.setBlackPins(q);
-    		int p = correction.getBlackPins();
-    		System.out.print("Set number of black pins to: ");
-    		System.out.println(p);
+    		try {
+				correction.setBlackPins(q);
+				int p = correction.getBlackPins();
+	    		System.out.println("Set number of black pins to: "+p);
+			} catch (InvalidNumberOfPins e) {
+				System.out.println("Please enter a valid amount of pins.");
+	    		test5(sc);
+			}
+    		
     	}
 	}
 	public static void test6(Scanner sc) {
 		if (correction == null) {
     		System.out.println("Invalid Operation, you need to create a correction first using Option 1");
     	}else {
-    		Correction tmp = new Correction(0,0);
     		System.out.println("Input number of white pins for the correction to compare to: ");
     		int w = sc.nextInt();
-    		tmp.setWhitePins(w);
     		System.out.println("Input number of black pins for the correction to compare to: ");
     		int b = sc.nextInt();
-    		tmp.setBlackPins(b);
     		
-    		int p = correction.getBlackPins();
-    		int q = correction.getWhitePins();
-    		
-    		boolean isEqual = correction.equals(tmp);
-    		System.out.println("Compared to " + q + " white pins and " + p + " black pins, got " + isEqual);
+    		Correction tmp;
+			try {
+				tmp = new Correction(w,b);
+				int p = correction.getBlackPins();
+	    		int q = correction.getWhitePins();
+	    		boolean isEqual = correction.equals(tmp);
+	    		System.out.println("Compared to " + q + " white pins and " + p + " black pins, got " +isEqual);
+			} catch (InvalidNumberOfPins e) {
+				System.out.println("Please enter a valid amount of pins.");
+	    		test6(sc);
+			}
     	}
 	}
 	
@@ -85,7 +102,7 @@ public class DriverCorrection {
         System.out.println("3- Get number of black pins");
         System.out.println("4- Set number of white pins");
         System.out.println("5- Set number of black pins");
-        System.out.println("6- Check wheter the correction equals another (meaning having equal attributes)");
+        System.out.println("6- Check wheter the correction equals another");
         System.out.println("7- End test");
 	}
 	
