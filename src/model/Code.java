@@ -3,6 +3,7 @@ package model;
 import java.util.Vector;
 
 import exceptions.InvalidNumberOfPins;
+import exceptions.BadlyFormedCode;
 
 //import domini.*;
 
@@ -16,7 +17,10 @@ public class Code implements Cloneable {
     }
 
     //Setter
-    public void setCode(Integer code) {
+    public void setCode(Integer code) throws BadlyFormedCode { // CHANGED FOR EXCEPTIONS
+    	if(code > 7000 || code < 0) throw new BadlyFormedCode();
+    	if(code%1000 > 700 || code%100 > 70 || code%10 > 7) throw new BadlyFormedCode();
+    	
         this.code = code;
     }
 
@@ -27,8 +31,10 @@ public class Code implements Cloneable {
 
     }
 
-    public Code(Integer X) {
+    public Code(Integer X) throws BadlyFormedCode {
         // Note: create attribute code to X!
+    	if(code > 7000 || code < 0) throw new BadlyFormedCode();
+    	if(code%1000 > 700 || code%100 > 70 || code%10 > 7) throw new BadlyFormedCode();
         this.code = X;
     }
 
@@ -113,11 +119,12 @@ public class Code implements Cloneable {
 
     //EXTRA
     // Individual color setter
-    public void setColorAt(int Index, int Color) {
+    public void setColorAt(int Index, int Color) throws BadlyFormedCode, ArrayIndexOutOfBoundsException { // CHANGED FOR EXCEPTIONS
         //This function will put the color Color at position Index between 1 and 4
         //Color must be a digit between 0 and 6 included, else exception
         if (Color < 0 || Color > 6) {
             //throw new WrongColorException();
+        	throw new BadlyFormedCode();
         }
         if (Index < 1 || Index > 4) throw new ArrayIndexOutOfBoundsException();
             //What to do if exception???
