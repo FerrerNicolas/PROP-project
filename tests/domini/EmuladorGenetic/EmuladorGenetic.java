@@ -1,7 +1,7 @@
 package domini.EmuladorGenetic;
 
 import exceptions.CodeOrCorrectionNull;
-import exceptions.CorrectionIsInvalid;
+import exceptions.NoGuessToBeCorrected;
 import model.*;
 import exceptions.CodeIsInvalid;
 
@@ -56,7 +56,7 @@ public class EmuladorGenetic {
         Correction correction = guess.correct(secretCode);
         try {
             b.addCorrection(correction);
-        } catch (CorrectionIsInvalid correctionIsInvalid) {
+        } catch (NoGuessToBeCorrected correctionIsInvalid) {
             correctionIsInvalid.printStackTrace();
         }
 
@@ -74,7 +74,7 @@ public class EmuladorGenetic {
                 correction = guess.correct(secretCode);
                 try {
                     b.addCorrection(correction);
-                } catch (CorrectionIsInvalid e) {
+                } catch (NoGuessToBeCorrected e) {
                     System.out.println("Correction returned by correct wrong");
                 }
                 if (b.hasWon()) System.out.println("The ai guessed the code! " +guess.getCode().toString());
