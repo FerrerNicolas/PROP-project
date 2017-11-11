@@ -28,13 +28,15 @@ public class EmuladorFiveGuess {
 		Board b = g.getBoard();
 		while(!correctinput) {
 			secret = sc.nextInt();
-			secretCode = new Code(secret);
-			correctinput = true;
 			try{
+				secretCode = new Code(secret);
+				correctinput = true;
 				if(g.codeIsValid(secretCode)) 
 					b.setSecretCode(secretCode);
 				else correctinput = false;
 			} catch (CodeIsInvalid c) {
+				correctinput = false;
+			} catch (BadlyFormedCode c) {
 				correctinput = false;
 			}
 			if (!correctinput) System.out.println("Input Valid Secret Code for the chosen difficulty");

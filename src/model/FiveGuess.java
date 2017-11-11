@@ -14,7 +14,11 @@ public class FiveGuess extends Ai {
 		Integer c = 0000;
 		Code code = new Code();
 		while (c < 7000) {
-			code.setCode(c);
+			try {
+				code.setCode(c);
+			} catch (BadlyFormedCode e) {
+				//THIS SHOULD NEVER HAPPEN
+			}
 			if(game.codeIsValid(code)) {
 				unusedGuesses.add(code.clone());
 				S.add(code.clone());
@@ -32,11 +36,16 @@ public class FiveGuess extends Ai {
 	}
 	
 	public Code codeBreakerTurn(Code code, Correction correction) throws CodeOrCorrectionNull, CodeAlreadyUsed { //In case javi does not have it, consulting board may be best (through game)
+		try {
 		if(code == null && correction == null) {
 			if(game.getDifficulty() == Diff.EASY)  
 				return new Code(1234);
 			return new Code(1122);
 		} else if (code == null || correction == null) throw (new CodeOrCorrectionNull());
+		} catch( BadlyFormedCode e)  {
+			//THIS SHOULD NEVER HAPPEN
+			
+		}
 		if (!unusedGuesses.contains(code)) {
 			/*System.out.println(code.getCode() + " already used (?)");
 			for(int i = 0; i < 20; i++) {

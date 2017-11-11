@@ -36,7 +36,11 @@ public class GameTest2 {
     public GameTest2(Boolean e, Diff d2, Integer code) {
         expected = e;
         g = new Game(true, d2);
-        c = new Code(code);
+        try {
+        	c = new Code(code);
+        } catch (Exception ex) {
+        	//THIS SHOULD NEVER HAPPEN
+        }
     }
 
     @Test

@@ -67,8 +67,13 @@ public class DriverGame {
 			case 5:
 				System.out.println("Input code:");
 				Integer code = sc.nextInt();
-				Code c = new Code(code); //Probably will need an exception handler.
-				System.out.println(g.codeIsValid(c).toString());
+				try {
+					Code c = new Code(code); //Probably will need an exception handler.
+				
+					System.out.println(g.codeIsValid(c).toString());
+				} catch(Exception e) {
+					System.out.println("The input code is badly formed (max dig 6 and positive)!");
+				}
 				break;
 			case 6:
 				exit = true;

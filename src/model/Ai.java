@@ -29,7 +29,12 @@ public abstract class Ai {
 					n = rand.nextInt(6)+1;
 				code=code*10+n;
 			}
-			c.setCode(code);
+			try {
+				c.setCode(code);
+			} catch (Exception e) {
+				//This should NEVER HAPPEN
+				isValid = false;
+			}
 			isValid = game.codeIsValid(c);
 		}
 		return c;
