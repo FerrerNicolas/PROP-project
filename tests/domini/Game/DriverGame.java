@@ -42,7 +42,7 @@ public class DriverGame {
 				A = sc.nextLine();
 				if(A.equalsIgnoreCase("e")) g = new Game(uIB, Diff.EASY);
 				else if (A.equalsIgnoreCase("n")) g = new Game(uIB, Diff.NORMAL);
-				else if (A.equalsIgnoreCase("d")) g = new Game(uIB, Diff.HARD);
+				else if (A.equalsIgnoreCase("h")) g = new Game(uIB, Diff.HARD);
 				else correctinput = false;
 				while(!correctinput) {
 					System.out.println("Input not valid, expected e|n|h, please repeat");

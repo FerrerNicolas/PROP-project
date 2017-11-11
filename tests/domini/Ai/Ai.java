@@ -1,9 +1,12 @@
-package model;
+package domini.Ai;
 
 import java.util.*;
 
 import exceptions.*;
-
+import model.Code;
+import model.Game;
+import model.Correction;
+import model.Diff;
 //Victor
 public abstract class Ai {
 	protected Game game;
