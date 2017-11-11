@@ -7,7 +7,6 @@ import static java.lang.StrictMath.abs;
 import static java.lang.StrictMath.pow;
 
 public class Genetic  extends Ai{
-
     private int[] AvailableColors;
     private ArrayList<Code> population;
     private ArrayList<Code> chosenOnes;
