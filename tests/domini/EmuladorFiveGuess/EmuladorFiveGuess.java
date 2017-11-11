@@ -83,7 +83,7 @@ public class EmuladorFiveGuess {
 		}
 		try {
 			while (!end) {
-				System.out.println("Tried " + nextGuess.toString() + ", got correction " + correction.getBlackPins() + "B " + correction.getWhitePins()+"W" );
+				System.out.println("Tried " + nextGuess.toString() + ", got correction " + correction.toString() );
 					nextGuess=fg.codeBreakerTurn(nextGuess, correction); // CodeOrCorrectionNull, CodeAlreadyUsed
 					correction = nextGuess.correct(secretCode);
 					if(manual) {
