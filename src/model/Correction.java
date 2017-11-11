@@ -7,7 +7,7 @@ public class Correction {
 	private int whitePins;
 	private int blackPins;
 	
-	public Correction() { //reflect in vpp
+	public Correction() {
 		whitePins = 0;
 		blackPins = 0;
 	}
