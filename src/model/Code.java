@@ -2,6 +2,8 @@ package model;
 
 import java.util.Vector;
 
+import exceptions.InvalidNumberOfPins;
+
 //import domini.*;
 
 
@@ -85,7 +87,13 @@ public class Code implements Cloneable {
    				}
        		}
     	}
-        return new Correction(white_pins, black_pins);
+    	Correction corr = new Correction();
+        try {
+			corr = new Correction(white_pins, black_pins);
+		} catch (InvalidNumberOfPins e) {
+			System.out.println("This shouldn't happen but the Code.correct created an invalid Correction");
+		}
+        return corr;
     }
     
     public boolean equals(Object object) {
