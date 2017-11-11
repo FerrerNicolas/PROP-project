@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 import exceptions.CodeIsInvalid;
 import exceptions.InvalidNumberOfPins;
+import exceptions.NoGuessToBeCorrected;
+import exceptions.UncorrectedGuessExists;
 
 public class DriverBoard {
 	private static Board board;
@@ -40,7 +42,7 @@ public class DriverBoard {
     		if (guesses.size() == 0)
     			System.out.println("There are no guesses to print.");
     		for (int i = 0; i < guesses.size(); i++)
-    			System.out.println("Guess "+i+": "+guesses.get(i));
+    			System.out.println("Guess "+i+": "+guesses.get(i).getCode());
     	}
 	}
 	
@@ -52,7 +54,7 @@ public class DriverBoard {
     		if (corrections.size() == 0)
     			System.out.println("There are no corrections to print.");
     		for (int i = 0; i < corrections.size(); i++)
-    			System.out.println("Guess "+i+": "+corrections.get(i));	
+    			System.out.println("Correction "+i+": "+corrections.get(i).toString());	
     	}
 	}
 	
@@ -67,6 +69,8 @@ public class DriverBoard {
 				board.addGuess(guess);
 			} catch (CodeIsInvalid e) {
 				System.out.println("This should never happen.");
+			} catch (UncorrectedGuessExists e) {
+				System.out.println("You can't add another guess when one without a correction exists. Guess was not added.");
 			}
     	}
 	}
@@ -75,21 +79,18 @@ public class DriverBoard {
 		if (board == null) {
     		System.out.println("Invalid Operation, you need to create a board first using Option 1");
     	}else {
-    		System.out.println("Input number of white pins for the correction to compare to: ");
+    		System.out.println("Input the white pins of the correction: ");
     		int w = sc.nextInt();
-    		System.out.println("Input number of black pins for the correction to compare to: ");
+    		System.out.println("Input the black pins of the correction: ");
     		int b = sc.nextInt();
-    		
-    		Correction tmp;
-			try {
-				tmp = new Correction(w,b);
-				int p = correction.getBlackPins();
-	    		int q = correction.getWhitePins();
-	    		boolean isEqual = correction.equals(tmp);
-	    		System.out.println("Compared to " + q + " white pins and " + p + " black pins, got " +isEqual);
+    		try {
+				Correction corr = new Correction(w,b);
+				board.addCorrection(corr);
 			} catch (InvalidNumberOfPins e) {
-				System.out.println("Please enter a valid amount of pins.");
-	    		test6(sc);
+				System.out.println("Please input a valid number of pins.");
+				test6(sc);
+			} catch (NoGuessToBeCorrected e) {
+				System.out.println("There is no guess pending to be corrected. Correction not added.");
 			}
     	}
 	}
@@ -98,7 +99,7 @@ public class DriverBoard {
 		if (board == null) {
     		System.out.println("Invalid Operation, you need to create a board first using Option 1");
     	}else {
-    		System.out.println(correction.toString());
+    		System.out.println("The fact that the game has been won with the last correction is "+board.hasWon());
     	}
 	}
 	
@@ -106,7 +107,7 @@ public class DriverBoard {
 		if (board == null) {
     		System.out.println("Invalid Operation, you need to create a board first using Option 1");
     	}else {
-    		System.out.println(correction.toString());
+    		System.out.println("A total of "+board.turnsDone()+" turns have been done.");
     	}
 	}
 	
