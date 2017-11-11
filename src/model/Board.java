@@ -42,7 +42,7 @@ public class Board {
 	
 	public void setSecretCode(Code secretC) throws CodeIsInvalid{
 		if(game.codeIsValid(secretC))
-			secretCode = secretC;
+			secretCode = secretC.clone();
 		else
 			throw (new CodeIsInvalid());
 	}
@@ -52,11 +52,15 @@ public class Board {
 	//
 	
 	//assumes the code is valid
-	public void addGuess(Code guess) throws CodeIsInvalid{
-		if(game.codeIsValid(guess))
-			guesses.add(guess.clone()); //clone guesses
-		else
-			throw (new CodeIsInvalid());
+	public void addGuess(Code guess) throws CodeIsInvalid, UncorrectedGuessExists{
+		if (guesses.size() - corrections.size() > 0)
+			throw (new UncorrectedGuessExists());
+		else {
+			if(game.codeIsValid(guess))
+				guesses.add(guess.clone()); //clone guesses
+			else
+				throw (new CodeIsInvalid());
+		}
 	}
 	
 	//returns true if 12 turns have passed or game has been won, false otherwise

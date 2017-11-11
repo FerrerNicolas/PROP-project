@@ -58,6 +58,8 @@ public class EmulatorFiveGuessAll {
 						b.addGuess(nextGuess);
 					} catch (CodeIsInvalid e1) {
 						System.out.println("This should not happen, but code " + nextGuess.getCode() + " is invalid!");
+					} catch (UncorrectedGuessExists e) {
+						System.out.println("This should not happen, but a guess was gonna be added before a correction");
 					}
 					Correction correction = nextGuess.correct(secretCode);
 					try {
@@ -78,7 +80,9 @@ public class EmulatorFiveGuessAll {
 								b.addGuess(nextGuess);
 							} catch (CodeIsInvalid e1) {
 								System.out.println("This should not happen, but code " + nextGuess.getCode() + " is invalid!");
-							} 
+							} catch (UncorrectedGuessExists e2) {
+								System.out.println("This should not happen, but a guess was gonna be added before a correction");
+							}
 							try {
 								cont = !b.addCorrection(correction);
 							} catch (NoGuessToBeCorrected e) {

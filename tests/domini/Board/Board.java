@@ -1,8 +1,9 @@
-package domini.GameJUNIT;
+package domini.Board;
 import java.util.ArrayList;
 import exceptions.*;
-import model.*;
 // Guillem
+//Game and Code are Stubs
+//Correction is already tested (incremental testing)
 public class Board {
 	private ArrayList<Code> guesses;
 	private ArrayList<Correction> corrections;

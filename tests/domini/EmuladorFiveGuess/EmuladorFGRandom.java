@@ -1,9 +1,7 @@
 package domini.EmuladorFiveGuess;
 
 import java.util.Random;
-import java.util.Scanner;
 
-import domini.*;
 import exceptions.CodeAlreadyUsed;
 import exceptions.CodeOrCorrectionNull;
 import model.*;

@@ -104,7 +104,7 @@ public class DriverCorrection {
 	
 	public static void printMenu() {
 		System.out.println("Choose what to test:");
-        System.out.println("1- Create a correction (needed for tests 2 through 6).");
+        System.out.println("1- Create a correction (needed for tests 2 through 7).");
         System.out.println("2- Get number of white pins");
         System.out.println("3- Get number of black pins");
         System.out.println("4- Set number of white pins");
