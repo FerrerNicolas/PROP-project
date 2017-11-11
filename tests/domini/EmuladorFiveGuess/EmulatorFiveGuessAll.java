@@ -1,9 +1,6 @@
 package domini.EmuladorFiveGuess;
 //GuillemVictor
-import exceptions.CodeAlreadyUsed;
-import exceptions.CodeIsInvalid;
-import exceptions.CodeOrCorrectionNull;
-import exceptions.CorrectionIsInvalid;
+import exceptions.*;
 import model.Board;
 import model.Code;
 import model.Correction;
@@ -65,13 +62,14 @@ public class EmulatorFiveGuessAll {
 					Correction correction = nextGuess.correct(secretCode);
 					try {
 						b.addCorrection(correction);
-					} catch (CorrectionIsInvalid e2) {
-						System.out.println("This should not happen, but Correction " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B is invalid!");
+					} catch (NoGuessToBeCorrected e2) {
+						System.out.println("this shouldn't happen but a correction was added before a guess to correct");
 					}
 					//System.out.println("Turn: "+ b.turnsDone() +"  Played "+nextGuess.getCode()+" got " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B");
 					Integer tmp = 0;
+					Boolean cont = true;
 					try {
-						while (!b.hasWon() && ! (b.turnsDone()== 12)) {
+						while (cont) {
 							tmp = nextGuess.getCode();
 							//System.out.println("Tried " + nextGuess.getCode().toString() + ", got correction " + correction.getBlackPins() + "B " + correction.getWhitePins()+"W" );
 							nextGuess=fg.codeBreakerTurn(nextGuess, correction); // CodeOrCorrectionNull, CodeAlreadyUsed
@@ -82,9 +80,10 @@ public class EmulatorFiveGuessAll {
 								System.out.println("This should not happen, but code " + nextGuess.getCode() + " is invalid!");
 							} 
 							try {
-								b.addCorrection(correction);
-							} catch (CorrectionIsInvalid e2) {
-								System.out.println("This should not happen, but Correction " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B is invalid!");
+								cont = !b.addCorrection(correction);
+							} catch (NoGuessToBeCorrected e) {
+								cont = false;
+								System.out.println("this shouldn't happen but a correction was added before a guess to correct");
 							}
 							//System.out.println("Turn: "+ b.turnsDone() +"  Played "+nextGuess.getCode()+" got " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B");
 						}
