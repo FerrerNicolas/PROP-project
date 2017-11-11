@@ -1,13 +1,24 @@
 package domini.Correction;
 
+import exceptions.InvalidNumberOfPins;
+
 // Guillem
-public class Correction {
+public class Correction implements Cloneable{
 	private int whitePins;
 	private int blackPins;
 	
-	public Correction(int wPins, int bPins) {
-		whitePins = wPins;
-		blackPins = bPins;
+	public Correction() {
+		whitePins = 0;
+		blackPins = 0;
+	}
+	
+	public Correction(int wPins, int bPins) throws InvalidNumberOfPins{
+		if (wPins+bPins > 4 || wPins > 4 || bPins > 4)
+			throw (new InvalidNumberOfPins());
+		else {
+			whitePins = wPins;
+			blackPins = bPins;
+		}
 	}
 	
 	public int getWhitePins() {
@@ -18,12 +29,20 @@ public class Correction {
 		return blackPins;
 	}
 	
-	public void setWhitePins(int wPins){
-		whitePins = wPins;
+	public void setWhitePins(int wPins) throws InvalidNumberOfPins{
+		if (wPins+this.blackPins > 4 || wPins > 4)
+			throw (new InvalidNumberOfPins());
+		else {
+			whitePins = wPins;
+		}
 	}
 	
-	public void setBlackPins(int bPins){
-		blackPins = bPins;
+	public void setBlackPins(int bPins) throws InvalidNumberOfPins{
+		if (this.whitePins+bPins > 4 || bPins > 4)
+			throw (new InvalidNumberOfPins());
+		else {
+			blackPins = bPins;
+		}
 	}
 
 	public boolean equals(Object object) {
@@ -33,5 +52,18 @@ public class Correction {
         }
         return same;
     }
-
+	
+	public Object clone()
+	{
+		Correction another = null;
+		try
+		{
+			another = (Correction) super.clone();
+			// shallow copy made
+		}
+		catch(CloneNotSupportedException e) {} 
+		//This exception will not occur
+	
+		return another;
+	}
 }

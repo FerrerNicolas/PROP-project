@@ -24,18 +24,6 @@ public class EmulatorFiveGuessAll {
 		double totalnormalturns = 0;
 		double totalhardturns = 0;
 		Integer code = 0;
-		/*while (c < 7000) {
-			code.setCode(c);
-			if(game.codeIsValid(code)) {
-				unusedGuesses.add(code.clone());
-				S.add(code.clone());
-			}
-			c++;
-			if ((c%10)       == 7) c +=   3;
-			if ((c%100/10)   == 7) c +=  30;
-			if ((c%1000/100) == 7) c += 300; //Overflow managing
-		}
-		 */
 		while (code < 7000) {
 			for (int i = 0; i<3; i++) {
 				Game g;
