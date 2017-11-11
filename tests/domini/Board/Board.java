@@ -1,7 +1,9 @@
-package model;
+package domini.Board;
 import java.util.ArrayList;
 import exceptions.*;
 // Guillem
+//Game and Code are Stubs
+//Correction is already tested (incremental testing)
 public class Board {
 	private ArrayList<Code> guesses;
 	private ArrayList<Correction> corrections;
@@ -52,15 +54,11 @@ public class Board {
 	//
 	
 	//assumes the code is valid
-	public void addGuess(Code guess) throws CodeIsInvalid, UncorrectedGuessExists{
-		if (guesses.size() - corrections.size() > 0)
-			throw (new UncorrectedGuessExists());
-		else {
-			if(game.codeIsValid(guess))
-				guesses.add(guess.clone()); //clone guesses
-			else
-				throw (new CodeIsInvalid());
-		}
+	public void addGuess(Code guess) throws CodeIsInvalid{
+		if(game.codeIsValid(guess))
+			guesses.add(guess.clone()); //clone guesses
+		else
+			throw (new CodeIsInvalid());
 	}
 	
 	//returns true if 12 turns have passed or game has been won, false otherwise
