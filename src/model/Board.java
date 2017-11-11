@@ -42,7 +42,7 @@ public class Board {
 	
 	public void setSecretCode(Code secretC) throws CodeIsInvalid{
 		if(game.codeIsValid(secretC))
-			secretCode = secretC;
+			secretCode = secretC.clone();
 		else
 			throw (new CodeIsInvalid());
 	}
