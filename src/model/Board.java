@@ -19,15 +19,21 @@ public class Board {
 	//
 	
 	public Code getSecretCode() {
-		return secretCode;
+		return secretCode.clone();
 	}
 	
 	public ArrayList<Code> getGuesses(){
-		return guesses;
+		ArrayList<Code> nguesses = new ArrayList<Code>();
+		for (int i = 0; i < guesses.size();i++)
+			nguesses.add(guesses.get(i).clone());
+		return nguesses;
 	}
 	
 	public ArrayList<Correction> getCorrections(){
-		return corrections;
+		ArrayList<Correction> ncorrections = new ArrayList<Correction>();
+		for (int i = 0; i < corrections.size(); i++)
+			ncorrections.add(corrections.get(i));
+		return ncorrections;
 	}
 	
 	//
@@ -48,21 +54,21 @@ public class Board {
 	//assumes the code is valid
 	public void addGuess(Code guess) throws CodeIsInvalid{
 		if(game.codeIsValid(guess))
-			guesses.add(guess); //clone guesses
+			guesses.add(guess.clone()); //clone guesses
 		else
 			throw (new CodeIsInvalid());
 	}
 	
-	//returns true if 12 turns have passed, false otherwise
+	//returns true if 12 turns have passed or game has been won, false otherwise
 	//assumes the correction is valid
-	public Boolean addCorrection(Correction corr) throws CorrectionIsInvalid{
-		if (corr.getBlackPins() < 5 && corr.getBlackPins() > -1 && corr.getWhitePins() < 5 && corr.getWhitePins()>-1 && corr.getWhitePins() + corr.getBlackPins() < 5) {
-			corrections.add(corr);
-			if (corrections.size() == 12)
+	public Boolean addCorrection(Correction corr) throws NoGuessToBeCorrected{
+		if (guesses.size() - corrections.size() <= 0)
+			throw (new NoGuessToBeCorrected());
+		else {
+			corrections.add(corr.clone());
+			if (corrections.size() == 12 || hasWon())
 				return true;
 			return false;
-		}else {
-			throw (new CorrectionIsInvalid());
 		}
 	}
 	

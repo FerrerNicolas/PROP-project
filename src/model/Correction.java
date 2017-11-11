@@ -53,7 +53,7 @@ public class Correction implements Cloneable{
         return same;
     }
 	
-	public Object clone()
+	public Correction clone()
 	{
 		Correction another = null;
 		try
