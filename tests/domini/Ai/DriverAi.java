@@ -46,13 +46,13 @@ public class DriverAi {
 				break;
 			case 2:
 				try {
-					System.out.println("AI did a fake code breaker turn generating code: " + a.codeBreakerTurn(null, null).getCode());
+					System.out.println("AI did a fake code breaker turn generating code: " + a.codeBreakerTurn(null, null).toString());
 				} catch(Exception e) {
 					System.out.println("UNREACHABLE CODE");
 				}
 				break;
 			case 3:
-				System.out.println("AI generated random code: " + a.generateSecretCode().getCode());
+				System.out.println("AI generated random code: " + a.generateSecretCode().toString());
 				break;
 			case 4:
 				try {
@@ -74,7 +74,7 @@ public class DriverAi {
 				sc.close();
 				break;
 			default:
-				System.out.println("Option not valid, please input a number from 1 to 6");
+				System.out.println("Option not valid, please input a number from 1 to 5");
 				break;
 				
 			}

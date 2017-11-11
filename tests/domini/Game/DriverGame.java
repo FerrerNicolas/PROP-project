@@ -65,6 +65,7 @@ public class DriverGame {
 				System.out.println(g.getUserIsBreaker().toString());
 				break;
 			case 5:
+				System.out.println("Input code:");
 				Integer code = sc.nextInt();
 				Code c = new Code(code); //Probably will need an exception handler.
 				System.out.println(g.codeIsValid(c).toString());
