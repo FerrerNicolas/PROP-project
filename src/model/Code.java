@@ -169,4 +169,16 @@ public class Code implements Cloneable {
         }
         return code;
     }
+    
+    //VICTOR:
+    public String toString() {
+    	String s = "";
+    	Integer aux = code;
+    	for(int i=0; i<4; i++) {
+    		s = aux%10 + s;
+    		aux /= 10;
+    	}
+    	return s;
+    }
+    
 }
