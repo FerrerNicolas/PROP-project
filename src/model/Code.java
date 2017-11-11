@@ -6,7 +6,7 @@ import exceptions.InvalidNumberOfPins;
 
 //import domini.*;
 
-
+// Javi
 public class Code implements Cloneable {
     private Integer code; // CHANGE TO INTEGER! SIMPLIFIES CODE ALL AROUND
 

@@ -5,7 +5,7 @@ import java.util.Random;
 
 import static java.lang.StrictMath.abs;
 import static java.lang.StrictMath.pow;
-
+//Javi
 public class Genetic  extends Ai{
     private int[] AvailableColors;
     private ArrayList<Code> population;
