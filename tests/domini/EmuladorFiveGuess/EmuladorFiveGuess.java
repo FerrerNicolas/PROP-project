@@ -2,7 +2,7 @@ package domini.EmuladorFiveGuess;
 
 import java.util.Scanner;
 
-import domini.*;
+//import domini.*;
 import model.*;
 import exceptions.*;
 //Victor
@@ -63,7 +63,11 @@ public class EmuladorFiveGuess {
 			b.addGuess(nextGuess);
 		} catch (CodeIsInvalid e1) {
 			System.out.println("This should not happen, but code " + nextGuess.toString() + " is invalid!");
+		}catch (UncorrectedGuessExists e1) {
+			System.out.println("This should not happen, but system tried to push a code when the previous was not corrected.");
 		}
+		
+		
 		Correction correction = nextGuess.correct(secretCode);
 		if(manual) {
 			Boolean goodCorrection = false;
@@ -100,7 +104,9 @@ public class EmuladorFiveGuess {
 						b.addGuess(nextGuess);
 					} catch (CodeIsInvalid e1) {
 						System.out.println("This should not happen, but code " + nextGuess.toString() + " is invalid!");
-					} 
+					} catch (UncorrectedGuessExists e1) {
+						System.out.println("This should not happen, but system tried to push a code when the previous was not corrected.");
+					}
 					try {
 						end = b.addCorrection(correction);
 					} catch (NoGuessToBeCorrected e2) {
