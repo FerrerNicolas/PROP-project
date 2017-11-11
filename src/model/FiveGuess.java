@@ -82,8 +82,8 @@ public class FiveGuess extends Ai {
 				// We do this to ensure picking elements preferably from S
 			}
 		}
-		if (S.contains(nextGuess)) System.out.println("Trying possible code");
-		else System.out.println("Trying impossible code");
+		/*if (S.contains(nextGuess)) System.out.println("Trying possible code");
+		else System.out.println("Trying impossible code"); */
 		return nextGuess;
 	}
 	
