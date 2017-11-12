@@ -19,7 +19,7 @@ public class Code implements Cloneable {
     //Setter
     public void setCode(Integer code) throws BadlyFormedCode { // CHANGED FOR EXCEPTIONS
     	if(code > 7000 || code < 0) throw new BadlyFormedCode();
-    	if(code%1000 > 700 || code%100 > 70 || code%10 > 7) throw new BadlyFormedCode();
+    	if(code%1000 >= 700 || code%100 >= 70 || code%10 >= 7) throw new BadlyFormedCode();
     	
         this.code = code;
     }
@@ -34,7 +34,7 @@ public class Code implements Cloneable {
     public Code(Integer X) throws BadlyFormedCode {
         // Note: create attribute code to X!
     	if(X > 7000 || X < 0) throw new BadlyFormedCode();
-    	if(X%1000 > 700 || X%100 > 70 || X%10 > 7) throw new BadlyFormedCode();
+    	if(X%1000 >= 700 || X%100 >= 70 || X%10 >= 7) throw new BadlyFormedCode();
         this.code = X;
     }
 
