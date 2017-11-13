@@ -3,10 +3,7 @@ package domini.Board;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import exceptions.CodeIsInvalid;
-import exceptions.InvalidNumberOfPins;
-import exceptions.NoGuessToBeCorrected;
-import exceptions.UncorrectedGuessExists;
+import exceptions.*;
 
 public class DriverBoard {
 	private static Board board;
@@ -15,8 +12,14 @@ public class DriverBoard {
 	public static void test1(Scanner sc) {
     	System.out.println("Input secret code in numerical form: ");
     	int inp = sc.nextInt();
-    	Code code = new Code(inp);
-    	board = new Board(g);
+    	//Added try and catch to this function
+		Code code = new Code();
+		try {
+			code = new Code(inp);
+		} catch (BadlyFormedCode e) {
+
+		}
+		board = new Board(g);
     	try {
 			board.setSecretCode(code);
 		} catch (CodeIsInvalid e) {
@@ -64,8 +67,14 @@ public class DriverBoard {
     	}else {
     		System.out.println("Input the guess in numerical form: ");
     		int inp = sc.nextInt();
-    		Code guess = new Code(inp);
-    		try {
+            Code guess = null;
+            //Added try and catch here too, so I can test Code
+            try {
+                guess = new Code(inp);
+            } catch (BadlyFormedCode e) {
+
+            }
+            try {
 				board.addGuess(guess);
 			} catch (CodeIsInvalid e) {
 				System.out.println("This should never happen.");

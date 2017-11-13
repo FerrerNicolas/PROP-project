@@ -20,7 +20,7 @@ public class Code implements Cloneable {
     public void setCode(Integer code) throws BadlyFormedCode { // CHANGED FOR EXCEPTIONS
     	if(code > 7000 || code < 0) throw new BadlyFormedCode();
     	if(code%1000 >= 700 || code%100 >= 70 || code%10 >= 7) throw new BadlyFormedCode();
-    	
+
         this.code = code;
     }
 
@@ -77,8 +77,8 @@ public class Code implements Cloneable {
     	Boolean[] checklist = {false, false, false, false};
     	Boolean[] checklist2 = {false, false, false, false};
     	for (int i = 0; i < 4; i++) {
-    		if(c1%10 == c2%10) { 
-    			black_pins++; checklist[i]=true; checklist2[i]=true; 
+    		if(c1%10 == c2%10) {
+    			black_pins++; checklist[i]=true; checklist2[i]=true;
     			}
     		c1 /=10; c2 /= 10;
     	}
@@ -103,7 +103,7 @@ public class Code implements Cloneable {
 		}
         return corr;
     }
-    
+
     public boolean equals(Object object) {
         boolean same = false;
         if (object != null && object instanceof Code) {
@@ -127,8 +127,9 @@ public class Code implements Cloneable {
         	throw new BadlyFormedCode();
         }
         if (Index < 1 || Index > 4) throw new ArrayIndexOutOfBoundsException();
-            //What to do if exception???
-        int divider = (int)Math.pow(10, Index); // divisor = 10 ^ Index;
+        //Changed how the color setter works, previously the position 1 was the rightmost position, with the changes
+        //the position 1 is the leftmost
+        int divider = (int)Math.pow(10, 5-Index); // divisor = 10 ^ Index;
         int code_copy = this.code % divider;
         divider = divider /10;
         int colorAtIndex = code_copy / divider;
@@ -176,7 +177,7 @@ public class Code implements Cloneable {
         }
         return code;
     }
-    
+
     //VICTOR:
     public String toString() {
     	String s = "";
@@ -187,5 +188,5 @@ public class Code implements Cloneable {
     	}
     	return s;
     }
-    
+
 }

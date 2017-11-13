@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.BadlyFormedCode;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -42,10 +44,17 @@ public class Genetic  extends Ai{
          int code2 = c2.getCode();
          for (int i = 1; i <= 4; ++i) {
              if (rnJesus.nextFloat() < 0.5) {
-                 codeRes.setColorAt(i, code1%10);
+                 try {
+                     codeRes.setColorAt(i, code1 % 10);
+                 } catch (BadlyFormedCode badlyFormedCode) {
+
+                 }
              }
              else {
-                 codeRes.setColorAt(i, code2%10);
+                 try {
+                     codeRes.setColorAt(i, code2 % 10);
+                 } catch (BadlyFormedCode e) {
+                 }
              }
              code1 /= 10;
              code2 /= 10;
@@ -57,7 +66,11 @@ public class Genetic  extends Ai{
         Random rnJesus = new Random();
         int index = (rnJesus.nextInt(4) +1);
         int color = rnJesus.nextInt(AvailableColors.length);
-        code.setColorAt(index, AvailableColors[color]);
+        try {
+            code.setColorAt(index, AvailableColors[color]);
+        } catch (BadlyFormedCode badlyFormedCode) {
+            badlyFormedCode.printStackTrace();
+        }
         return code;
     }
 
@@ -76,8 +89,12 @@ public class Genetic  extends Ai{
             int color2 = cd % i2;
             i2 /= 10;
             color2 /= i2;
-            code.setColorAt(index1, color2);
-            code.setColorAt(index2, color1);
+            try {
+                code.setColorAt(index1, color2);
+                code.setColorAt(index2, color1);
+            } catch (BadlyFormedCode badlyFormedCode) {
+
+            }
         }
         return code;
     }
@@ -97,7 +114,11 @@ public class Genetic  extends Ai{
         interval = interval / minInterval;
         for (int i = 0; i <= max-min; ++i) {
             int color = interval%10;
-            code.setColorAt(max- i, color);
+            try {
+                code.setColorAt(max- i, color);
+            } catch (BadlyFormedCode badlyFormedCode) {
+
+            }
             interval /= 10;
         }
         return code;
@@ -115,13 +136,21 @@ public class Genetic  extends Ai{
         }
     }
 
-    public Code codeBreakerTurn(Code code, Correction correction) {
+    public Code codeBreakerTurn(Code code, Correction correction){
         if (code == null && correction == null) {
             if (game.getDifficulty() == Diff.EASY) {
-                return new Code(1234);
+                try {
+                    return new Code(1234);
+                } catch (BadlyFormedCode badlyFormedCode) {
+                    System.out.println("It shouldn't go in here");
+                }
             }
             else {
-                return new Code(1123);
+                try {
+                    return new Code(1123);
+                } catch (BadlyFormedCode badlyFormedCode) {
+                    System.out.println("It shouldn't go in here");
+                }
             }
         }
         population = new ArrayList<>();
@@ -132,7 +161,11 @@ public class Genetic  extends Ai{
             for (int i = population.size(); i < pop_size; ++i) {
                 Code c = new Code();
                 for (int j = 1; j < 5; ++j) {
-                    c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
+                    try {
+                        c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
+                    } catch (BadlyFormedCode badlyFormedCode) {
+                        System.out.println("AvailableColors array wrongly initialized");
+                    }
                 }
                 population.add(c);
             }
@@ -140,8 +173,7 @@ public class Genetic  extends Ai{
         int gen_num = 1;
         previousGuesses= game.getBoard().getGuesses();
         ArrayList<Code> sons = new ArrayList<Code>();
-        while ((chosenOnes.size() <= pop_size && gen_num <= max_generations) || chosenOnes.size() == 0) {
-            //if (chosenOnes.size() == 0) System.out.println("En la iteracion " + gen_num + "no tengo chosens");
+        while (chosenOnes.size() <= pop_size && gen_num <= max_generations) {
             for (int i = 0; i < population.size(); ++i) {
                 if (i == population.size()-1) {
                     sons.add(population.get(i));
@@ -175,7 +207,11 @@ public class Genetic  extends Ai{
                 for (int i = population.size(); i < pop_size; ++i) {
                     Code c = new Code();
                     for (int j = 1; j < 5; ++j) {
-                        c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
+                        try {
+                            c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
+                        } catch (BadlyFormedCode badlyFormedCode) {
+                            badlyFormedCode.printStackTrace();
+                        }
                     }
                     population.add(c);
                 }
