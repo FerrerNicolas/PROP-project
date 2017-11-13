@@ -34,11 +34,15 @@ public class DriverGlobalRecords {
 				break;
 				
 			case 2:
+				if(!gr.globalRecords.isEmpty()) {
 				for(int i=0;i<gr.getGlobalRecords().size() && i<6; i++) {
 							System.out.println("Data:" + gr.getGlobalRecords().get(i).getPlayerName());
-							System.out.println("Record Size:" + gr.getGlobalRecords().size());
 					}
-		
+				System.out.println("Record Size:" + gr.getGlobalRecords().size());
+				}
+				else {
+					System.out.println("Empty array");
+				}
 				
 				break;
 			case 3:

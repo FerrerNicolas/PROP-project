@@ -1,6 +1,7 @@
 package domini.Tuple;
 
-public class Tuple {
+public class Tuple {//Author:Luis
+	
 	private String playerName;
 	private Float value;
 	

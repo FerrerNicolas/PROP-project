@@ -23,29 +23,8 @@ public class Ranking { //Author:Luis
 	    }
 	});
 	}
-		/*Function to sort arrayList using insertion sort
-	    void sort(ArrayList<Tuple> ranking)
-	    {
-	        int n = ranking.size();
-	        for (int i=1; i<n; ++i)
-	        {
-	            Tuple key = ranking.get(i);
-	            int j = i-1;
-	 
-	            /* Move elements of ranking[0..i-1], that are
-	               greater than key, to one position ahead
-	               of their current position 
-	            while (j>=0 && ranking.get(j).getValue() > key.getValue())
-	            {
-	                ranking.set(i, ranking.get(j));
-	                j = (j-1);
-	                System.out.println("Faz while");
-	            }
-	            ranking.set((j+1), key);
-	        }
-	    }*/
-	  
-	    public ArrayList<Tuple> getRanking(){
+	
+	public ArrayList<Tuple> getRanking(){
 		return ranking;
 				}
 	}

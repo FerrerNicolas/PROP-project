@@ -1,22 +1,29 @@
 package model;
 
-import java.util.ArrayList;
 
-public class GlobalRecords {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+
+public class GlobalRecords { //Author: Luis
 	
-	ArrayList<Tuple> globalRecords;
+	ArrayList<Tuple> globalRecords = new ArrayList<Tuple>(6);
+	Tuple newRecord = null;
 	
 	public void update(Player p) {
 		
-		for(int i=0;i<10;i++) {
-		if(p.getTotalScore() > globalRecords.get(i).getValue()) {
-			
-			Tuple newRecord = new Tuple(p.getPlayerName(),p.getTotalScore());
-			
+			newRecord = new Tuple(p.getPlayerName(),p.getMaxScore());
 			globalRecords.add(newRecord);
+			
+			Collections.sort(globalRecords, new Comparator<Tuple>() {
+			    @Override
+			    public int compare(Tuple t1, Tuple t2) {
+			        return t2.getValue().compareTo(t1.getValue());
+			    }
+			});
 		}
-		}
-	}
+	
 	
 	public ArrayList<Tuple> getGlobalRecords(){
 		return globalRecords;

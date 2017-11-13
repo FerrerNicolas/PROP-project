@@ -6,10 +6,10 @@ import java.util.Comparator;
 
 import domini.Tuple.Tuple;
 
-	
+
 public class Ranking { //Author:Luis
 	
-ArrayList<Tuple> ranking = new ArrayList<Tuple>(10);
+	ArrayList<Tuple> ranking = new ArrayList<Tuple>(10);
 	
 	public void insert(Tuple t) {
 		
