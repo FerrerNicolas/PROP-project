@@ -1,0 +1,35 @@
+Genetic algorithm.
+
+--Brief description--
+The genetic algorithm creates a initial population of possible guesses and applies genetic mutations to it, to get a new
+population set. That set is given a fitness function, that evaluates the set and assigns a score based on how likely an
+individual code in the set could be the solution to the secret code. The most likely codes are added to an array of
+possible solutions and we add them to a new set of population in which we repeat the process, until the likely choices
+are filled, or we have arrived at a limit number of generations. To assign the next guess we give a random code that
+hasn't been played before from the random choices. The algorithm wins on average in 4.6 turns
+
+--Genetic mutations--
+We have 4 types of genetic mutation functions, these are crossover, mutation, permutation and reversing.
+    --Crossover--
+    The crossover function is given two codes, and generates a new code, that is a combination of both codes. To generate
+    this new code, each position of the code returned has a 0.5 probability of being a color in that position of
+    one of the two previous codes.
+    --Mutation--
+    Mutation has a 0.03 probability of being executed, and it takes the code produced by the crossover function, then
+    it changes a random position of the given code to another random color.
+    --Permutation--
+    Permutation happens with a probability of 0.03, it works with the code produced by crossover and maybe mutated,
+    and swaps to random positions of the code, changing their colors to the other one.
+    --Reversing--
+    Reversing is the final genetic function, it takes the previously worked upon code. It generates two random numbers
+    that are possible index of code, and reverses the numbers between those possible indexes.
+
+--Fitness and chosen ones array--
+Once we filled the population of sons of the previous one we assign a fitness score to them. This fitness score is
+calculated by the result the code would get if the previous guesses were the solution of the secret code, and subtracting
+the correction given to the correction the previous guessed code got, and give the result in absolute value. We then add
+all the differences to the previous code and return it, if the fitness score was a 0 that code is a possible solution and
+add it to the chosen ones array. Once every code is given a fitness score, we take all the possible ones, and if the
+chosen ones array isn't filled, or we arrived the maximum number of generations, we add the chosen ones to the next
+population to apply the mutation functions and repeat the process till one of the conditions is fulfilled.
+
