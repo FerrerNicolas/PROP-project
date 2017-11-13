@@ -4,6 +4,7 @@ import domini.Tuple.*;
 import domini.Player.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GlobalRecords {
 	
@@ -11,14 +12,15 @@ public class GlobalRecords {
 	
 	public void update(Player p) {
 		
-			
-			
-			Tuple newRecord = new Tuple(p.getPlayerName(),p.getTotalScore());
+			for(int i=0;i<globalRecords.size();i++) {
+			if(globalRecords.get(i).getPlayerName().equals(p.getPlayerName())){
+			Tuple newRecord = new Tuple(p.getPlayerName(),Random.class.);
 			System.out.println("New tuple:" + newRecord);
 			globalRecords.add(newRecord);
 			sort(globalRecords);
 		}
-	
+	}
+	}
 	/*Function to sort arrayList using insertion sort*/
     void sort(ArrayList<Tuple> gr)
     {
