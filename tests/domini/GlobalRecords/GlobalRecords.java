@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class GlobalRecords {
+public class GlobalRecords {//Author:Luis
 	
 	ArrayList<Tuple> globalRecords = new ArrayList<Tuple>(6);
 	Tuple newRecord = null;
@@ -27,12 +27,7 @@ public class GlobalRecords {
 		}
 			
 		
-	
-	
-	
 
-	
-	
 	
 	public ArrayList<Tuple> getGlobalRecords(){
 		return globalRecords;

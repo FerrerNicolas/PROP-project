@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import domini.Player.*;
 
-public class DriverGlobalRecords {
+public class DriverGlobalRecords {//Author:Luis
 
 	
 	public static void main (String[] args) {
