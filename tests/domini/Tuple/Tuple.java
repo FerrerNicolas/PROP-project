@@ -1,13 +1,12 @@
-package model;
+package domini.Tuple;
 
-public class Tuple { //Author:Luis
-	
+public class Tuple {
 	private String playerName;
 	private Float value;
 	
 	public Tuple(String playerName,Float value){
-		playerName = this.playerName;
-		value = this.value;
+		this.playerName = playerName;
+		this.value = value;
 	}
 	
 	public String getPlayerName() {
