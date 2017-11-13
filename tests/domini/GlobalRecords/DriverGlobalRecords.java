@@ -25,6 +25,7 @@ public class DriverGlobalRecords {
 			case 1:
 				System.out.println("Insert a name:" );
 				String A = sc.nextLine();
+				System.out.println("Insert record");
 				p = new Player(A);	
 				System.out.println(" Player selected: " + A );
 				gr.update(p);			
@@ -33,11 +34,10 @@ public class DriverGlobalRecords {
 				break;
 				
 			case 2:
-				for(int i=0;i<gr.getGlobalRecords().size();i++) {
+				for(int i=0;i<gr.getGlobalRecords().size() && i<6; i++) {
 							System.out.println("Data:" + gr.getGlobalRecords().get(i).getPlayerName());
-							System.out.println(gr.getGlobalRecords().size());
+							System.out.println("Record Size:" + gr.getGlobalRecords().size());
 					}
-				
 		
 				
 				break;

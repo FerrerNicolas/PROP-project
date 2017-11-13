@@ -1,9 +1,7 @@
 package domini.Ranking;
 
 import java.util.ArrayList;
-import java.util.Collections;
-//import java.util.Collections;
-import java.util.Comparator;
+
 
 import domini.Tuple.*;
 
@@ -21,7 +19,7 @@ public class Ranking { //Author:Luis
 	    void sort(ArrayList<Tuple> ranking)
 	    {
 	        int n = ranking.size();
-	        for (int i=1; i<n; ++i)
+	        for (int i=0; i<n; ++i)
 	        {
 	            Tuple key = ranking.get(i);
 	            int j = i-1;
@@ -34,7 +32,7 @@ public class Ranking { //Author:Luis
 	                ranking.set(i, ranking.get(j));
 	                j = j-1;
 	            }
-	            ranking.set(j+1,key);
+	            ranking.set(j+1, key);
 	        }
 	    }
 	  
