@@ -7,12 +7,16 @@ import java.util.ArrayList;
 
 public class GlobalRecords {
 	
-	ArrayList<Tuple> globalRecords;
+	ArrayList<Tuple> globalRecords = new ArrayList<Tuple>(6);
 	
 	public void update(Player p) {
 		
+		
+		
 		for(int i=0;i<globalRecords.size();i++) {
 		if(p.getTotalScore() > globalRecords.get(i).getValue()) {
+			
+			
 			
 			Tuple newRecord = new Tuple(p.getPlayerName(),p.getTotalScore());
 			

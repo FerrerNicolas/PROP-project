@@ -2,7 +2,7 @@ package domini.GlobalRecords;
 
 import java.util.Scanner;
 
-import domini.Ranking.Ranking;
+
 import domini.Player.*;
 
 public class DriverGlobalRecords {
@@ -12,7 +12,7 @@ public class DriverGlobalRecords {
 		Boolean exit = false;
 		Scanner sc= new Scanner(System.in);
 		Player p = null;
-		GlobalRecords gr =null;
+		GlobalRecords gr = new GlobalRecords();
 		while (!exit) {
 			
 			System.out.println("Input number for test");
@@ -23,36 +23,19 @@ public class DriverGlobalRecords {
 			sc.nextLine();
 			switch(option) {
 			case 1:
-				System.out.println("Insert a name");
+				System.out.println("Insert a name:" );
 				String A = sc.nextLine();
 				p = new Player(A);	
-				gr = new GlobalRecords();
-				System.out.println(A + " you scored ");
-				gr.update(p);
-				if(gr.getGlobalRecords().isEmpty()) {
-
-					System.out.println("Error inserting tuple");
-						
-				}else{
-
-					System.out.println("Tuple inserted correctly");
-					
-					
-				}
-				
+				System.out.println(" Player selected: " + A );
+				gr.update(p);			
 				
 				
 				break;
+				
 			case 2:
-				gr.getGlobalRecords().ensureCapacity(10);
 				for(int i=0;i<gr.getGlobalRecords().size();i++) {
-					if(!gr.getGlobalRecords().get(i).getPlayerName().isEmpty()) {
-System.out.println(gr.getGlobalRecords().get(i));
+							System.out.println("Data:" + gr.getGlobalRecords().get(i).getPlayerName());
 							System.out.println(gr.getGlobalRecords().size());
-					}
-					
-					else{
-						System.out.println("Error");}
 					}
 				
 		

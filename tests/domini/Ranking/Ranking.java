@@ -1,6 +1,9 @@
 package domini.Ranking;
 
 import java.util.ArrayList;
+import java.util.Collections;
+//import java.util.Collections;
+import java.util.Comparator;
 
 import domini.Tuple.*;
 
@@ -10,8 +13,32 @@ public class Ranking { //Author:Luis
 	
 	public void insert(Tuple t) {
 		
-
+		ranking.add(t);
+		sort(ranking);
+	}
 		
+		/*Function to sort array using insertion sort*/
+	    void sort(ArrayList<Tuple> ranking)
+	    {
+	        int n = ranking.size();
+	        for (int i=1; i<n; ++i)
+	        {
+	            Tuple key = ranking.get(i);
+	            int j = i-1;
+	 
+	            /* Move elements of ranking[0..i-1], that are
+	               greater than key, to one position ahead
+	               of their current position */
+	            while (j>=0 && ranking.get(j).getValue() > key.getValue())
+	            {
+	                ranking.set(i, ranking.get(j));
+	                j = j-1;
+	            }
+	            ranking.set(j+1,key);
+	        }
+	    }
+	    
+/*
 				if(ranking.size()<10) { //Fill ArrayList with first 10 tuples
 				ranking.add(t);
 				
@@ -30,9 +57,12 @@ public class Ranking { //Author:Luis
 
 						}
 			}
+					else {
+						
+					}
 		}
-			}
-				}
+			}*/
+				
 	public ArrayList<Tuple> getRanking(){
 		return ranking;
 				}
