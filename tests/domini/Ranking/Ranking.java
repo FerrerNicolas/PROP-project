@@ -22,8 +22,11 @@ public class Ranking { //Author:Luis
 	        return t2.getValue().compareTo(t1.getValue());
 	    }
 	});
-	}
 	
+	if(ranking.size()>10) {
+		ranking.remove(10);
+	}
+	}
 	public ArrayList<Tuple> getRanking(){
 		return ranking;
 				}
