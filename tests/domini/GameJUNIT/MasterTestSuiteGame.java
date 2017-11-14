@@ -7,4 +7,4 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({ 
 	GameJtester.class, 
 	GameTest2.class })
-public class MasterTestSuiteGame {} //Por alguna razón, no ejecuta el test GameJtester
+public class MasterTestSuiteGame {} //Por alguna razon, no ejecuta el test GameJtester
