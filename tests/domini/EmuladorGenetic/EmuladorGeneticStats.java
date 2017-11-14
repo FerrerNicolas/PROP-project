@@ -9,25 +9,25 @@ import model.*;
 import java.util.Random;
 
 public class EmuladorGeneticStats {
-    public static int playedGames = 0;
-    public static int easyGames = 0;
-    public static int mediumGames = 0;
-    public static int hardGames = 0;
-    public static int playedTurns = 0;
-    public static int easyTurns = 0;
-    public static int mediumTurns = 0;
-    public static int hardTurns = 0;
-    static int[] AvailableColors = {1, 2, 3, 4, 5, 6};
-    static int[] AvailableColorsHard = {0, 1, 2, 3, 4, 5, 6};
 
     public static void main(String[] args) {
+        double playedGames = 0.0;
+        double easyGames = 0.0;
+        double mediumGames = 0.0;
+        double hardGames = 0.0;
+        double playedTurns = 0.0;
+        double easyTurns = 0.0;
+        double mediumTurns = 0.0;
+        double hardTurns = 0.0;
+        int[] AvailableColors = {1, 2, 3, 4, 5, 6};
+        int[] AvailableColorsHard = {0, 1, 2, 3, 4, 5, 6};
+
         System.out.println("Initiating the genetic tester");
-        Game g;
-        Random rng = new Random();
-        for (int i = 0; i < 1; i++) {
+        Game g = new Game(false, Diff.HARD);
+        Random rng = new Random(1234);
+        for (int i = 0; i < 300; i++) {
             if ((i % 3) == 0) {
                 g = new Game(false, Diff.EASY);
-                if (g.getDifficulty().equals(Diff.EASY)) System.out.println("Created an easy game");
             } else if ((i % 3) == 1) {
                 g = new Game(false, Diff.NORMAL);
                 System.out.println("Created a medium game");
@@ -35,7 +35,7 @@ public class EmuladorGeneticStats {
                 g = new Game(false, Diff.HARD);
                 System.out.println("Created a hard game");
             }
-            Board b = new Board(g);
+            Board b = g.getBoard();
             int codeNum = 0;
             int[] AvailableColorsEasy = AvailableColors.clone();
             for (int j = 0; j < 4; ++j) {
@@ -101,7 +101,6 @@ public class EmuladorGeneticStats {
                         + correction.getBlackPins() + "B pins and " + correction.getWhitePins() + "W pins.");
             }
             System.out.println("Won the game answering to the code " + b.getSecretCode().toString() + " in " + b.turnsDone() + " turns.");
-            ++playedGames;
             if (i % 3 == 0) {
                 easyTurns += b.turnsDone();
                 ++easyGames;
@@ -110,19 +109,25 @@ public class EmuladorGeneticStats {
                 ++mediumGames;
             } else {
                 hardTurns += b.turnsDone();
-                ++hardTurns;
+                ++hardGames;
             }
+            ++playedGames;
+            playedTurns += b.turnsDone();
         }
         System.out.println("Played " + easyGames + " games at easy difficulty, it took in total " + easyTurns + " to complete all games");
         double turnsForGameEasy = easyTurns / easyGames;
+        System.out.println("That is " + turnsForGameEasy + " turns in average per game in easy difficulty");
 
-        System.out.println("That is " + turnsForGameEasy + " turns in average per game");
-        /*System.out.println("Played " + mediumGames + " games at normal difficulty, it took in total " + mediumTurns + " to complete all games");
+        System.out.println("Played " + mediumGames + " games at normal difficulty, it took in total " + mediumTurns + " to complete all games");
         double turnsForMediumGames = mediumTurns / mediumGames;
-        System.out.println("That is " + turnsForMediumGames + " turns in average to complete a game!");
+        System.out.println("That is " + turnsForMediumGames + " turns in average to complete a game in medium difficulty");
+
         System.out.println("Played " + hardGames + " game at hard difficulty, it took in total " + hardTurns + " to complete all games");
         double turnsForHardGames = hardTurns / hardGames;
-        System.out.println("That is " + turnsForHardGames + " turns in average to complete a game!");
-    */
+        System.out.println("That is " + turnsForHardGames + " turns in average to complete a game in hard difficulty");
+
+        System.out.println();
+        double average = playedTurns / playedGames;
+        System.out.println("Total average of turns per game is " + average);
     }
 }

@@ -14,8 +14,8 @@ public class Genetic  extends Ai{
     private ArrayList<Code> chosenOnes;
     private ArrayList<Code> previousGuesses;
 
-    private int pop_size = 100;
-    private int max_generations = 60;
+    private int pop_size;
+    private int max_generations;
 
     /*
         Assigns a fitnessScore to a guess, the fitness score is used to find a suitable
@@ -74,34 +74,48 @@ public class Genetic  extends Ai{
         return code;
     }
 
+    public Genetic(Game g) {
+        super(g);
+        //We initialize the array of available colors.
+
+        if (!game.getDifficulty().equals(Diff.HARD)) {
+            AvailableColors = new int[]{1, 2, 3, 4, 5, 6};
+            pop_size = 100;
+            max_generations = 60;
+        } else {
+            AvailableColors = new int[]{0, 1, 2, 3, 4, 5, 6};
+            pop_size = 500;
+            max_generations = 200;
+        }
+    }
+
     private Code permute(Code code) {
         Random rnJesus = new Random();
         int cd = code.getCode();
-        for (int i = 0; i < 4; ++i) {
-            int index1 = (rnJesus.nextInt(4) + 1);
-            int index2 = (rnJesus.nextInt(4) + 1);
-            if (index1 == index2) return code;
-            int i1 = (int) Math.pow(10, index1);
-            int i2 = (int) Math.pow(10, index2);
-            int color1 = cd % i1;
-            i1 /= 10;
-            color1 /= i1;
-            int color2 = cd % i2;
-            i2 /= 10;
-            color2 /= i2;
-            try {
-                code.setColorAt(index1, color2);
-                code.setColorAt(index2, color1);
-            } catch (BadlyFormedCode badlyFormedCode) {
-
-            }
+        int index1 = (rnJesus.nextInt(4) + 1);
+        int index2 = (rnJesus.nextInt(4) + 1);
+        if (index1 == index2) return code;
+        int i1 = (int) Math.pow(10, index1);
+        int i2 = (int) Math.pow(10, index2);
+        int color1 = cd % i1;
+        i1 /= 10;
+        color1 /= i1;
+        int color2 = cd % i2;
+        i2 /= 10;
+        color2 /= i2;
+        try {
+            code.setColorAt(index1, color2);
+            code.setColorAt(index2, color1);
+        } catch (BadlyFormedCode badlyFormedCode) {
+            System.out.println("There was an error giving a random color");
         }
         return code;
     }
+
     /*
     Takes a random interval from the code and inverts the positions.
      */
-    public static Code reverse(Code code) {
+    private Code reverse(Code code) {
         Random rng = new Random();
         int i1 = rng.nextInt(4) + 1;
         int i2 = rng.nextInt(4) + 1;
@@ -117,23 +131,11 @@ public class Genetic  extends Ai{
             try {
                 code.setColorAt(max- i, color);
             } catch (BadlyFormedCode badlyFormedCode) {
-
+                System.out.println("We should never have a badlyformedcode");
             }
             interval /= 10;
         }
         return code;
-    }
-
-    public Genetic(Game g) {
-    	super(g);
-        //We initialize the array of available colors.
-
-        if (!game.getDifficulty().equals(Diff.HARD)) {
-            AvailableColors = new int[]{1, 2, 3, 4, 5, 6};
-        }
-        else{
-            AvailableColors = new int[]{0, 1, 2, 3, 4, 5, 6};
-        }
     }
 
     public Code codeBreakerTurn(Code code, Correction correction){
@@ -173,7 +175,7 @@ public class Genetic  extends Ai{
         int gen_num = 1;
         previousGuesses= game.getBoard().getGuesses();
         ArrayList<Code> sons = new ArrayList<Code>();
-        while (chosenOnes.size() <= pop_size && gen_num <= max_generations) {
+        while ((chosenOnes.size() <= pop_size && gen_num <= max_generations) || chosenOnes.size() == 0) {
             for (int i = 0; i < population.size(); ++i) {
                 if (i == population.size()-1) {
                     sons.add(population.get(i));
@@ -222,6 +224,21 @@ public class Genetic  extends Ai{
         //Right now code searches for a random guess, best solution would be to add the most similar to the previous
         //guesses
         Code nextGuess;
+        /*
+        if (chosenOnes.size() == 0) {
+
+            System.out.println("Didn't get any valid answer");
+            Code noChosenOnes = new Code();
+            for (int j = 1; j < 5; ++j) {
+                try {
+                    noChosenOnes.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
+                } catch (BadlyFormedCode badlyFormedCode) {
+                    System.out.println("AvailableColors array wrongly initialized");
+                }
+                return noChosenOnes;
+            }
+        }
+        */
         nextGuess = chosenOnes.get(rng.nextInt(chosenOnes.size()));
         while (previousGuesses.contains(nextGuess)) {
             nextGuess = chosenOnes.get(rng.nextInt(chosenOnes.size()));
