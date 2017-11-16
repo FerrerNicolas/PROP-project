@@ -23,7 +23,7 @@ public class DriverGlobalRecords { //Author:Luis
 		while (!exit) {
 			
 			System.out.println("Input number for test");
-			System.out.println("1. Populate arraylist");
+			System.out.println("1. Populate array list");
 			System.out.println("2. Update global record");
 			System.out.println("3. Get global records");
 			System.out.println("4. Exit Driver");
@@ -32,7 +32,8 @@ public class DriverGlobalRecords { //Author:Luis
 			switch(option) {
 			case 1:
 				if(gr.globalRecords.isEmpty()) {
-				System.out.println("Record list filled with test data: \n");
+				System.out.println("Record list filled with test 1"
+						+ "data: \n");
 				gr.globalRecords.add(0,t1); 
 				gr.globalRecords.add(1,t2); 
 				gr.globalRecords.add(2,t3); 
@@ -71,31 +72,30 @@ public class DriverGlobalRecords { //Author:Luis
 				String A = sc.nextLine();
 				p = new Player(A);	
 				gr.update(p);			
-				
-				
-				
+
+				System.out.println("Records updated. Check again option 3.Get global records.");
 				break;
 				
 			case 3:
 				if(!gr.globalRecords.isEmpty()) {
 				
 							System.out.println("Player:" + gr.getGlobalRecords().get(0).getPlayerName());
-							System.out.println("New Finished Games Record: " + gr.getGlobalRecords().get(0).getValue());
+							System.out.println("Finished Games Record: " + gr.getGlobalRecords().get(0).getValue());
 							
 							System.out.println("Player:" + gr.getGlobalRecords().get(1).getPlayerName());
-							System.out.println("New Games Lost Record: " + gr.getGlobalRecords().get(1).getValue());
+							System.out.println("Games Lost Record: " + gr.getGlobalRecords().get(1).getValue());
 							
 							System.out.println("Player:" + gr.getGlobalRecords().get(2).getPlayerName());
-							System.out.println("New Games Won Record: " + gr.getGlobalRecords().get(2).getValue());
+							System.out.println("Games Won Record: " + gr.getGlobalRecords().get(2).getValue());
 							
 							System.out.println("Player:" + gr.getGlobalRecords().get(3).getPlayerName());
-							System.out.println("New Max Score Record: " + gr.getGlobalRecords().get(3).getValue());
+							System.out.println("Max Score Record: " + gr.getGlobalRecords().get(3).getValue());
 							
 							System.out.println("Player:" + gr.getGlobalRecords().get(4).getPlayerName());
-							System.out.println("New Minimum Guesses Record: " + gr.getGlobalRecords().get(4).getValue());
+							System.out.println("Minimum Guesses Record: " + gr.getGlobalRecords().get(4).getValue());
 							
 							System.out.println("Player:" + gr.getGlobalRecords().get(5).getPlayerName());
-							System.out.println("New Total Score Record: " + gr.getGlobalRecords().get(5).getValue()+"\n");
+							System.out.println("Total Score Record: " + gr.getGlobalRecords().get(5).getValue()+"\n");
 							
 					
 					
