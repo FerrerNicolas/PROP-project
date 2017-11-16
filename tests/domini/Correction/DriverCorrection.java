@@ -101,17 +101,28 @@ public class DriverCorrection {
     		System.out.println(correction.toString());
     	}
 	}
+	public static void test8() {
+		if (correction == null) {
+    		System.out.println("Invalid Operation, you need to create a correction first using Option 1");
+    	}else {
+    		Correction cloned = correction.clone();
+    		System.out.println("Cloned correction has "+cloned.toString());
+    		Boolean areEqual = cloned == correction;
+    		System.out.println("Clone and correction are the same instance: "+areEqual);
+    	}
+	}
 	
 	public static void printMenu() {
 		System.out.println("Choose what to test:");
-        System.out.println("1- Create a correction (needed for tests 2 through 7).");
+        System.out.println("1- Create a correction (needed for tests 2 through 8).");
         System.out.println("2- Get number of white pins");
         System.out.println("3- Get number of black pins");
         System.out.println("4- Set number of white pins");
         System.out.println("5- Set number of black pins");
         System.out.println("6- Check wheter the correction equals another");
         System.out.println("7- Print a string representing the correction");
-        System.out.println("8- End test");
+        System.out.println("8- Clone the correction and print it's info and their references");
+        System.out.println("9- End test");
 	}
 	
 	public static void main(String[] args) {
@@ -148,6 +159,9 @@ public class DriverCorrection {
                 	test7();
                 	break;
                 case 8:
+                	test8();
+                	break;
+                case 9:
                 	theresMore = false;
                     break;
                 default:

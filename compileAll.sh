@@ -7,6 +7,8 @@ echo "compiling Ai tests..."
 javac -cp ".:./src/" ./tests/domini/Ai/*.java
 echo "compiling Board tests..."
 javac -cp ".:./src/" ./tests/domini/Board/*.java
+echo "compiling Code tests..."
+javac -cp ".:./src/:./tests/" ./tests/domini/Code/*.java
 echo "compiling Correction tests..."
 javac -cp ".:./src/" ./tests/domini/Correction/*.java
 echo "compiling EmuladorFiveGuess tests..."
@@ -18,7 +20,7 @@ javac -cp ".:./src/" ./tests/domini/Game/*.java
 echo "compiling JUnit Game tests..."
 javac -cp ".:./src/:./junit-4.12.jar" ./tests/domini/GameJUNIT/*.java
 echo "compiling GlobalRecords tests..."
-javac -cp ".:./src/" ./tests/domini/GlobalRecords/*.java
+javac -cp ".:./src/:./tests/" ./tests/domini/GlobalRecords/*.java
 echo "compiling Player tests..."
 javac -cp ".:./src/" ./tests/domini/Player/*.java
 echo "compiling Ranking tests..."
