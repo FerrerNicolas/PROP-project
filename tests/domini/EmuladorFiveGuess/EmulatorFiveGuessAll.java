@@ -74,7 +74,7 @@ public class EmulatorFiveGuessAll {
 					}
 					//System.out.println("Turn: "+ b.turnsDone() +"  Played "+nextGuess.getCode()+" got " + correction.getWhitePins() + "W " + correction.getBlackPins() + "B");
 					Integer tmp = 0;
-					Boolean cont = true;
+					Boolean cont = !b.hasWon();
 					try {
 						while (cont) {
 							tmp = nextGuess.getCode();
