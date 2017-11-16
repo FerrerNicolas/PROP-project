@@ -15,7 +15,7 @@ public class DriverRanking { //Author:Luis
 		Scanner sc= new Scanner(System.in);
 		Tuple t = null;
 		Ranking r =new Ranking();
-		while (!exit) {
+			while (!exit) {
 			
 			System.out.println("Input number for test");
 			System.out.println("1. Insert ranking");
