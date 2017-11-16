@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import domini.Tuple.Tuple;
 
 
 public class Ranking { //Author:Luis
