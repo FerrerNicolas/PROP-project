@@ -3,9 +3,9 @@ The user must choose a game difficulty, whether he’ll be playing as Code-Maker
 Load Game (Main Menu)
 The user gets sent to the Load Game Management View, loaded with a list of his saved games.
 View Records
-The user can see their personal information as well as the best records out of all existing users. The records saved are from finished and scored games. The data stored is the number of games, the number of won and lost games, the maximum score of a single game and the minimum guesses in a single game, and the total score of the user.
+The user can see their personal information as well as the best records out of all existing users (Global records). The records saved are from finished and scored games. The data stored is the number of games played, the number of won and lost games, the maximum score of a single game, the minimum guesses in a single game, and the total score of the user.
 View Rankings
-The user is shown the 10 best scores of each type alongside the name of the user each of them belongs to. *Isn’t rankings global?*
+The user is shown the 10 best scores alongside the name of the user each of them belongs to.
 Change User
 The user gets logged off, and sent to the User Management View. 
 Exit
