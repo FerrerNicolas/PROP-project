@@ -1,15 +1,15 @@
 package domini.GameJUNIT;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 
 import model.Diff;
 //Victor
-class GameJtester {
+public class GameJtester {
 	@Test
-	void creatorAndGetters() {
+	public void creatorAndGetters() {
 		Game g = new Game(true, Diff.EASY);
 		assertTrue(g.getUserIsBreaker());
 		assertEquals(Diff.EASY, g.getDifficulty());
