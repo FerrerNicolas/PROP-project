@@ -21,6 +21,12 @@ Entering into our particular version, what it does is:
 	
 The algorithm will win in 5 turns maximum for our normal difficulty.
 
+(choosing the lowest numerical value in step 5 is not a convention as wikipedia says, as if you don't do that there are two codes that take 6 turns to be won)
+
+stats acquired from playing every possible secret code via EmuladorFiveGuessAll:
+Played 360.0 EASY games: Won in at most 5.0 turns. Took 4.138888888888889 turns in average to win.
+Played 1296.0 NORMAL games: Won in at most 5.0 turns. Took 4.47608024691358 turns in average to win.
+Played 2401.0 HARD games: Won in at most 6.0 turns. Took 4.90045814244065 turns in average to win.
 
 ----
 Guillem and Victor
