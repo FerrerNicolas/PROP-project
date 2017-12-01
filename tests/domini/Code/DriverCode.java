@@ -1,6 +1,6 @@
 package domini.Code;
 
-import domini.Board.Correction;
+import domini.Correction.Correction;
 import exceptions.BadlyFormedCode;
 
 import java.util.Scanner;
@@ -90,7 +90,7 @@ public class DriverCode {
                 + correction.getWhitePins() + "white pins");
     }
 
-    public static void test5() {
+    private static void test5() {
         Code cloned = code.clone();
         System.out.println("We cloned the code " + code.toString() + " and created a new code with value "
                 + cloned.toString());
@@ -98,7 +98,7 @@ public class DriverCode {
 
     public static void main(String[] args) {
         showMenu();
-        Scanner sc = new Scanner(System.in);
+        sc = new Scanner(System.in);
         while (true) {
             int opt = sc.nextInt();
             sc.nextLine();

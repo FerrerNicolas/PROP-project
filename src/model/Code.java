@@ -1,5 +1,8 @@
 package model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 import exceptions.InvalidNumberOfPins;
@@ -9,33 +12,54 @@ import exceptions.BadlyFormedCode;
 
 // Javi
 public class Code implements Cloneable {
-    private Integer code; // CHANGE TO INTEGER! SIMPLIFIES CODE ALL AROUND
+    private Vector<Integer> code; // CHANGE TO INTEGER! SIMPLIFIES CODE ALL AROUND
 
     //Getter
     public Integer getCode() {
-        return code;
+        int codeNum = 0;
+        for (int i = 0; i < code.size(); ++i) {
+            codeNum = (codeNum * 10) + this.code.get(i);
+        }
+        return codeNum;
+    }
+
+    public Vector<Integer> getCodeArray() {
+        return this.code;
+    }
+
+    //We populate the code recursively so the last element of the array is the least valuable number of the given code
+    private void populateCode(Integer code) throws BadlyFormedCode {
+        if (code/10 != 0) populateCode(code/10);
+        if (code%10 < 0 || code%10 > 6) throw new BadlyFormedCode();
+        else this.code.add(code%10);
     }
 
     //Setter
     public void setCode(Integer code) throws BadlyFormedCode { // CHANGED FOR EXCEPTIONS
-    	if(code > 7000 || code < 0) throw new BadlyFormedCode();
-    	if(code%1000 >= 700 || code%100 >= 70 || code%10 >= 7) throw new BadlyFormedCode();
+    	//if(code > 7000 || code < 0) throw new BadlyFormedCode();
+    	//if(code%1000 >= 700 || code%100 >= 70 || code%10 >= 7) throw new BadlyFormedCode();
+        populateCode(code);
+    }
 
+    public void setCode(Vector<Integer> code) throws BadlyFormedCode {
+        for (int i = 0; i < code.size(); ++i) {
+            if (code.get(i) < 0 || code.get(i) > 6) throw new BadlyFormedCode();
+        }
         this.code = code;
+
     }
 
     public Code() {
         // Default Constructor, need to make
         // Note: create attribute code to 0000
-        this.code = 0000;
+        this.code = new Vector<Integer>(Arrays.asList(0,0,0,0));
 
     }
 
-    public Code(Integer X) throws BadlyFormedCode {
+    public Code(Integer code) throws BadlyFormedCode {
         // Note: create attribute code to X!
-    	if(X > 7000 || X < 0) throw new BadlyFormedCode();
-    	if(X%1000 >= 700 || X%100 >= 70 || X%10 >= 7) throw new BadlyFormedCode();
-        this.code = X;
+    	this.code = new Vector<Integer>();
+    	populateCode(code);
     }
 
     /*
@@ -43,58 +67,28 @@ public class Code implements Cloneable {
      and right color in wrong position.
     */
     public Correction correct(Code code2) {
-        /*int white_pins, black_pins;
+        int white_pins, black_pins;
         white_pins = black_pins = 0;
-        Integer originalCode = this.code;
-        Integer codeToCompare = code2.getCode();
-        int[] originalCodeNumbers = {0,0,0,0};
-        int[] codeToCompareNumbers = {0,0,0,0};
-        for (int i = 0; i < 4; i++) {
-                if (originalCode%10 == codeToCompare%10) {
-                    ++black_pins;
-                    originalCodeNumbers[i] = -1;
-                    codeToCompareNumbers[i] = -2;
+        Vector<Integer> OriginalCode = this.code;
+        Vector<Integer> codeToCompare = getCodeArray();
+        for (int i = 0; i < OriginalCode.size(); i++) {
+            if (OriginalCode.elementAt(i).equals(codeToCompare.elementAt(i))) {
+                ++black_pins;
+                OriginalCode.set(i, -1);
+                codeToCompare.set(i, -2);
             }
-            originalCodeNumbers[i] = originalCode%10;
-            codeToCompareNumbers[i] = codeToCompare%10;
-            originalCode = originalCode /10;
-            codeToCompare = codeToCompare / 10;
         }
-        for (int i = 0; i < 4; ++i) {
-            if (originalCodeNumbers[i] != -1) {
-                for (int j = 0; j < 4; ++j) {
-                    if (originalCodeNumbers[i] == codeToCompareNumbers[j]) {
-                        codeToCompareNumbers[j] = -2;
-                        ++black_pins;
+        for (int i = 0; i < OriginalCode.size(); ++i) {
+            if (OriginalCode.elementAt(i) != -1) {
+                for (int j = 0; j < codeToCompare.size(); ++j) {
+                    if (OriginalCode.elementAt(i).equals(codeToCompare.elementAt(j))) {
+                        ++white_pins;
+                        codeToCompare.set(j, -2);
                         break;
                     }
                 }
             }
-        }*/
-    	Integer c1 = code;
-    	Integer c2 = code2.getCode();
-    	int white_pins = 0, black_pins = 0;
-    	Boolean[] checklist = {false, false, false, false};
-    	Boolean[] checklist2 = {false, false, false, false};
-    	for (int i = 0; i < 4; i++) {
-    		if(c1%10 == c2%10) {
-    			black_pins++; checklist[i]=true; checklist2[i]=true;
-    			}
-    		c1 /=10; c2 /= 10;
-    	}
-    	c1 = code;
-    	for(int i = 0; i<4; i++) {//6643 & SC(c2) 6634
-    		Integer tmp1 = c1 % 10;
-    		c1 = c1/10;
-    		c2 = code2.getCode();
-   			for(int j = 0; j<4; j++) {
-   				Integer tmp2 = c2 % 10;
-				c2 = c2 / 10;
-   				if (checklist[i] != true && checklist2[j]!=true) {
-   					if (tmp2.equals(tmp1)) { white_pins++; checklist[i]=true; checklist2[j]=true; }
-   				}
-       		}
-    	}
+        }
     	Correction corr = new Correction();
         try {
 			corr = new Correction(white_pins, black_pins);
@@ -107,7 +101,7 @@ public class Code implements Cloneable {
     public boolean equals(Object object) {
         boolean same = false;
         if (object != null && object instanceof Code) {
-            same = this.code.equals(((Code) object).getCode());
+            same = this.code.equals(((Code)object).getCodeArray());
         }
         return same;
     }
@@ -126,48 +120,30 @@ public class Code implements Cloneable {
             //throw new WrongColorException();
         	throw new BadlyFormedCode();
         }
-        if (Index < 1 || Index > 4) throw new ArrayIndexOutOfBoundsException();
-        //Changed how the color setter works, previously the position 1 was the rightmost position, with the changes
-        //the position 1 is the leftmost
-        int divider = (int)Math.pow(10, 5-Index); // divisor = 10 ^ Index;
-        int code_copy = this.code % divider;
-        divider = divider /10;
-        int colorAtIndex = code_copy / divider;
-        int diff = Color - colorAtIndex;
-        diff *= divider;
-        this.code += diff;
+        if (Index < 1 || Index > this.code.size()) throw new ArrayIndexOutOfBoundsException();
 
+        this.code.set(Index-1, Color);
     }
 
     public Boolean hasRepetitions() {
         //Selfexplanatory, need to change
-        int codeCopy = this.code;
-         Vector<Integer> numbers = new Vector<Integer>(0);
-        for (int i = 0; i < 4; ++i) {
-            int tmp = codeCopy%10;
-            if (!numbers.isEmpty() && numbers.contains(tmp)) return true;
-            numbers.add(tmp);
-            codeCopy /= 10;
+        ArrayList<Integer> codeNumbers = new ArrayList<>();
+        codeNumbers.add(this.code.get(0));
+        for (int i = 1; i < this.code.size(); ++i) {
+            if (codeNumbers.contains(this.code.get(i))) return true;
+            else codeNumbers.add(this.code.get(i));
         }
         return false;
     }
 
     public Boolean hasBlanks() {
-        int codeCopy = this.code;
-        for (int i = 0; i < 4; ++i) {
-            if (codeCopy %10 == 0) return true;
-            codeCopy = codeCopy/10;
+        for (int i = 0; i < this.code.size(); ++i) {
+            if (this.code.get(i) == 0) return true;
         }
         return false;
     }
 
-    /*
-    Do we still need this set code??
 
-    public void setCode(Integer X) {
-        this.code = X;
-    }
-    */
     public Code clone() { //NEED TO TEST FOR SURE
         Code code = null;
         try {
@@ -181,11 +157,9 @@ public class Code implements Cloneable {
     //VICTOR:
     public String toString() {
     	String s = "";
-    	Integer aux = code;
-    	for(int i=0; i<4; i++) {
-    		s = aux%10 + s;
-    		aux /= 10;
-    	}
+    	for (int i = 0; i < this.code.size(); i++) {
+    	    s += this.code.elementAt(i);
+        }
     	return s;
     }
 
