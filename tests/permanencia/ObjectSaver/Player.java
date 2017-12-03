@@ -1,8 +1,9 @@
-package model;
+package permanencia.ObjectSaver;
 
 import java.io.Serializable;
 
 //Victor
+
 public class Player implements Serializable {
 	private String playerName;
 	private Float gamesWon;
@@ -10,6 +11,8 @@ public class Player implements Serializable {
 	private Float totalScore;
 	private Float maxScore;
 	private Float minGuesses;
+	
+	private static final long serialVersionUID = 1L; //for player saving
 	
 	public Player(String name) {
 		playerName = name;
