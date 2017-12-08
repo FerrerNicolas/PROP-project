@@ -97,7 +97,8 @@ public class Code implements Cloneable {
     public Code(Integer code) throws BadlyFormedCode {
         // Note: create attribute code to X!
         this.code = new Vector<>();
-        populateCode(code);
+        int errorCode = populateCode(code);
+        if (errorCode < 0) throw new BadlyFormedCode();
     }
 
     public Code(Integer code, int size) throws BadlyFormedCode {
@@ -114,7 +115,7 @@ public class Code implements Cloneable {
         int white_pins, black_pins;
         white_pins = black_pins = 0;
         Vector<Integer> OriginalCode = (Vector<Integer>) this.code.clone();
-        Vector<Integer> codeToCompare = (Vector<Integer>) getCodeArray().clone();
+        Vector<Integer> codeToCompare = (Vector<Integer>) code2.getCodeArray().clone();
         for (int i = 0; i < OriginalCode.size(); i++) {
             if (OriginalCode.elementAt(i).equals(codeToCompare.elementAt(i))) {
                 ++black_pins;

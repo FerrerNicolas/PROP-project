@@ -114,7 +114,7 @@ public class Code implements Cloneable {
         int white_pins, black_pins;
         white_pins = black_pins = 0;
         Vector<Integer> OriginalCode = (Vector<Integer>) this.code.clone();
-        Vector<Integer> codeToCompare = (Vector<Integer>) getCodeArray().clone();
+        Vector<Integer> codeToCompare = (Vector<Integer>) code2.getCodeArray().clone();
         for (int i = 0; i < OriginalCode.size(); i++) {
             if (OriginalCode.elementAt(i).equals(codeToCompare.elementAt(i))) {
                 ++black_pins;

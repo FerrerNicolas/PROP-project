@@ -37,11 +37,11 @@ public class EmuladorGenetic {
                     b.setSecretCode(secretCode);
                 }
             } catch (CodeIsInvalid codeIsInvalid) {
-                codeIsInvalid.printStackTrace();
+                System.out.println("Input a valid code");
             } catch (BadlyFormedCode badlyFormedCode) {
                 System.out.println("Wrong code inputted, valid codes are represented by numbers from 0 to 6");
+                System.out.println("Input a valid code");
             }
-            System.out.println("Input a valid code");
         }
         Genetic gen = new Genetic(g);
         Code guess;
@@ -59,7 +59,6 @@ public class EmuladorGenetic {
         } catch (NoGuessToBeCorrected correctionIsInvalid) {
             correctionIsInvalid.printStackTrace();
         }
-
         while (!b.hasWon() && b.turnsDone() < 12) {
             System.out.println(
                     "Tried " + guess.getCode().toString() + ", got " + correction.getBlackPins() + " black pins and " +
