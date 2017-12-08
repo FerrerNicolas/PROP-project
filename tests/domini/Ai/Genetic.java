@@ -11,31 +11,14 @@ import static java.lang.StrictMath.abs;
 import static java.lang.StrictMath.pow;
 
 //Javi
-public class Genetic extends Ai {
+public class Genetic  extends Ai{
     private int[] AvailableColors;
     private ArrayList<Code> population;
     private ArrayList<Code> chosenOnes;
     private ArrayList<Code> previousGuesses;
     private int codeSize;
-    private int pop_size = 100;
-    private int max_generations = 60;
-
-    public Genetic(Game g) {
-        super(g);
-        //We initialize the array of available colors.
-
-        if (!game.getDifficulty().equals(Diff.HARD)) {
-            AvailableColors = new int[]{1, 2, 3, 4, 5, 6};
-            codeSize = 4;
-        } else {
-            AvailableColors = new int[]{0, 1, 2, 3, 4, 5, 6};
-            codeSize = 5;
-        }
-    }
-
-    /*
-    Takes a random interval from the code and inverts the positions.
-     */
+    private int pop_size;
+    private int max_generations;
 
     /*
         Assigns a fitnessScore to a guess, the fitness score is used to find a suitable
@@ -49,40 +32,22 @@ public class Genetic extends Ai {
         int bPinsDifference = 0;
         for (int i = 0; i < previousGuesses.size(); ++i) {
             Correction comparison = previousGuesses.get(i).correct(guess);
-            wPinsDifference += abs(previousCorrection.get(i).getWhitePins() - comparison.getWhitePins());
+            wPinsDifference +=abs(previousCorrection.get(i).getWhitePins() - comparison.getWhitePins());
 
             bPinsDifference += abs(previousCorrection.get(i).getBlackPins() - comparison.getBlackPins());
         }
         return (wPinsDifference + bPinsDifference);
     }
 
-    private  Code reverse(Code code) {
-        Random rng = new Random();
-        int i1 = rng.nextInt(codeSize) + 1;
-        int i2 = rng.nextInt(codeSize) + 1;
-        int min = StrictMath.min(i1, i2);
-        int max = StrictMath.max(i1, i2);
-        int interval = code.getCode();
-        int maxInterval = (int) pow(10, max);
-        interval = interval % maxInterval;
-        int minInterval = (int) pow(10, min - 1);
-        interval = interval / minInterval;
-        for (int i = 0; i <= max - min; ++i) {
-            int color = interval % 10;
-            try {
-                code.setColorAt(max - i, color);
-            } catch (BadlyFormedCode badlyFormedCode) {
-
-            }
-            interval /= 10;
-        }
-        return code;
-    }
-
 
     private Code crossover(Code c1, Code c2) {
         Random rnJesus = new Random();
-        Code codeRes = new Code();
+        Code codeRes = null;
+        try {
+            codeRes = new Code(0, codeSize);
+        } catch (BadlyFormedCode badlyFormedCode) {
+            badlyFormedCode.printStackTrace();
+        }
         int code1 = c1.getCode();
         int code2 = c2.getCode();
         for (int i = 1; i <= codeSize; ++i) {
@@ -92,7 +57,8 @@ public class Genetic extends Ai {
                 } catch (BadlyFormedCode badlyFormedCode) {
 
                 }
-            } else {
+            }
+            else {
                 try {
                     codeRes.setColorAt(i, code2 % 10);
                 } catch (BadlyFormedCode e) {
@@ -106,7 +72,7 @@ public class Genetic extends Ai {
 
     private Code mutate(Code code) {
         Random rnJesus = new Random();
-        int index = (rnJesus.nextInt(codeSize) + 1);
+        int index = (rnJesus.nextInt(codeSize) +1);
         int color = rnJesus.nextInt(AvailableColors.length);
         try {
             code.setColorAt(index, AvailableColors[color]);
@@ -116,51 +82,92 @@ public class Genetic extends Ai {
         return code;
     }
 
+    public Genetic(Game g) {
+        super(g);
+        //We initialize the array of available colors.
+
+        if (!game.getDifficulty().equals(Diff.HARD)) {
+            AvailableColors = new int[]{1, 2, 3, 4, 5, 6};
+            pop_size = 100;
+            max_generations = 60;
+            codeSize = 4;
+        } else {
+            AvailableColors = new int[]{0, 1, 2, 3, 4, 5, 6};
+            pop_size = 500;
+            max_generations = 200;
+            codeSize = 5;
+        }
+    }
+
     private Code permute(Code code) {
         Random rnJesus = new Random();
         int cd = code.getCode();
-        for (int i = 0; i < codeSize; ++i) {
-            int index1 = (rnJesus.nextInt(codeSize) + 1);
-            int index2 = (rnJesus.nextInt(codeSize) + 1);
-            if (index1 == index2) return code;
-            int i1 = (int) Math.pow(10, index1);
-            int i2 = (int) Math.pow(10, index2);
-            int color1 = cd % i1;
-            i1 /= 10;
-            color1 /= i1;
-            int color2 = cd % i2;
-            i2 /= 10;
-            color2 /= i2;
-            try {
-                code.setColorAt(index1, color2);
-                code.setColorAt(index2, color1);
-            } catch (BadlyFormedCode badlyFormedCode) {
-
-            }
+        int index1 = (rnJesus.nextInt(codeSize) + 1);
+        int index2 = (rnJesus.nextInt(codeSize) + 1);
+        if (index1 == index2) return code;
+        int i1 = (int) Math.pow(10, index1);
+        int i2 = (int) Math.pow(10, index2);
+        int color1 = cd % i1;
+        i1 /= 10;
+        color1 /= i1;
+        int color2 = cd % i2;
+        i2 /= 10;
+        color2 /= i2;
+        try {
+            code.setColorAt(index1, color2);
+            code.setColorAt(index2, color1);
+        } catch (BadlyFormedCode badlyFormedCode) {
+            System.out.println("There was an error giving a random color");
         }
         return code;
     }
 
-    public Code codeBreakerTurn(Code code, Correction correction) {
+    /*
+    Takes a random interval from the code and inverts the positions.
+     */
+    private Code reverse(Code code) {
+        Random rng = new Random();
+        int i1 = rng.nextInt(codeSize) + 1;
+        int i2 = rng.nextInt(codeSize) + 1;
+        int min = StrictMath.min(i1, i2);
+        int max = StrictMath.max(i1, i2);
+        int interval = code.getCode();
+        int maxInterval = (int)pow(10, max);
+        interval = interval % maxInterval;
+        int minInterval = (int)pow(10, min-1);
+        interval = interval / minInterval;
+        for (int i = 0; i <= max-min; ++i) {
+            int color = interval%10;
+            try {
+                code.setColorAt(max- i, color);
+            } catch (BadlyFormedCode badlyFormedCode) {
+                System.out.println("We should never have a badlyformedcode");
+            }
+            interval /= 10;
+        }
+        return code;
+    }
+
+    public Code codeBreakerTurn(Code code, Correction correction){
         if (code == null && correction == null) {
             if (game.getDifficulty() == Diff.EASY) {
                 try {
                     return new Code(1234);
                 } catch (BadlyFormedCode badlyFormedCode) {
-
+                    System.out.println("It shouldn't go in here");
                 }
-            } else if (game.getDifficulty() == Diff.NORMAL){
+            }
+            else if (game.getDifficulty() == Diff.NORMAL) {
                 try {
                     return new Code(1123);
                 } catch (BadlyFormedCode badlyFormedCode) {
+                    System.out.println("It shouldn't go in here");
                 }
             }
-            else {
+            else if (game.getDifficulty() == Diff.HARD) {
                 try {
                     return new Code(11223);
-                } catch (BadlyFormedCode e) {
-
-                }
+                } catch (BadlyFormedCode e) {}
             }
         }
         population = new ArrayList<>();
@@ -172,9 +179,7 @@ public class Genetic extends Ai {
                 Code c = new Code();
                 try {
                     c = new Code(0, codeSize);
-                } catch (BadlyFormedCode e) {
-
-                }
+                } catch (BadlyFormedCode e) {}
                 for (int j = 1; j <= codeSize; ++j) {
                     try {
                         c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
@@ -182,20 +187,20 @@ public class Genetic extends Ai {
                         System.out.println("AvailableColors array wrongly initialized");
                     }
                 }
-                if (codeSize == c.getCodeSize()) population.add(c);
+                if (c.getCodeSize() == codeSize) population.add(c);
             }
         }
         int gen_num = 1;
-        previousGuesses = game.getBoard().getGuesses();
+        previousGuesses= game.getBoard().getGuesses();
         ArrayList<Code> sons = new ArrayList<Code>();
-        while (chosenOnes.size() <= pop_size && gen_num <= max_generations) {
+        while ((chosenOnes.size() <= pop_size && gen_num <= max_generations) || chosenOnes.size() == 0) {
             for (int i = 0; i < population.size(); ++i) {
-                if (i == population.size() - 1) {
+                if (i == population.size()-1) {
                     sons.add(population.get(i));
                     break;
                 }
                 Code son;
-                son = crossover(population.get(i), population.get(i + 1));
+                son = crossover(population.get(i), population.get(i+1));
                 if (rng.nextFloat() < 0.03) {
                     son = mutate(son);
 
@@ -220,7 +225,10 @@ public class Genetic extends Ai {
             population.addAll(chosenOnes);
             if (population.isEmpty() || population.size() < pop_size) {
                 for (int i = population.size(); i < pop_size; ++i) {
-                    Code c = new Code();
+                    Code c = null;
+                    try {
+                        c = new Code(0, codeSize);
+                    } catch (BadlyFormedCode badlyFormedCode) {}
                     for (int j = 1; j <= codeSize; ++j) {
                         try {
                             c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
@@ -237,12 +245,11 @@ public class Genetic extends Ai {
         //Right now code searches for a random guess, best solution would be to add the most similar to the previous
         //guesses
         Code nextGuess;
+
         nextGuess = chosenOnes.get(rng.nextInt(chosenOnes.size()));
         while (previousGuesses.contains(nextGuess)) {
             nextGuess = chosenOnes.get(rng.nextInt(chosenOnes.size()));
         }
         return nextGuess;
     }
-
-
 }
