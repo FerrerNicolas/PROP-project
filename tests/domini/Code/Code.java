@@ -24,22 +24,60 @@ public class Code implements Cloneable {
         return codeNum;
     }
 
+    public Integer getCodeSize() {
+        return code.size();
+    }
+
     public Vector<Integer> getCodeArray() {
         return this.code;
     }
 
     //We populate the code recursively so the last element of the array is the least valuable number of the given code
-    private void populateCode(Integer code) throws BadlyFormedCode {
-        if (code/10 != 0) populateCode(code/10);
-        if (code%10 < 0 || code%10 > 6) throw new BadlyFormedCode();
+    //if there is an error the function returns -1, if everything worked returns a 0
+    private int populateCode(Integer code) {
+        int previousError = 0;
+        if (code/10 != 0) previousError = populateCode(code/10);
+        if (code%10 < 0 || code%10 > 6) return -1;
         else this.code.add(code%10);
+        return previousError;
+    }
+    //Populates the code of a given size, if the code is invalid returns -1, else returns a 0
+    private int populateSizedCode(Integer code, int size) {
+        if (size == 1) {
+            if (code < 0 || code > 6) return -1;
+            this.code.add(code);
+            return 0;
+        }
+        else {
+            int previousError = populateSizedCode(code/10, size-1);
+            if (code%10 < 0 && code%10 > 6) return -1;
+            this.code.add(code%10);
+            return previousError;
+        }
     }
 
     //Setter
     public void setCode(Integer code) throws BadlyFormedCode { // CHANGED FOR EXCEPTIONS
         //if(code > 7000 || code < 0) throw new BadlyFormedCode();
         //if(code%1000 >= 700 || code%100 >= 70 || code%10 >= 7) throw new BadlyFormedCode();
-        populateCode(code);
+        Vector<Integer> previousCode = (Vector<Integer>)this.code.clone();
+        this.code = new Vector<>();
+        int errorCode = populateCode(code);
+        if (errorCode < 0) {
+            this.code = previousCode;
+            throw new BadlyFormedCode();
+        }
+    }
+
+    //Populates the code of a given size, must be used when a code starts with blanks.
+    public void setCode(Integer code, int size) throws BadlyFormedCode {
+        Vector<Integer> previousCode = (Vector<Integer>)this.code.clone();
+        this.code = new Vector<>();
+        int errorCode = populateSizedCode(code, size);
+        if (errorCode < 0) {
+            this.code = previousCode;
+            throw new BadlyFormedCode();
+        }
     }
 
     public void setCode(Vector<Integer> code) throws BadlyFormedCode {
@@ -63,6 +101,12 @@ public class Code implements Cloneable {
         populateCode(code);
     }
 
+    public Code(Integer code, int size) throws BadlyFormedCode {
+        this.code = new Vector<Integer>();
+        int errorCode = populateSizedCode(code, size);
+        if (errorCode < 0) throw new BadlyFormedCode();
+    }
+
     /*
      Compares two codes and give the result of the solution in position correct colors
      and right color in wrong position.
@@ -70,8 +114,8 @@ public class Code implements Cloneable {
     public Correction correct(Code code2) {
         int white_pins, black_pins;
         white_pins = black_pins = 0;
-        Vector<Integer> OriginalCode = this.code;
-        Vector<Integer> codeToCompare = getCodeArray();
+        Vector<Integer> OriginalCode = (Vector<Integer>) this.code.clone();
+        Vector<Integer> codeToCompare = (Vector<Integer>) getCodeArray().clone();
         for (int i = 0; i < OriginalCode.size(); i++) {
             if (OriginalCode.elementAt(i).equals(codeToCompare.elementAt(i))) {
                 ++black_pins;

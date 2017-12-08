@@ -13,7 +13,7 @@ public class Genetic  extends Ai{
     private ArrayList<Code> population;
     private ArrayList<Code> chosenOnes;
     private ArrayList<Code> previousGuesses;
-
+    private int codeSize;
     private int pop_size;
     private int max_generations;
 
@@ -82,10 +82,12 @@ public class Genetic  extends Ai{
             AvailableColors = new int[]{1, 2, 3, 4, 5, 6};
             pop_size = 100;
             max_generations = 60;
+            codeSize = 4;
         } else {
             AvailableColors = new int[]{0, 1, 2, 3, 4, 5, 6};
             pop_size = 500;
             max_generations = 200;
+            codeSize = 5;
         }
     }
 
@@ -162,14 +164,14 @@ public class Genetic  extends Ai{
         if (population.isEmpty() || population.size() < pop_size) {
             for (int i = population.size(); i < pop_size; ++i) {
                 Code c = new Code();
-                for (int j = 1; j < 5; ++j) {
+                for (int j = 1; j <= codeSize; ++j) {
                     try {
                         c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
                     } catch (BadlyFormedCode badlyFormedCode) {
                         System.out.println("AvailableColors array wrongly initialized");
                     }
                 }
-                population.add(c);
+                if (c.getCodeSize() == codeSize) population.add(c);
             }
         }
         int gen_num = 1;
@@ -224,21 +226,7 @@ public class Genetic  extends Ai{
         //Right now code searches for a random guess, best solution would be to add the most similar to the previous
         //guesses
         Code nextGuess;
-        /*
-        if (chosenOnes.size() == 0) {
 
-            System.out.println("Didn't get any valid answer");
-            Code noChosenOnes = new Code();
-            for (int j = 1; j < 5; ++j) {
-                try {
-                    noChosenOnes.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
-                } catch (BadlyFormedCode badlyFormedCode) {
-                    System.out.println("AvailableColors array wrongly initialized");
-                }
-                return noChosenOnes;
-            }
-        }
-        */
         nextGuess = chosenOnes.get(rng.nextInt(chosenOnes.size()));
         while (previousGuesses.contains(nextGuess)) {
             nextGuess = chosenOnes.get(rng.nextInt(chosenOnes.size()));

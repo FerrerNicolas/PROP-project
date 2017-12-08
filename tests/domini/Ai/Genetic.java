@@ -16,7 +16,7 @@ public class Genetic extends Ai {
     private ArrayList<Code> population;
     private ArrayList<Code> chosenOnes;
     private ArrayList<Code> previousGuesses;
-
+    private int codeSize;
     private int pop_size = 100;
     private int max_generations = 60;
 
@@ -26,36 +26,16 @@ public class Genetic extends Ai {
 
         if (!game.getDifficulty().equals(Diff.HARD)) {
             AvailableColors = new int[]{1, 2, 3, 4, 5, 6};
+            codeSize = 4;
         } else {
             AvailableColors = new int[]{0, 1, 2, 3, 4, 5, 6};
+            codeSize = 5;
         }
     }
 
     /*
     Takes a random interval from the code and inverts the positions.
      */
-    public static Code reverse(Code code) {
-        Random rng = new Random();
-        int i1 = rng.nextInt(4) + 1;
-        int i2 = rng.nextInt(4) + 1;
-        int min = StrictMath.min(i1, i2);
-        int max = StrictMath.max(i1, i2);
-        int interval = code.getCode();
-        int maxInterval = (int) pow(10, max);
-        interval = interval % maxInterval;
-        int minInterval = (int) pow(10, min - 1);
-        interval = interval / minInterval;
-        for (int i = 0; i <= max - min; ++i) {
-            int color = interval % 10;
-            try {
-                code.setColorAt(max - i, color);
-            } catch (BadlyFormedCode badlyFormedCode) {
-
-            }
-            interval /= 10;
-        }
-        return code;
-    }
 
     /*
         Assigns a fitnessScore to a guess, the fitness score is used to find a suitable
@@ -76,12 +56,36 @@ public class Genetic extends Ai {
         return (wPinsDifference + bPinsDifference);
     }
 
+    private  Code reverse(Code code) {
+        Random rng = new Random();
+        int i1 = rng.nextInt(codeSize) + 1;
+        int i2 = rng.nextInt(codeSize) + 1;
+        int min = StrictMath.min(i1, i2);
+        int max = StrictMath.max(i1, i2);
+        int interval = code.getCode();
+        int maxInterval = (int) pow(10, max);
+        interval = interval % maxInterval;
+        int minInterval = (int) pow(10, min - 1);
+        interval = interval / minInterval;
+        for (int i = 0; i <= max - min; ++i) {
+            int color = interval % 10;
+            try {
+                code.setColorAt(max - i, color);
+            } catch (BadlyFormedCode badlyFormedCode) {
+
+            }
+            interval /= 10;
+        }
+        return code;
+    }
+
+
     private Code crossover(Code c1, Code c2) {
         Random rnJesus = new Random();
         Code codeRes = new Code();
         int code1 = c1.getCode();
         int code2 = c2.getCode();
-        for (int i = 1; i <= 4; ++i) {
+        for (int i = 1; i <= codeSize; ++i) {
             if (rnJesus.nextFloat() < 0.5) {
                 try {
                     codeRes.setColorAt(i, code1 % 10);
@@ -102,7 +106,7 @@ public class Genetic extends Ai {
 
     private Code mutate(Code code) {
         Random rnJesus = new Random();
-        int index = (rnJesus.nextInt(4) + 1);
+        int index = (rnJesus.nextInt(codeSize) + 1);
         int color = rnJesus.nextInt(AvailableColors.length);
         try {
             code.setColorAt(index, AvailableColors[color]);
@@ -115,9 +119,9 @@ public class Genetic extends Ai {
     private Code permute(Code code) {
         Random rnJesus = new Random();
         int cd = code.getCode();
-        for (int i = 0; i < 4; ++i) {
-            int index1 = (rnJesus.nextInt(4) + 1);
-            int index2 = (rnJesus.nextInt(4) + 1);
+        for (int i = 0; i < codeSize; ++i) {
+            int index1 = (rnJesus.nextInt(codeSize) + 1);
+            int index2 = (rnJesus.nextInt(codeSize) + 1);
             if (index1 == index2) return code;
             int i1 = (int) Math.pow(10, index1);
             int i2 = (int) Math.pow(10, index2);
@@ -143,13 +147,19 @@ public class Genetic extends Ai {
                 try {
                     return new Code(1234);
                 } catch (BadlyFormedCode badlyFormedCode) {
-                    System.out.println("It shouldn't go in here");
+
                 }
-            } else {
+            } else if (game.getDifficulty() == Diff.NORMAL){
                 try {
                     return new Code(1123);
                 } catch (BadlyFormedCode badlyFormedCode) {
-                    System.out.println("It shouldn't go in here");
+                }
+            }
+            else {
+                try {
+                    return new Code(11223);
+                } catch (BadlyFormedCode e) {
+
                 }
             }
         }
@@ -160,14 +170,19 @@ public class Genetic extends Ai {
         if (population.isEmpty() || population.size() < pop_size) {
             for (int i = population.size(); i < pop_size; ++i) {
                 Code c = new Code();
-                for (int j = 1; j < 5; ++j) {
+                try {
+                    c = new Code(0, codeSize);
+                } catch (BadlyFormedCode e) {
+
+                }
+                for (int j = 1; j <= codeSize; ++j) {
                     try {
                         c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
                     } catch (BadlyFormedCode badlyFormedCode) {
                         System.out.println("AvailableColors array wrongly initialized");
                     }
                 }
-                population.add(c);
+                if (codeSize == c.getCodeSize()) population.add(c);
             }
         }
         int gen_num = 1;
@@ -206,7 +221,7 @@ public class Genetic extends Ai {
             if (population.isEmpty() || population.size() < pop_size) {
                 for (int i = population.size(); i < pop_size; ++i) {
                     Code c = new Code();
-                    for (int j = 1; j < 5; ++j) {
+                    for (int j = 1; j <= codeSize; ++j) {
                         try {
                             c.setColorAt(j, AvailableColors[rng.nextInt(AvailableColors.length)]);
                         } catch (BadlyFormedCode badlyFormedCode) {

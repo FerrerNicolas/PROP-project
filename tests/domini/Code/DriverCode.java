@@ -13,11 +13,12 @@ public class DriverCode {
     public static void showMenu() {
         System.out.println("Tester for code, choose the option with the numeric identifier");
         System.out.println("1. Create a new code with the numbers you want, or change the actual code (Code 0000 by default)");
-        System.out.println("2. Change a color of the code at the position you want");
-        System.out.println("3. Check if the code has repititions and blanks");
-        System.out.println("4. Check the score a code would get compared with another one");
-        System.out.println("5. Clone the code you are working with");
-        System.out.println("6. Exit the test");
+        System.out.println("2. Creates a code of a given size");
+        System.out.println("3. Change a color of the code at the position you want");
+        System.out.println("4. Check if the code has repititions and blanks");
+        System.out.println("5. Check the score a code would get compared with another one");
+        System.out.println("6. Clone the code you are working with");
+        System.out.println("7. Exit the test");
     }
 
     public static void test1() {
@@ -36,7 +37,28 @@ public class DriverCode {
         System.out.println("You created the code: " + code.toString());
     }
 
-    public static void test2() {
+    private static void test2() {
+        System.out.println("Input a code size");
+        int codeSize = sc.nextInt();
+        System.out.println("Now input a code of the given size, if you input a code greater than size the leftmost " +
+                "positions will be ignored, and if it is lower, the rightmost will be considered as blank");
+        boolean codeCreated = false;
+        while (!codeCreated) {
+            int newCode = sc.nextInt();
+            try {
+                code.setCode(newCode, codeSize);
+                codeCreated = true;
+            } catch (BadlyFormedCode e) {
+                codeCreated = false;
+                System.out.println("A code is represented with numbers between 0 and 6");
+                System.out.println("Input a valid code");
+            }
+
+        }
+        System.out.println("You set the code to " + code.toString());
+    }
+
+    private static void test3() {
         System.out.println("Input a position between 1 and 4");
         int index = sc.nextInt();
         while (index < 1 || index > 4) {
@@ -59,7 +81,7 @@ public class DriverCode {
                 + oldCode + ", you know have the code: " + code.toString());
     }
 
-    public static void test3() {
+    private static void test4() {
         boolean repetitions = code.hasRepetitions();
         boolean blanks = code.hasBlanks();
         if (!repetitions && !blanks)
@@ -71,7 +93,7 @@ public class DriverCode {
         else System.out.println("The code: " + code.toString() + " has both repetitions and blanks");
     }
 
-    public static void test4() {
+    private static void test5() {
         System.out.println("Input a new code to compare to the code you actually have");
         boolean codeCreated = false;
         Code code2 = new Code();
@@ -90,7 +112,7 @@ public class DriverCode {
                 + correction.getWhitePins() + "white pins");
     }
 
-    private static void test5() {
+    private static void test6() {
         Code cloned = code.clone();
         System.out.println("We cloned the code " + code.toString() + " and created a new code with value "
                 + cloned.toString());
@@ -119,6 +141,9 @@ public class DriverCode {
                     test5();
                     break;
                 case 6:
+                    test6();
+                    break;
+                case 7:
                     System.exit(0);
                     break;
                 default:
