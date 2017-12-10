@@ -8,13 +8,15 @@ public class DriverCorrection {
 	private static Correction correction;
 	
 	public static void test1(Scanner sc) {
+		System.out.println("Input size of the code corresponding to the correction to create: ");
+    	int cSize = sc.nextInt();
     	System.out.println("Input number of white pins for the correction to create: ");
     	int w = sc.nextInt();
     	System.out.println("Input number of black pins for the correction to create: ");
     	int b = sc.nextInt();
     	try {
-			correction = new Correction(w,b);
-			System.out.println("Created correction with " + w + " white pins and " + b + " black pins");
+			correction = new Correction(w,b, cSize);
+			System.out.println("Created correction of size "+ cSize +" with " + w + " white pins and " + b + " black pins");
 		} catch (InvalidNumberOfPins e) {
 			System.out.println("Please enter a valid amount of pins.");
     		test1(sc);
@@ -76,6 +78,8 @@ public class DriverCorrection {
 		if (correction == null) {
     		System.out.println("Invalid Operation, you need to create a correction first using Option 1");
     	}else {
+    		System.out.println("Input size of the code corresponding to the correction to compare to: ");
+        	int cSize = sc.nextInt();
     		System.out.println("Input number of white pins for the correction to compare to: ");
     		int w = sc.nextInt();
     		System.out.println("Input number of black pins for the correction to compare to: ");
@@ -83,13 +87,14 @@ public class DriverCorrection {
     		
     		Correction tmp;
 			try {
-				tmp = new Correction(w,b);
+				tmp = new Correction(w,b,cSize);
 				int p = correction.getBlackPins();
 	    		int q = correction.getWhitePins();
+	    		int r = correction.getCodeSize();
 	    		boolean isEqual = correction.equals(tmp);
-	    		System.out.println("Compared to " + q + " white pins and " + p + " black pins, got " +isEqual);
+	    		System.out.println("Compared to "+r+" size " + q + " white pins and " + p + " black pins, got " +isEqual);
 			} catch (InvalidNumberOfPins e) {
-				System.out.println("Please enter a valid amount of pins.");
+				System.out.println("Please enter a valid amount of pins and size.");
 	    		test6(sc);
 			}
     	}
@@ -106,9 +111,35 @@ public class DriverCorrection {
     		System.out.println("Invalid Operation, you need to create a correction first using Option 1");
     	}else {
     		Correction cloned = correction.clone();
-    		System.out.println("Cloned correction has "+cloned.toString());
+    		System.out.println("Cloned correction has "+cloned.toString() + " size " + cloned.getCodeSize());
     		Boolean areEqual = cloned == correction;
     		System.out.println("Clone and correction are the same instance: "+areEqual);
+    	}
+	}
+	public static void test10() {
+		if (correction == null) {
+    		System.out.println("Invalid Operation, you need to create a correction first using Option 1");
+    	}else {
+    		int p = correction.getCodeSize();
+    		System.out.print("Size: ");
+    		System.out.println(p);
+    	}
+	}
+	public static void test11(Scanner sc) {
+		if (correction == null) {
+    		System.out.println("Invalid Operation, you need to create a correction first using Option 1");
+    	}else {
+    		System.out.println("Input size of code corresponding to correction: ");
+    		int q = sc.nextInt();
+    		
+    		try {
+				correction.setCodeSize(q);
+				int p = correction.getCodeSize();
+	    		System.out.println("Set size to: "+p);
+			} catch (InvalidNumberOfPins e) {
+				System.out.println("Please a valid size for current pins.");
+	    		test11(sc);
+			}	
     	}
 	}
 	
@@ -123,6 +154,8 @@ public class DriverCorrection {
         System.out.println("7- Print a string representing the correction");
         System.out.println("8- Clone the correction and print it's info and their references");
         System.out.println("9- End test");
+        System.out.println("10- Get size of code corresponding to the correction");
+        System.out.println("11- Set size of code corresponding to the correction");
 	}
 	
 	public static void main(String[] args) {
@@ -164,6 +197,12 @@ public class DriverCorrection {
                 case 9:
                 	theresMore = false;
                     break;
+                case 10:
+                	test10();
+                	break;
+                case 11:
+                	test11(sc);
+                	break;
                 default:
                     System.out.println("Invalid Option, try again.");
             }

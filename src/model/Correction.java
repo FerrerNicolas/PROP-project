@@ -6,10 +6,12 @@ import exceptions.*;
 public class Correction implements Cloneable{
 	private int whitePins;
 	private int blackPins;
+	private int codeSize;
 	
 	public Correction() {
 		whitePins = 0;
 		blackPins = 0;
+		codeSize = 4;
 	}
 	
 	public Correction(int wPins, int bPins) throws InvalidNumberOfPins{
@@ -18,6 +20,17 @@ public class Correction implements Cloneable{
 		else {
 			whitePins = wPins;
 			blackPins = bPins;
+			codeSize = 4;
+		}
+	}
+	
+	public Correction(int wPins, int bPins, int cSize) throws InvalidNumberOfPins{
+		if (wPins+bPins > cSize || wPins > cSize || bPins > cSize)
+			throw (new InvalidNumberOfPins());
+		else {
+			whitePins = wPins;
+			blackPins = bPins;
+			codeSize = cSize;
 		}
 	}
 	
@@ -29,8 +42,12 @@ public class Correction implements Cloneable{
 		return blackPins;
 	}
 	
+	public int getCodeSize() {
+		return codeSize;
+	}
+	
 	public void setWhitePins(int wPins) throws InvalidNumberOfPins{
-		if (wPins+this.blackPins > 4 || wPins > 4)
+		if (wPins+this.blackPins > codeSize || wPins > codeSize)
 			throw (new InvalidNumberOfPins());
 		else {
 			whitePins = wPins;
@@ -38,10 +55,18 @@ public class Correction implements Cloneable{
 	}
 	
 	public void setBlackPins(int bPins) throws InvalidNumberOfPins{
-		if (this.whitePins+bPins > 4 || bPins > 4)
+		if (this.whitePins+bPins > codeSize || bPins > codeSize)
 			throw (new InvalidNumberOfPins());
 		else {
 			blackPins = bPins;
+		}
+	}
+	
+	public void setCodeSize(int cSize) throws InvalidNumberOfPins{
+		if (this.whitePins+this.blackPins > cSize)
+			throw (new InvalidNumberOfPins());
+		else {
+			codeSize = cSize;
 		}
 	}
 	
@@ -52,7 +77,7 @@ public class Correction implements Cloneable{
 	public boolean equals(Object object) {
         boolean same = false;
         if (object != null && object instanceof Correction) {
-            same = this.whitePins == ((Correction)object).getWhitePins() && this.blackPins == ((Correction)object).getBlackPins();
+            same = this.whitePins == ((Correction)object).getWhitePins() && this.blackPins == ((Correction)object).getBlackPins() && this.codeSize == ((Correction)object).getCodeSize();
         }
         return same;
     }
