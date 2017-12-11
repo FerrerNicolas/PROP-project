@@ -5,15 +5,15 @@ public class ObjectSaverDriver {
 	
 	public static void main(String[] args) {
 		
-		Player p = new Player("Zenny");
-		p.updateRecords(false, 3f, 12);
-		p.updateRecords(false, 3f, 12);
+		ObjectSaver o = new ObjectSaver("tests/permanencia/ObjectSaver/savedPlayers/");
+		
+		Player p = new Player("Zen");
 		p.updateRecords(false, 3f, 12);
 		p.updateRecords(false, 3f, 12);
 		p.updateRecords(false, 3f, 12);
 		p.updateRecords(true, 14f, 6);
-		ObjectSaver.savePlayer(p, "tests/permanencia/ObjectSaver/savedPlayers/");
-	    Player p2 = ObjectSaver.loadPlayer("Zenny", "tests/permanencia/ObjectSaver/savedPlayers/");
+		o.savePlayer(p);
+	    Player p2 = o.loadPlayer("Zen");
 	    System.out.println("Original player stats:");
 	    System.out.println(p.getPlayerName());
 	    System.out.println(p.getFinishedGames());
