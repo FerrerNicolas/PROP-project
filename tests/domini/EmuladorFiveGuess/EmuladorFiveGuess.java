@@ -29,7 +29,7 @@ public class EmuladorFiveGuess {
 		while(!correctinput) {
 			secret = sc.nextInt();
 			try{
-				secretCode = new Code(secret);
+				secretCode = new Code(secret, g.getCodeMaxLength());
 				correctinput = true;
 				if(g.codeIsValid(secretCode)) 
 					b.setSecretCode(secretCode);

@@ -13,9 +13,10 @@ public class FiveGuess extends Ai {
 		S = new ArrayList<Code>();
 		Integer c = 0000;
 		Code code = new Code();
-		while (c < 7000) {
+		Integer length_multiplier = (int) Math.pow(10, (int) g.getCodeMaxLength()-1);
+		while (c < 7*length_multiplier) {
 			try {
-				code.setCode(c);
+				code.setCode(c, g.getCodeMaxLength());
 			} catch (BadlyFormedCode e) {
 				//THIS SHOULD NEVER HAPPEN
 			}
@@ -24,15 +25,18 @@ public class FiveGuess extends Ai {
 				S.add(code.clone());
 			}
 			c++;
+			Integer aux = c.intValue(); //check for aliasing?
+			int i = 1;
+			while((aux%10) == 7) {
+				aux /=10;
+				aux+=1;
+				c+=3*i;
+				i*=10;
+			}
 			if ((c%10)       == 7) c +=   3;
 			if ((c%100/10)   == 7) c +=  30;
 			if ((c%1000/100) == 7) c += 300; //Overflow managing
 		}
-		/*for(int i = 0; i < S.size(); i++) {
-			System.out.print(S.get(i).getCode() + " ");
-			System.out.println(unusedGuesses.get(i).getCode());
-		}*/
-		//RN this should build all the set!
 	}
 	
 	public Code codeBreakerTurn(Code code, Correction correction) throws CodeOrCorrectionNull, CodeAlreadyUsed { //In case javi does not have it, consulting board may be best (through game)
@@ -40,7 +44,9 @@ public class FiveGuess extends Ai {
 		if(code == null && correction == null) {
 			if(game.getDifficulty() == Diff.EASY)  
 				return new Code(1234);
-			return new Code(1122);
+			if(game.getDifficulty() == Diff.NORMAL) 
+				return new Code(1122);
+			return new Code(1122, game.getCodeMaxLength());
 		} else if (code == null || correction == null) throw (new CodeOrCorrectionNull());
 		} catch( BadlyFormedCode e)  {
 			//THIS SHOULD NEVER HAPPEN
@@ -66,9 +72,9 @@ public class FiveGuess extends Ai {
 		int minScore = 0;
 		for(i = 0; i < unusedGuesses.size(); i++) {
 			ArrayList<ArrayList<Integer> > hitCount =  new ArrayList<ArrayList<Integer> >();
-			for(int a=0; a < 5; a++) {
+			for(int a=0; a < game.getCodeMaxLength()+1; a++) {
 				ArrayList<Integer> r = new ArrayList<Integer>();
-				for(int b = 0; b < 5; b++) r.add(0);
+				for(int b = 0; b < game.getCodeMaxLength()+1; b++) r.add(0);
 				hitCount.add(r);
 			}
 			for(int j=0; j < S.size(); j++) {
@@ -77,8 +83,8 @@ public class FiveGuess extends Ai {
 				hitCount.get(c.getBlackPins()).set(c.getWhitePins(), aux+1);
 			}
 			int localMaxHitCount=0;
-			for(int a=0; a<5; a++) {
-				for(int b=0; b<5; b++) {
+			for(int a=0; a<game.getCodeMaxLength()+1; a++) {
+				for(int b=0; b<game.getCodeMaxLength()+1; b++) {
 					localMaxHitCount = Math.max(localMaxHitCount, hitCount.get(a).get(b));
 				}
 			}

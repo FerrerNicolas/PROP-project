@@ -136,7 +136,7 @@ public class Code implements Cloneable {
         }
         Correction corr = new Correction();
         try {
-            corr = new Correction(white_pins, black_pins);
+            corr = new Correction(white_pins, black_pins, code.size());
         } catch (InvalidNumberOfPins e) {
             System.out.println("This shouldn't happen but the Code.correct created an invalid Correction");
         }

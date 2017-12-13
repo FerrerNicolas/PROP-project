@@ -24,10 +24,14 @@ public class Game {
 	}
 	public Boolean codeIsValid(Code c) {
 		if(difficulty == Diff.EASY)
-			return (!c.hasRepetitions()) && (!c.hasBlanks());
+			return (!c.hasRepetitions()) && (!c.hasBlanks()) && c.getCodeSize() ==4;
 		else if (difficulty == Diff.NORMAL)
-			return !c.hasBlanks();
+			return !c.hasBlanks() && c.getCodeSize() ==4;
 		else
-			return true;
+			return  c.getCodeSize() == 5;
+	}
+	public Integer getCodeMaxLength() {
+		if (difficulty == Diff.HARD) return 5;
+		else return 4;
 	}
 }

@@ -80,7 +80,7 @@ public class Board {
 	public Boolean hasWon() {
 		if (corrections.size() != 0) {
 			Correction lastCorrection = corrections.get( corrections.size() - 1 );
-			if (lastCorrection.getBlackPins() == 4)
+			if (lastCorrection.getBlackPins() == game.getCodeMaxLength())
 				return true;
 			return false;
 		}else return false;
