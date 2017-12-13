@@ -117,7 +117,7 @@ public class EmuladorFiveGuess {
 			
 			}
 			if (b.hasWon()) System.out.println("AI won by guessing " + nextGuess.toString());
-			else System.out.println("AI Lost by guessing  " + nextGuess.toString());
+			else System.out.println("AI Lost by guessing  " + nextGuess.toString()); 
 		} catch (CodeOrCorrectionNull e) {
 			System.out.println("This should never happen, but one was null");
 		} catch (CodeAlreadyUsed e) {
