@@ -9,7 +9,7 @@ import exceptions.*;
 //Victor
 public class CtrlDomain {
 	protected CtrlPersistence ctrlPersistence;
-	protected User userActivo = null;
+	protected User activeUser = null;
 	private Game activeGame = null;
 	private Ai activeAi = null;
 	//private CtrlDomainRecord cdr;
@@ -26,14 +26,14 @@ public class CtrlDomain {
 	
 	//USER RELATED FUNCTIONS
 	public void logIn(String username) throws UnexistingUser, AlreadyLoggedIn { 
-		if (userActivo != null) throw new AlreadyLoggedIn();
+		if (activeUser != null) throw new AlreadyLoggedIn();
 		//userActivo = ctrlPersistence.loadUser(username); //should throw UnexistingUser;
 		//NOTE: REMOVE THIS
-		userActivo = new User("TEST TO BE REMOVED");
+		activeUser = new User("TEST TO BE REMOVED");
 	}
 	public void logOut() throws NoUserLoggedIn {
-		if (userActivo == null) throw new NoUserLoggedIn();
-		userActivo = null;
+		if (activeUser == null) throw new NoUserLoggedIn();
+		activeUser = null;
 	}
 	//GAME RELATED FUNCTIONS:
 	//GAME CREATION:
@@ -43,7 +43,7 @@ public class CtrlDomain {
 		 * 		*[1]: "Easy"|"Normal"|"Hard" (referring to game difficulty)
 		 * 		*[2]: "Knuth"|"Darwin" (referring to Ai Type, will be ignored if [0]="Breaker", so practice is: leave it blank (arraysize =2))
 		 */
-		if (userActivo == null) throw new NoUserLoggedIn();
+		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame != null) throw new AlreadyGameLoaded();
 		if(parameters.size() < 2) throw new BadParameters("IncorrectSize");
 		
@@ -66,13 +66,18 @@ public class CtrlDomain {
 	}
 	//GAME LOADING/SAVING:
 	public ArrayList<String> loadUsersSavedGames() throws NoUserLoggedIn {
-		if (userActivo == null) throw new NoUserLoggedIn();
-		return userActivo.getSavedGames();
+		if (activeUser == null) throw new NoUserLoggedIn();
+		return activeUser.getSavedGames();
+	}
+	public void deleteSavedGame(String gameId) throws UserTriedDeletingUnexistent, NoUserLoggedIn {
+		if (activeUser == null) throw new NoUserLoggedIn();
+		activeUser.deleteSavedGame(gameId); 
+		// ctrlPersistence.deleteGame...
 	}
 	public void loadSavedGame(String gameId) throws AlreadyGameLoaded, UserTriedDeletingUnexistent, NoUserLoggedIn { //probs more excp
-		if (userActivo == null) throw new NoUserLoggedIn();
+		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame != null) throw new AlreadyGameLoaded();
-		userActivo.deleteSavedGame(gameId); 
+		activeUser.deleteSavedGame(gameId); 
 		//activeGame = ctrlPersistence.loadGame();
 		//PLACEHOLDER:
 		activeGame = new Game(true, Diff.EASY, true);
@@ -98,22 +103,88 @@ public class CtrlDomain {
 	}
 	public void saveAndExitCurrentGame(String gameId) throws NoActiveGame, UserSavesExistingID {
 		if (activeGame == null) throw new NoActiveGame();
-		userActivo.saveGame(gameId); //throws UserSavesExistingID
+		activeUser.saveGame(gameId); //throws UserSavesExistingID
 		// saveGame with PersistenceController (should override if already existed).
 		// +saveuser! (only when ending or saving a game)
 		activeGame = null;
 	}
-	//GAME PLAYING:
-	public void setSecretCode(Vector<Integer> sc) throws MismatchedRole {
+	//GAME PLAYING: MOST THINGS ARE NOT YET IMPLEMENTED
+	public void setSecretCode(Vector<Integer> sc) throws NoActiveGame, SecretCodeAlreadySet, MismatchedRole { //Guillem should implement SecretCodeAl.. in board
 		//...
 	}
-	public void playCode(Vector<Integer> code) throws NoActiveGame, MismatchedRole, UncorrectedGuessExists { //MismatchedRole means he tried to put a Code when it's a maker!
+	public ArrayList<String> getGameInfo() throws NoActiveGame {
+		/* Format on Info:
+		 * 		*[0]: "Breaker"|"Maker" (referring to user)
+		 * 		*[1]: "Easy"|"Normal"|"Hard" (referring to game difficulty)
+		 * 		*[2]: "Ranked"|"Unranked" (referring to score acquisition)
+		 * 		*[3]: "Knuth"|"Darwin" (referring to Ai Type, won't exist if [0]="Breaker")
+		 */
+		if (activeGame == null) throw new NoActiveGame();
+		ArrayList<String> Info = new ArrayList<String>();
+		if(activeGame.getUserIsBreaker() == true) Info.add("Breaker");
+		else Info.add("Maker");
+		
+		if(activeGame.getDifficulty() == Diff.EASY) Info.add("Easy");
+		else if(activeGame.getDifficulty() == Diff.NORMAL) Info.add("Normal");
+		else if(activeGame.getDifficulty() == Diff.HARD) Info.add("Hard");
+		
+		if(activeGame.isRanked()) Info.add("Ranked");
+		else Info.add("Unranked");
+		
+		if(activeGame.getUserIsBreaker() == false) {
+			if(activeGame.isAiFG()) Info.add("Knuth");
+			else Info.add("Darwin");
+		}
+		return Info;
+	}
+	public ArrayList<String> getBoard() {
+		/* Format pending (Do in Board Class or here?)
+		 * 
+		 */
+		return new ArrayList<String>();
+	}
+	public void playCode(Vector<Integer> code) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, UncorrectedGuessExists { 
+		//MismatchedRole means he tried to put a Code when it's a maker! + add exception for ended games!
 		if (activeGame == null) throw new NoActiveGame();
 		if (activeGame.getUserIsBreaker() == false) throw new MismatchedRole();
 		//stuff to do
+		
+		//might call endGame
 	}
-	public void playCorrection(int w, int b) throws NoActiveGame, MismatchedRole, NoGuessToBeCorrected {
+	public void playCorrection(int w, int b) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, NoGuessToBeCorrected {
 		//...
+		//might call endGame
 	}
-	
+	private void endGame() throws NoUserLoggedIn, NoActiveGame { //PRIVATE FUNCTION FOR MANAGING THE END OF THE GAME!
+		if (activeGame == null) throw new NoActiveGame();
+		if (activeUser == null) throw new NoUserLoggedIn();
+		if(activeGame.getUserIsBreaker()) {
+			Board b = activeGame.getBoard();
+			float F; //score Multiplier by difficulty;
+			if(activeGame.getDifficulty() == Diff.EASY) F = 0.5f;
+			else if(activeGame.getDifficulty() == Diff.NORMAL) F = 1.f;
+			else F = 1.5f;
+			int guesses = b.getCorrections().size();
+			float score = (13-guesses)*F;
+			if (!b.hasWon()) { score = 0; guesses = 13; }
+			activeUser.updateRecords(b.hasWon(), score, guesses);
+			//Record persistence here;
+			//User Persistence here;
+			//activeGame=null; better leave it not touched, let Presentation get info until game is closed. Should add an exception in rest of classes?
+		} else { //Ai was breaker, not user
+			Board b = activeGame.getBoard();
+			float F; //score Multiplier by difficulty;
+			if(activeGame.getDifficulty() == Diff.EASY) F = 0.5f;
+			else if(activeGame.getDifficulty() == Diff.NORMAL) F = 1.f;
+			else F = 1.5f;
+			int guesses = b.getCorrections().size();
+			float score = (13-guesses)*F;
+			if (!b.hasWon()) { score = 0; guesses = 13; }
+			//Persistence getter of Ai!
+			//PLACEHOLDER:
+			Player aiPlayer = new Player("PLACEHOLDER");
+			aiPlayer.updateRecords(b.hasWon(), score, guesses);
+			//Persistence setter of Ai player!
+		}
+	}
 }

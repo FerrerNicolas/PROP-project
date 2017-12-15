@@ -19,6 +19,12 @@ public class Game {
 	public Board getBoard() {
 		return board;
 	}
+	public void unRank() {
+		ranked = false;
+	}
+	public Boolean isRanked() {
+		return ranked;
+	}
 	public Diff getDifficulty() {
 		return difficulty;
 	}
