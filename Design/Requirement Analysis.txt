@@ -4,7 +4,7 @@
 * El score de la partida se define como (13 - n) * F, donde n es el número de intentos realizados por el code-breaker [1..12] o 13 en caso de no acertar, y F es el factor de dificultad (Mirar Niveles de dificultad). En caso de que se haya usado una pista, el score será directamente 0. El score es del code-breaker exclusivamente. 
 Niveles de dificultad
 * El nivel de dificultad marca las reglas específicas de una partida de Mastermind, y se escoge junto a los roles.
-* Se puede escoger, específicamente: fácil (6 colores, 4 agujeros, sin repeticiones de color, sin agujeros, F=0.5), normal (6 colores, 4 agujeros, con repeticiones de color, sin agujeros, F=1) y difícil (6 colores, 4 agujeros, con repeticiones de color y con agujeros, F=1.5).
+* Se puede escoger, específicamente: fácil (6 colores, 4 agujeros, sin repeticiones de color, sin agujeros, F=0.5), normal (6 colores, 4 agujeros, con repeticiones de color, sin agujeros, F=1) y difícil (6 colores, 5 agujeros, con repeticiones de color y con agujeros, F=1.5).
 Mantener sistema de ranking y records
 * El sistema guarda la siguiente información sobre un player: su mínima duración de una partida (en turnos, como code-breaker, en partidas puntuables), su número de partidas ganadas / perdidas (total for both code-maker & breaker), su número de partidas puntuables terminadas (total, sin hint!), su máxima puntuación en un único juego, su mínimo de intentos de un juego, y su score total.
 * Una vez una partida termina está información es actualizada, a no ser que el usuario sea code-breaker y haya usado una pista.
