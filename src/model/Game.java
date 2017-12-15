@@ -6,18 +6,24 @@ public class Game {
 	private Boolean userIsBreaker;
 	private Diff difficulty;
 	private Board board;
+	private Boolean ranked;//NEED TO REWORK!
+	private Boolean aiIsFG;
 	
-	
-	public Game(Boolean uIB, Diff d) {
+	public Game(Boolean uIB, Diff d, Boolean FG) {
 		userIsBreaker = uIB;
 		difficulty = d;
 		board = new Board(this);
+		ranked = true; 
+		aiIsFG = FG;
 	}
 	public Board getBoard() {
 		return board;
 	}
 	public Diff getDifficulty() {
 		return difficulty;
+	}
+	public Boolean isAiFG() {
+		return aiIsFG;
 	}
 	public Boolean getUserIsBreaker() {
 		return userIsBreaker;
