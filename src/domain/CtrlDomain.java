@@ -15,7 +15,7 @@ public class CtrlDomain {
 	//private CtrlDomainRecord cdr;
 	//Creation related functions + getter of domain Record Ctrl
 	public CtrlDomain() {
-		ctrlPersistence = new CtrlPersistence(); 
+		ctrlPersistence = new CtrlPersistence(this); 
 		//CtrlPersistenceRecords cpr = ctrlPersistence.getControllerRecords();
 		//cdr = new CtrlDomainRecord(cpr);
 	}
@@ -23,6 +23,9 @@ public class CtrlDomain {
 	/*public CtrlDomainRecord getCdr(){
 	 * 	return cdr;
 	 * }*/
+	public Object getInstanceOfPlayer(String name) { //This is for permanency!
+		return new Player(name);
+	}
 	
 	//USER RELATED FUNCTIONS
 	public void logIn(String username) throws UnexistingUser, AlreadyLoggedIn { 
@@ -66,6 +69,14 @@ public class CtrlDomain {
 			else throw new BadParameters("Expected \"Knuth\"|\"Darwin\", got " + parameters.get(2));
 		} else aiIsFG = false; //irrelevant
 		activeGame = new Game(b,d,aiIsFG);
+		if(b && aiIsFG) activeAi = new FiveGuess(activeGame);
+		else activeAi = new Genetic(activeGame);
+		try {
+			if(activeGame.getUserIsBreaker()) activeGame.getBoard().setSecretCode(activeAi.generateSecretCode());
+		} catch (CodeIsInvalid e) {
+			//virtually impossible
+			System.out.println("FatalErrorInDomain!");
+		}
 	}
 	//GAME LOADING/SAVING:
 	public ArrayList<String> loadUsersSavedGames() throws NoUserLoggedIn {
@@ -109,8 +120,17 @@ public class CtrlDomain {
 		activeGame = null;
 	}
 	//GAME PLAYING: MOST THINGS ARE NOT YET IMPLEMENTED
-	public void setSecretCode(Vector<Integer> sc) throws NoActiveGame, SecretCodeAlreadySet, MismatchedRole { //Guillem should implement SecretCodeAl.. in board
-		
+	public Vector<Integer> setSecretCode(Vector<Integer> sc) throws NoActiveGame, SecretCodeAlreadySet, MismatchedRole {
+		//Returns the Vector<Integer> first guess of Ai
+		if (activeGame == null) throw new NoActiveGame();
+		if (activeGame.getUserIsBreaker()) throw new MismatchedRole();
+		Code secret = new Code();
+		secret.setCode(sc);
+		activeGame.getBoard().setSecretCode(secret);
+		Board b = activeGame.getBoard();
+		Code c = activeAi.codeBreakerTurn(null, null);
+		b.addGuess(c);
+		return c.getCodeArray();
 	}
 	public ArrayList<String> getGameInfo() throws NoActiveGame {
 		/* Format on Info:
@@ -137,23 +157,68 @@ public class CtrlDomain {
 		}
 		return Info;
 	}
-	public ArrayList<String> getBoard() {
-		/* Format pending (Do in Board Class or here?)
-		 * 
+	public ArrayList<Object> getBoard() {
+		/* Format:
+		 * 		*[0]: Vector<Integer> with the secretCode
+		 * 		( i odd;
+		 * 		*[i]: Vector<Integer> with the code played on round (i+1)/2 (number of positions depending on difficulty)
+		 * 		*[i+1]: Vector<Integer> with the correction: [0]: whites, [1]: blacks (2 positions)
+		 * 		) *
 		 */
-		return new ArrayList<String>();
+		return activeGame.getBoard().parse();
 	}
-	public void playCode(Vector<Integer> code) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, UncorrectedGuessExists { 
+	public Vector<Integer> playCode(Vector<Integer> code) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, GameIsFinished, BadlyFormedCode, CodeIsInvalid { 
 		//MismatchedRole means he tried to put a Code when it's a maker! + add exception for ended games!
+		//Returns the Correction of the code played, in format [0]: whites, [1]: blacks
+		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame == null) throw new NoActiveGame();
-		if (activeGame.getUserIsBreaker() == false) throw new MismatchedRole();
-		//stuff to do
-		
-		//might call endGame
+		if (! activeGame.getUserIsBreaker()) throw new MismatchedRole();
+		if (activeGame.hasEnded()) throw new GameIsFinished();
+		Code guess = new Code();
+		guess.setCode(code);
+		try {
+			Board b = activeGame.getBoard();
+			b.addGuess(guess);
+			Correction c = guess.correct(b.getSecretCode());
+			if(b.addCorrection(c)) endGame();
+			return c.parse(); //warn guillem!
+		} catch(UncorrectedGuessExists e) {
+			System.out.println("Fatal error in Domain!");
+		} catch(NoGuessToBeCorrected e) {
+			System.out.println("Fatal error in Domain!");
+		} catch(IncorrectCorrection e) {
+			System.out.println("Fatal error in Domain!");
+		}
+		return null; //fake, never gets here
 	}
-	public void playCorrection(int w, int b) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, NoGuessToBeCorrected {
-		//...
+	public Vector<Integer> playCorrection(int w, int b) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, NoGuessToBeCorrected, InvalidNumberOfPins, IncorrectCorrection {
+		if (activeUser == null) throw new NoUserLoggedIn();
+		if (activeGame == null) throw new NoActiveGame();
+		if (! activeGame.getUserIsBreaker()) throw new MismatchedRole();
 		//might call endGame
+		Correction c = new Correction(w,b);
+		Board board = activeGame.getBoard();
+		try {
+			if(board.addCorrection(c)) { //probably exception!
+				endGame();
+				return null;
+			} else {
+				Code lastCode = board.getGuesses().get(board.getGuesses().size()-1);
+				Code newCode = activeAi.codeBreakerTurn(lastCode, c);
+				board.addGuess(newCode);
+				return newCode.getCodeArray();
+				
+			}
+		} catch (CodeAlreadyUsed e) {
+			System.out.println("Error on Ai!");
+		} catch (CodeOrCorrectionNull e) {
+			System.out.println("FatalError");
+		}catch (UncorrectedGuessExists e) {
+			System.out.println("FatalError");
+		} catch (CodeIsInvalid e) {
+			System.out.println("Error on Ai!");
+		}
+		return null; //fake never gets here
 	}
 	private void endGame() throws NoUserLoggedIn, NoActiveGame { //PRIVATE FUNCTION FOR MANAGING THE END OF THE GAME!
 		if (activeGame == null) throw new NoActiveGame();

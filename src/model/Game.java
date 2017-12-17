@@ -46,4 +46,7 @@ public class Game {
 		if (difficulty == Diff.HARD) return 5;
 		else return 4;
 	}
+	public Boolean hasEnded() {
+		return board.hasEnded();
+	}
 }

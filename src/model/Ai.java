@@ -29,6 +29,7 @@ public abstract class Ai {
 					n = rand.nextInt(6)+1;
 				code=code*10+n;
 			}
+			if(d.equals(Diff.HARD)) code = code*10+rand.nextInt(7);
 			try {
 				c.setCode(code);
 			} catch (Exception e) {
