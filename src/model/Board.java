@@ -54,11 +54,16 @@ public class Board {
 	//setters
 	//
 	
-	public void setSecretCode(Code secretC) throws CodeIsInvalid{
-		if(game.codeIsValid(secretC))
-			secretCode = secretC.clone();
-		else
-			throw (new CodeIsInvalid());
+	public void setSecretCode(Code secretC) throws CodeIsInvalid, SecretCodeAlreadySet{
+		if(secretCode == null) {
+			if(game.codeIsValid(secretC))
+				secretCode = secretC.clone();
+			else
+				throw (new CodeIsInvalid());
+		}else {
+			throw new SecretCodeAlreadySet();
+		}
+		
 	}
 	
 	//
