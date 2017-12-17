@@ -27,9 +27,7 @@ public class CtrlDomain {
 	//USER RELATED FUNCTIONS
 	public void logIn(String username) throws UnexistingUser, AlreadyLoggedIn { 
 		if (activeUser != null) throw new AlreadyLoggedIn();
-		//userActivo = ctrlPersistence.loadUser(username); //should throw UnexistingUser;
-		//NOTE: REMOVE THIS
-		activeUser = new User("TEST TO BE REMOVED");
+		activeUser = ctrlPersistence.loadUser(username); //should throw UnexistingUser;
 	}
 	public void logOut() throws NoUserLoggedIn {
 		if (activeUser == null) throw new NoUserLoggedIn();
@@ -84,12 +82,9 @@ public class CtrlDomain {
 		if (activeGame != null) throw new AlreadyGameLoaded();
 		activeUser.deleteSavedGame(gameId); 
 		activeGame = ctrlPersistence.loadGame(activeUser.getPlayerName(), gameId);
-		//PLACEHOLDER:
-		activeGame = new Game(true, Diff.EASY, true);
-		//
 		if (!activeGame.getUserIsBreaker() && activeGame.isAiFG() ==true) {
 			//Need to reset Ai from beginning;
-			activeAi=new FiveGuess(activeGame);
+			activeAi = new FiveGuess(activeGame);
 			//could move this to FiveGuess
 			Board b = activeGame.getBoard();
 			for(int i=0; i<b.getCorrections().size(); i++) {
@@ -115,7 +110,7 @@ public class CtrlDomain {
 	}
 	//GAME PLAYING: MOST THINGS ARE NOT YET IMPLEMENTED
 	public void setSecretCode(Vector<Integer> sc) throws NoActiveGame, SecretCodeAlreadySet, MismatchedRole { //Guillem should implement SecretCodeAl.. in board
-		//...
+		
 	}
 	public ArrayList<String> getGameInfo() throws NoActiveGame {
 		/* Format on Info:
@@ -163,28 +158,20 @@ public class CtrlDomain {
 	private void endGame() throws NoUserLoggedIn, NoActiveGame { //PRIVATE FUNCTION FOR MANAGING THE END OF THE GAME!
 		if (activeGame == null) throw new NoActiveGame();
 		if (activeUser == null) throw new NoUserLoggedIn();
+		Board b = activeGame.getBoard();
+		float F; //score Multiplier by difficulty;
+		if(activeGame.getDifficulty() == Diff.EASY) F = 0.5f;
+		else if(activeGame.getDifficulty() == Diff.NORMAL) F = 1.f;
+		else F = 1.5f;
+		int guesses = b.getCorrections().size();
+		float score = (13-guesses)*F;
+		if (!b.hasWon()) { score = 0; guesses = 13; }
 		if(activeGame.getUserIsBreaker()) {
-			Board b = activeGame.getBoard();
-			float F; //score Multiplier by difficulty;
-			if(activeGame.getDifficulty() == Diff.EASY) F = 0.5f;
-			else if(activeGame.getDifficulty() == Diff.NORMAL) F = 1.f;
-			else F = 1.5f;
-			int guesses = b.getCorrections().size();
-			float score = (13-guesses)*F;
-			if (!b.hasWon()) { score = 0; guesses = 13; }
 			activeUser.updateRecords(b.hasWon(), score, guesses);
 			//Record persistence here;
 			ctrlPersistence.saveUser(activeUser.getPlayerName(), activeUser);
 			//activeGame=null; better leave it not touched, let Presentation get info until game is closed. Should add an exception in rest of classes?
 		} else { //Ai was breaker, not user
-			Board b = activeGame.getBoard();
-			float F; //score Multiplier by difficulty;
-			if(activeGame.getDifficulty() == Diff.EASY) F = 0.5f;
-			else if(activeGame.getDifficulty() == Diff.NORMAL) F = 1.f;
-			else F = 1.5f;
-			int guesses = b.getCorrections().size();
-			float score = (13-guesses)*F;
-			if (!b.hasWon()) { score = 0; guesses = 13; }
 			String aiName = "Darwin";
 			if(activeGame.isAiFG()) aiName = "Knuth";
 			Player aiPlayer = ctrlPersistence.loadAi(aiName);
