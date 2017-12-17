@@ -1,5 +1,7 @@
 package model;
 import java.util.ArrayList;
+import java.util.Vector;
+
 import exceptions.*;
 // Guillem
 public class Board {
@@ -17,6 +19,18 @@ public class Board {
 	//
 	//getters
 	//
+	
+	public ArrayList<Object> parse(){
+		ArrayList<Object> parsed = new ArrayList<Object>();
+		parsed.add(secretCode.getCodeArray());
+		for(int i = 0; i < guesses.size(); i++) {
+			parsed.add(guesses.get(i).getCodeArray());
+			if (corrections.size() > i)
+				parsed.add(corrections.get(i).parse());
+		}
+		
+		return parsed;
+	}
 	
 	public Code getSecretCode() {
 		return secretCode.clone();
@@ -65,14 +79,16 @@ public class Board {
 	
 	//returns true if 12 turns have passed or game has been won, false otherwise
 	//assumes the correction is valid
-	public Boolean addCorrection(Correction corr) throws NoGuessToBeCorrected{
+	public Boolean addCorrection(Correction corr) throws NoGuessToBeCorrected, IncorrectCorrection{
 		if (guesses.size() - corrections.size() <= 0)
 			throw (new NoGuessToBeCorrected());
 		else {
-			corrections.add(corr.clone());
-			if (corrections.size() == 12 || hasWon())
-				return true;
-			return false;
+			if (!guesses.get(guesses.size()-1).correct(secretCode).equals(corr)) {
+				throw new IncorrectCorrection();
+			}else {
+				corrections.add(corr.clone());
+				return hasEnded();
+			}
 		}
 	}
 	
@@ -85,6 +101,13 @@ public class Board {
 			return false;
 		}else return false;
 		
+	}
+	public Boolean hasEnded() {
+		if (corrections.size() == 12 || hasWon()) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	//returns the number of corrections

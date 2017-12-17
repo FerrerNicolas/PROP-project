@@ -1,6 +1,8 @@
 package model;
 //Guillem
 
+import java.util.Vector;
+
 import exceptions.*;
 
 public class Correction implements Cloneable{
@@ -44,6 +46,13 @@ public class Correction implements Cloneable{
 	
 	public int getCodeSize() {
 		return codeSize;
+	}
+	
+	public Vector<Integer> parse(){
+		Vector<Integer> parsed = new Vector<Integer>();
+		parsed.add(whitePins);
+		parsed.add(blackPins);
+		return parsed;
 	}
 	
 	public void setWhitePins(int wPins) throws InvalidNumberOfPins{
