@@ -35,6 +35,11 @@ public class CtrlDomain {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		activeUser = null;
 	}
+	public void register(String username) throws AlreadyLoggedIn, ExistingUser {
+		if (activeUser != null) throw new AlreadyLoggedIn();
+		activeUser = new User(username);
+		ctrlPersistence.saveNewUser(username, activeUser);
+	}
 	//GAME RELATED FUNCTIONS:
 	//GAME CREATION:
 	public void NewGame(ArrayList<String> parameters) throws BadParameters, AlreadyGameLoaded, NoUserLoggedIn {
@@ -72,13 +77,13 @@ public class CtrlDomain {
 	public void deleteSavedGame(String gameId) throws UserTriedDeletingUnexistent, NoUserLoggedIn {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		activeUser.deleteSavedGame(gameId); 
-		// ctrlPersistence.deleteGame...
+		ctrlPersistence.deleteGame(activeUser.getPlayerName(), gameId); //will throw exception, nogame?
 	}
-	public void loadSavedGame(String gameId) throws AlreadyGameLoaded, UserTriedDeletingUnexistent, NoUserLoggedIn { //probs more excp
+	public void loadSavedGame(String gameId) throws AlreadyGameLoaded, UserTriedDeletingUnexistent, NoUserLoggedIn { //probs more excp, nogame
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame != null) throw new AlreadyGameLoaded();
 		activeUser.deleteSavedGame(gameId); 
-		//activeGame = ctrlPersistence.loadGame();
+		activeGame = ctrlPersistence.loadGame(activeUser.getPlayerName(), gameId);
 		//PLACEHOLDER:
 		activeGame = new Game(true, Diff.EASY, true);
 		//
@@ -104,8 +109,8 @@ public class CtrlDomain {
 	public void saveAndExitCurrentGame(String gameId) throws NoActiveGame, UserSavesExistingID {
 		if (activeGame == null) throw new NoActiveGame();
 		activeUser.saveGame(gameId); //throws UserSavesExistingID
-		// saveGame with PersistenceController (should override if already existed).
-		// +saveuser! (only when ending or saving a game)
+		ctrlPersistence.saveGame(activeUser.getPlayerName(), gameId, activeGame);
+		ctrlPersistence.saveUser(activeUser.getPlayerName(), activeUser);
 		activeGame = null;
 	}
 	//GAME PLAYING: MOST THINGS ARE NOT YET IMPLEMENTED
@@ -169,7 +174,7 @@ public class CtrlDomain {
 			if (!b.hasWon()) { score = 0; guesses = 13; }
 			activeUser.updateRecords(b.hasWon(), score, guesses);
 			//Record persistence here;
-			//User Persistence here;
+			ctrlPersistence.saveUser(activeUser.getPlayerName(), activeUser);
 			//activeGame=null; better leave it not touched, let Presentation get info until game is closed. Should add an exception in rest of classes?
 		} else { //Ai was breaker, not user
 			Board b = activeGame.getBoard();
@@ -180,11 +185,11 @@ public class CtrlDomain {
 			int guesses = b.getCorrections().size();
 			float score = (13-guesses)*F;
 			if (!b.hasWon()) { score = 0; guesses = 13; }
-			//Persistence getter of Ai!
-			//PLACEHOLDER:
-			Player aiPlayer = new Player("PLACEHOLDER");
+			String aiName = "Darwin";
+			if(activeGame.isAiFG()) aiName = "Knuth";
+			Player aiPlayer = ctrlPersistence.loadAi(aiName);
 			aiPlayer.updateRecords(b.hasWon(), score, guesses);
-			//Persistence setter of Ai player!
+			ctrlPersistence.saveAi(aiName, aiPlayer); //this surrounded on try catch!
 		}
 	}
 }
