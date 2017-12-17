@@ -3,13 +3,17 @@ package persistence;
 import java.io.*;
 import java.util.HashMap;
 
+import domain.CtrlDomain;
+
 public class CtrlPersistence {
 	private HashMap<String,Integer> IDs;
 	private String savingDirectory; //everything is saved  in the same place
 	private File IDsFile;
+	private CtrlDomain ctrlDomain;
 	
-	public CtrlPersistence(String savingDirectory) {
-		this.savingDirectory = savingDirectory;
+	public CtrlPersistence(CtrlDomain ctrlDomain) {
+		this.ctrlDomain = ctrlDomain;
+		this.savingDirectory = "src/persistence/DATA/";
 		IDsFile = new File(this.savingDirectory + "IDs.list");
 		if (!IDsFile.exists()) {
 			IDs = new HashMap<String,Integer>();
