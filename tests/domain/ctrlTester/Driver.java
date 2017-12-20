@@ -14,7 +14,7 @@ public class Driver {
 		cd = new CtrlDomain();
 		Status currentstatus;
 		currentstatus = Status.LOGINSCREEN;
-		while (currentstatus == Status.EXIT) {
+		while (currentstatus != Status.EXIT) {
 			switch (currentstatus){
 			case LOGINSCREEN:
 				currentstatus = login();
