@@ -36,15 +36,15 @@ public class Driver {
 				System.out.println("Input username");
 				String username = sc.nextLine();
 				try {
-					//cd.register(username); //decomment when implementing existinguser
+					cd.register(username); 
 					System.out.println("Success, going to MainMenu");
 					return Status.MAINMENU;
 				} catch (AlreadyLoggedIn e) {
 					System.out.println("There was a player already logged in, so we send you to MainMenu");
 					return Status.MAINMENU;
-				}/* catch (ExistingUser e) {
+				} catch (ExistingUser e) {
 					System.out.println("There was a User with that name already, retry");
-				}*/
+				}
 			} else if(opt == 2) {
 				System.out.println("Input username");
 				String username = sc.nextLine();
