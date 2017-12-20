@@ -30,7 +30,7 @@ public class CtrlDomain {
 	//USER RELATED FUNCTIONS
 	public void logIn(String username) throws UnexistingUser, AlreadyLoggedIn { 
 		if (activeUser != null) throw new AlreadyLoggedIn();
-		activeUser = ctrlPersistence.loadUser(username); //should throw UnexistingUser;
+		activeUser = (User) ctrlPersistence.loadUser(username); //should throw UnexistingUser;
 	}
 	public void logOut() throws NoUserLoggedIn {
 		if (activeUser == null) throw new NoUserLoggedIn();
@@ -73,8 +73,9 @@ public class CtrlDomain {
 		else activeAi = new Genetic(activeGame);
 		try {
 			if(activeGame.getUserIsBreaker()) activeGame.getBoard().setSecretCode(activeAi.generateSecretCode());
-		} catch (CodeIsInvalid e) {
-			//virtually impossible
+		} catch (CodeIsInvalid e) { //virtually impossible exceptions
+			System.out.println("FatalErrorInDomain!");
+		} catch (SecretCodeAlreadySet e) {
 			System.out.println("FatalErrorInDomain!");
 		}
 	}
@@ -92,7 +93,7 @@ public class CtrlDomain {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame != null) throw new AlreadyGameLoaded();
 		activeUser.deleteSavedGame(gameId); 
-		activeGame = ctrlPersistence.loadGame(activeUser.getPlayerName(), gameId);
+		activeGame = (Game) ctrlPersistence.loadGame(activeUser.getPlayerName(), gameId);
 		if (!activeGame.getUserIsBreaker() && activeGame.isAiFG() ==true) {
 			//Need to reset Ai from beginning;
 			activeAi = new FiveGuess(activeGame);
@@ -120,7 +121,7 @@ public class CtrlDomain {
 		activeGame = null;
 	}
 	//GAME PLAYING: MOST THINGS ARE NOT YET IMPLEMENTED
-	public Vector<Integer> setSecretCode(Vector<Integer> sc) throws NoActiveGame, SecretCodeAlreadySet, MismatchedRole {
+	public Vector<Integer> setSecretCode(Vector<Integer> sc) throws NoActiveGame, SecretCodeAlreadySet, MismatchedRole, BadlyFormedCode, CodeIsInvalid {
 		//Returns the Vector<Integer> first guess of Ai
 		if (activeGame == null) throw new NoActiveGame();
 		if (activeGame.getUserIsBreaker()) throw new MismatchedRole();
@@ -128,8 +129,18 @@ public class CtrlDomain {
 		secret.setCode(sc);
 		activeGame.getBoard().setSecretCode(secret);
 		Board b = activeGame.getBoard();
-		Code c = activeAi.codeBreakerTurn(null, null);
-		b.addGuess(c);
+
+		Code c = new Code();
+		try {
+			c = activeAi.codeBreakerTurn(null, null);
+			b.addGuess(c);
+		} catch (CodeOrCorrectionNull e) {//virtually impossible exceptions
+			System.out.println("FatalErrorInDomain!");
+		} catch (CodeAlreadyUsed e) {
+			System.out.println("FatalErrorInDomain!");
+		} catch (UncorrectedGuessExists e) {
+			System.out.println("Somebody somehow added the secret code AFTER a play");
+		}
 		return c.getCodeArray();
 	}
 	public ArrayList<String> getGameInfo() throws NoActiveGame {
@@ -239,7 +250,7 @@ public class CtrlDomain {
 		} else { //Ai was breaker, not user
 			String aiName = "Darwin";
 			if(activeGame.isAiFG()) aiName = "Knuth";
-			Player aiPlayer = ctrlPersistence.loadAi(aiName);
+			Player aiPlayer = (Player) ctrlPersistence.loadAi(aiName);
 			aiPlayer.updateRecords(b.hasWon(), score, guesses);
 			ctrlPersistence.saveAi(aiName, aiPlayer); //this surrounded on try catch!
 		}
