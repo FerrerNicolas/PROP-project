@@ -41,6 +41,10 @@ public class CtrlDomain {
 		activeUser = new User(username);
 		ctrlPersistence.saveNewUser(username, activeUser);
 	}
+	public String getLoggedUsername() {
+		if (activeUser == null) return null;
+		else return activeUser.getPlayerName();
+	}
 	//GAME RELATED FUNCTIONS:
 	//GAME CREATION:
 	public void NewGame(ArrayList<String> parameters) throws BadParameters, AlreadyGameLoaded, NoUserLoggedIn {
