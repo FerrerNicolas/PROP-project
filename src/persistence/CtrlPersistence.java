@@ -18,13 +18,13 @@ public class CtrlPersistence {
 		IDsFile = new File(this.savingDirectory + "IDs.list");
 		if (!IDsFile.exists()) {
 			IDs = new HashMap<String,Integer>();
-			IDs.put("FiveGuess", 0);
-			IDs.put("Genetic", 1);
+			IDs.put("Knuth", 0);
+			IDs.put("Darwin", 1);
 			saveObject(IDsFile, IDs);
-			Object p1 = this.ctrlDomain.getInstanceOfPlayer("FiveGuess");
-			Object p2 = this.ctrlDomain.getInstanceOfPlayer("Genetic");
-			saveAi("FiveGuess", p1);
-			saveAi("Genetic", p2);
+			Object p1 = this.ctrlDomain.getInstanceOfPlayer("Knuth");
+			Object p2 = this.ctrlDomain.getInstanceOfPlayer("Darwin");
+			saveAi("Knuth", p1);
+			saveAi("Darwin", p2);
 		}else {
 			IDs = (HashMap<String,Integer>) loadObject(IDsFile);
 		}
