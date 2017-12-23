@@ -15,8 +15,8 @@ public class User extends Player {
 		if (savedGames.contains(gameID)) throw (new UserSavesExistingID());
 		savedGames.add(gameID);
 	}
-	public void deleteSavedGame(String gameID) throws UserTriedDeletingUnexistent {
-		if (!savedGames.contains(gameID)) throw (new UserTriedDeletingUnexistent());
+	public void deleteSavedGame(String gameID) throws GameUnexistentForUser {
+		if (!savedGames.contains(gameID)) throw (new GameUnexistentForUser());
 		savedGames.remove(gameID); 
 	}
 }

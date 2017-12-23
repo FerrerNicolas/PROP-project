@@ -58,18 +58,18 @@ public class CtrlDomain {
 		if(parameters.size() < 2) throw new BadParameters("IncorrectSize");
 		
 		Boolean b; Diff d; Boolean aiIsFG;
-		if(parameters.get(0) == "Breaker") b = true;
-		else if(parameters.get(0) == "Maker") b = false;
+		if(parameters.get(0).equals("Breaker")) b = true;
+		else if(parameters.get(0).equals("Maker")) b = false;
 		else throw new BadParameters("Expected \"Breaker\"|\"Maker\", got " + parameters.get(0));
 		
-		if(parameters.get(1) == "Easy") d = Diff.EASY;
-		else if(parameters.get(1) == "Normal") d = Diff.NORMAL;
-		else if(parameters.get(1) == "Hard") d = Diff.HARD;
+		if(parameters.get(1).equals("Easy")) d = Diff.EASY;
+		else if(parameters.get(1).equals("Normal")) d = Diff.NORMAL;
+		else if(parameters.get(1).equals("Hard")) d = Diff.HARD;
 		else throw new BadParameters("Expected \"Easy\"|\"Normal\"|\"Hard\", got " + parameters.get(1));
 		if(!b) {
 			if(parameters.size() < 3) throw new BadParameters("No third parameter found and Player is Maker");
-			if(parameters.get(2) == "Knuth") aiIsFG = true;
-			else if(parameters.get(2) == "Darwin") aiIsFG = false;
+			if(parameters.get(2).equals("Knuth")) aiIsFG = true;
+			else if(parameters.get(2).equals("Darwin")) aiIsFG = false;
 			else throw new BadParameters("Expected \"Knuth\"|\"Darwin\", got " + parameters.get(2));
 		} else aiIsFG = false; //irrelevant
 		activeGame = new Game(b,d,aiIsFG);
@@ -88,16 +88,25 @@ public class CtrlDomain {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		return activeUser.getSavedGames();
 	}
-	public void deleteSavedGame(String gameId) throws UserTriedDeletingUnexistent, NoUserLoggedIn {
+	public void deleteSavedGame(String gameId) throws GameUnexistentForUser, NoUserLoggedIn {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		activeUser.deleteSavedGame(gameId); 
-		ctrlPersistence.deleteGame(activeUser.getPlayerName(), gameId); //will throw exception, nogame?
+		try {
+			ctrlPersistence.deleteGame(activeUser.getPlayerName(), gameId);
+		} catch (UnexistingUser e) {
+			System.out.println("FatalErrorInDomain!");
+		}
+
 	}
-	public void loadSavedGame(String gameId) throws AlreadyGameLoaded, UserTriedDeletingUnexistent, NoUserLoggedIn { //probs more excp, nogame
+	public void loadSavedGame(String gameId) throws AlreadyGameLoaded, GameUnexistentForUser, NoUserLoggedIn { //probs more excp, nogame
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame != null) throw new AlreadyGameLoaded();
-		activeUser.deleteSavedGame(gameId); 
-		activeGame = (Game) ctrlPersistence.loadGame(activeUser.getPlayerName(), gameId);
+		activeUser.deleteSavedGame(gameId);
+		try {
+			activeGame = (Game) ctrlPersistence.loadGame(activeUser.getPlayerName(), gameId);
+		} catch (UnexistingUser e) {
+			System.out.println("FatalErrorInDomain!");
+		}
 		if (!activeGame.getUserIsBreaker() && activeGame.isAiFG() ==true) {
 			//Need to reset Ai from beginning;
 			activeAi = new FiveGuess(activeGame);
@@ -120,7 +129,11 @@ public class CtrlDomain {
 	public void saveAndExitCurrentGame(String gameId) throws NoActiveGame, UserSavesExistingID {
 		if (activeGame == null) throw new NoActiveGame();
 		activeUser.saveGame(gameId); //throws UserSavesExistingID
-		ctrlPersistence.saveGame(activeUser.getPlayerName(), gameId, activeGame);
+		try {
+			ctrlPersistence.saveGame(activeUser.getPlayerName(), gameId, activeGame);
+		} catch (UnexistingUser e) {
+			System.out.println("FatalErrorInDomain!");
+		}
 		ctrlPersistence.saveUser(activeUser.getPlayerName(), activeUser);
 		activeGame = null;
 	}

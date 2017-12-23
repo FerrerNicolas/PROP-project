@@ -21,6 +21,8 @@ public class Driver {
 				break;
 			case MAINMENU:
 				currentstatus = mainmenu();
+			case GAME:
+				currentstatus = game();
 			default:
 			}
 		}
@@ -32,6 +34,7 @@ public class Driver {
 			System.out.println("Input 2 for login user");
 			System.out.println("Input 3 for exit game");
 			Integer opt = sc.nextInt();
+			sc.nextLine();
 			if(opt == 1) {
 				System.out.println("Input username");
 				String username = sc.nextLine();
@@ -51,6 +54,7 @@ public class Driver {
 				
 				try {
 					cd.logIn(username);
+					return Status.MAINMENU;
 				} catch (UnexistingUser e) {
 					System.out.println("There was no User with that name, retry");
 				} catch (AlreadyLoggedIn e) {
@@ -72,6 +76,7 @@ public class Driver {
 			System.out.println("Input 4 for Log out");
 			System.out.println("Input 5 for Exit");
 			Integer opt = sc.nextInt();
+			sc.nextLine();
 			switch(opt) {
 			case 1:
 				System.out.println("Input the new Game's parameters:");
@@ -81,16 +86,17 @@ public class Driver {
 				 * 		*[1]: "Easy"|"Normal"|"Hard" (referring to game difficulty)
 				 * 		*[2]: "Knuth"|"Darwin" (referring to Ai Type, will be ignored if [0]="Breaker", so practice is: leave it blank (arraysize =2))
 				 */
-				System.out.println("Breaker| Maker ?");
+				System.out.println("Breaker | Maker ?");
 				parameters.add(sc.nextLine());
 				System.out.println("Easy | Normal | Hard ?");
 				parameters.add(sc.nextLine());
 				if(parameters.get(0).equals("Maker")) {
-					System.out.println("Knuth|Darwin ?");
+					System.out.println("Knuth | Darwin ?");
 					parameters.add(sc.nextLine());
 				}
 				try {
 					cd.NewGame(parameters);
+					return Status.GAME;
 				} catch (BadParameters e1) {
 					System.out.println("Bad Parameters:");
 					System.out.println(e1.getMessage());
@@ -127,6 +133,7 @@ public class Driver {
 	}
 	public Status game() {
 		//will leave for other moment
+		System.out.println("InfiniteLoop!!!!!");
 		return Status.EXIT;
 	}
 	public enum Status {
