@@ -12,7 +12,7 @@ public class CtrlPersistence {
 	private File IDsFile;
 	private CtrlDomain ctrlDomain;
 	
-	public CtrlPersistence(CtrlDomain ctrlDomain) {
+	public CtrlPersistence(CtrlDomain ctrlDomain) throws FileNotFoundException, IOException, ClassNotFoundException {
 		this.ctrlDomain = ctrlDomain;
 		this.savingDirectory = "src/persistence/DATA/";
 		IDsFile = new File(this.savingDirectory + "IDs.list");
@@ -30,42 +30,32 @@ public class CtrlPersistence {
 		}
 	}
 	
-	private void saveObject(File dir, Object obj) {
-		try {
-			FileOutputStream fos = new FileOutputStream(dir, false);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(obj);
-			oos.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("this shouldn't happen: FileNotFoundException when saving object "+obj+ " to "+dir);
-		} catch (IOException e) {
-			System.out.println("this shouldn't happen: IOException when saving object "+obj+ " to "+dir);
-		}
+	private void saveObject(File dir, Object obj) throws FileNotFoundException, IOException{
+		
+		FileOutputStream fos = new FileOutputStream(dir, false);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(obj);
+		oos.close();
+		
 	}
 	
-	private void saveObject(String filename, Object obj) {
+	private void saveObject(String filename, Object obj) throws FileNotFoundException, IOException {
 		File dir = new File(savingDirectory + filename);
 		saveObject(dir,obj);
 	}
 	
-	private Object loadObject(File dir) {
-		try {
-			FileInputStream fis = new FileInputStream(dir);
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			Object tmp = ois.readObject();
-			ois.close();
-			return tmp;
-		} catch (FileNotFoundException e) {
-			System.out.println("this shouldn't happen: FileNotFoundException when loading file "+dir);
-		} catch (IOException e) {
-			System.out.println("this shouldn't happen: IOException when loading file "+dir);
-		} catch (ClassNotFoundException e) {
-			System.out.println("this shouldn't happen: ClassNotFoundException when loading file "+dir);
-		}
-		return null; //we should never get here
+	private Object loadObject(File dir) throws FileNotFoundException, IOException, ClassNotFoundException {
+		
+		FileInputStream fis = new FileInputStream(dir);
+		ObjectInputStream ois = new ObjectInputStream(fis);
+		Object tmp = ois.readObject();
+		ois.close();
+		return tmp;
+		
+		//return null; //we should never get here
 	}
 	
-	private Object loadObject(String filename) {
+	private Object loadObject(String filename) throws FileNotFoundException, ClassNotFoundException, IOException {
 		File dir = new File(savingDirectory + filename);
 		return loadObject(dir);
 	}
@@ -74,7 +64,7 @@ public class CtrlPersistence {
 	//ctrlPersistence.saveGame(activeUser.getPlayerName(), gameId, activeGame);
 	//ctrlPersistence.saveUser(activeUser.getPlayerName(), activeUser);
 	
-	public void saveGame(String username, String gamename, Object game) throws UnexistingUser {
+	public void saveGame(String username, String gamename, Object game) throws UnexistingUser, FileNotFoundException, ClassNotFoundException, IOException {
 		Integer playerID= -1;
 		//Searching for the player
 		if (IDs.containsKey(username)) {
@@ -111,7 +101,7 @@ public class CtrlPersistence {
 		
 	}
 	
-	public Object loadGame(String username, String gamename) throws UnexistingUser, GameUnexistentForUser {
+	public Object loadGame(String username, String gamename) throws UnexistingUser, GameUnexistentForUser, FileNotFoundException, ClassNotFoundException, IOException {
 		Integer playerID= -1;
 		//Searching for the player
 		if (IDs.containsKey(username)) {
@@ -145,7 +135,7 @@ public class CtrlPersistence {
 		
 	}
 	
-	public void deleteGame(String username, String gamename) throws UnexistingUser, GameUnexistentForUser {
+	public void deleteGame(String username, String gamename) throws UnexistingUser, GameUnexistentForUser, FileNotFoundException, ClassNotFoundException, IOException {
 		Integer playerID= -1;
 		//Searching for the player
 		if (IDs.containsKey(username)) {
@@ -180,7 +170,7 @@ public class CtrlPersistence {
 		
 	}
 	
-	public void saveAi(String playername, Object p) {
+	public void saveAi(String playername, Object p) throws FileNotFoundException, IOException {
 		Integer playerID= -1;
 		//get or add ID of player	
 		//Searching for the player
@@ -204,7 +194,7 @@ public class CtrlPersistence {
 		
 	}
 	
-	public Object loadAi(String playername) {
+	public Object loadAi(String playername) throws FileNotFoundException, ClassNotFoundException, IOException {
 		Object result= null;
 		Integer playerID= -1;
 		//Searching for the player
@@ -224,7 +214,7 @@ public class CtrlPersistence {
 		return result;
 	}
 	
-	public void saveNewUser(String username, Object p) throws ExistingUser {
+	public void saveNewUser(String username, Object p) throws ExistingUser, FileNotFoundException, IOException {
 		Integer playerID= -1;
 		//Searching for the player
 		if (IDs.containsKey(username)) {
@@ -248,7 +238,7 @@ public class CtrlPersistence {
 		
 	}
 	
-	public void saveUser(String username, Object p) {
+	public void saveUser(String username, Object p) throws FileNotFoundException, IOException {
 		Integer playerID= -1;
 		//Searching for the player
 		if (IDs.containsKey(username)) {
@@ -271,7 +261,7 @@ public class CtrlPersistence {
 		
 	}
 	
-	public Object loadUser(String username) throws UnexistingUser {
+	public Object loadUser(String username) throws UnexistingUser, FileNotFoundException, ClassNotFoundException, IOException {
 		Object result= null;
 		Integer playerID= -1;
 		//Searching for the player
