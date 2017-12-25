@@ -2,6 +2,8 @@ package domain;
 import persistence.*;
 import model.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -14,7 +16,7 @@ public class CtrlDomain {
 	private Ai activeAi = null;
 	//private CtrlDomainRecord cdr;
 	//Creation related functions + getter of domain Record Ctrl
-	public CtrlDomain() {
+	public CtrlDomain() throws FileNotFoundException, ClassNotFoundException, IOException {
 		ctrlPersistence = new CtrlPersistence(this); 
 		//CtrlPersistenceRecords cpr = ctrlPersistence.getControllerRecords();
 		//cdr = new CtrlDomainRecord(cpr);
@@ -28,7 +30,7 @@ public class CtrlDomain {
 	}
 	
 	//USER RELATED FUNCTIONS
-	public void logIn(String username) throws UnexistingUser, AlreadyLoggedIn { 
+	public void logIn(String username) throws UnexistingUser, AlreadyLoggedIn, FileNotFoundException, ClassNotFoundException, IOException { 
 		if (activeUser != null) throw new AlreadyLoggedIn();
 		activeUser = (User) ctrlPersistence.loadUser(username); //should throw UnexistingUser;
 	}
@@ -36,7 +38,7 @@ public class CtrlDomain {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		activeUser = null;
 	}
-	public void register(String username) throws AlreadyLoggedIn, ExistingUser {
+	public void register(String username) throws AlreadyLoggedIn, ExistingUser, FileNotFoundException, IOException {
 		if (activeUser != null) throw new AlreadyLoggedIn();
 		activeUser = new User(username);
 		ctrlPersistence.saveNewUser(username, activeUser);
@@ -88,7 +90,7 @@ public class CtrlDomain {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		return activeUser.getSavedGames();
 	}
-	public void deleteSavedGame(String gameId) throws GameUnexistentForUser, NoUserLoggedIn {
+	public void deleteSavedGame(String gameId) throws GameUnexistentForUser, NoUserLoggedIn, FileNotFoundException, ClassNotFoundException, IOException {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		activeUser.deleteSavedGame(gameId); 
 		try {
@@ -98,7 +100,7 @@ public class CtrlDomain {
 		}
 
 	}
-	public void loadSavedGame(String gameId) throws AlreadyGameLoaded, GameUnexistentForUser, NoUserLoggedIn { //probs more excp, nogame
+	public void loadSavedGame(String gameId) throws AlreadyGameLoaded, GameUnexistentForUser, NoUserLoggedIn, FileNotFoundException, ClassNotFoundException, IOException { //probs more excp, nogame
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame != null) throw new AlreadyGameLoaded();
 		activeUser.deleteSavedGame(gameId);
@@ -126,7 +128,7 @@ public class CtrlDomain {
 		if (activeGame == null) throw new NoActiveGame();
 		activeGame = null;
 	}
-	public void saveAndExitCurrentGame(String gameId) throws NoActiveGame, UserSavesExistingID {
+	public void saveAndExitCurrentGame(String gameId) throws NoActiveGame, UserSavesExistingID, FileNotFoundException, ClassNotFoundException, IOException {
 		if (activeGame == null) throw new NoActiveGame();
 		activeUser.saveGame(gameId); //throws UserSavesExistingID
 		try {
@@ -137,7 +139,7 @@ public class CtrlDomain {
 		ctrlPersistence.saveUser(activeUser.getPlayerName(), activeUser);
 		activeGame = null;
 	}
-	//GAME PLAYING: MOST THINGS ARE NOT YET IMPLEMENTED
+	//GAME PLAYING:
 	public Vector<Integer> setSecretCode(Vector<Integer> sc) throws NoActiveGame, SecretCodeAlreadySet, MismatchedRole, BadlyFormedCode, CodeIsInvalid {
 		//Returns the Vector<Integer> first guess of Ai
 		if (activeGame == null) throw new NoActiveGame();
@@ -193,9 +195,12 @@ public class CtrlDomain {
 		 * 		*[i+1]: Vector<Integer> with the correction: [0]: whites, [1]: blacks (2 positions)
 		 * 		) *
 		 */
-		return activeGame.getBoard().parse();
+		ArrayList<Object> toReturn = activeGame.getBoard().parse();
+		if(activeGame.getUserIsBreaker())
+			toReturn.set(0,null); //avoid cheating
+		return toReturn;
 	}
-	public Vector<Integer> playCode(Vector<Integer> code) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, GameIsFinished, BadlyFormedCode, CodeIsInvalid { 
+	public Vector<Integer> playCode(Vector<Integer> code) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, GameIsFinished, BadlyFormedCode, CodeIsInvalid, FileNotFoundException, ClassNotFoundException, IOException { 
 		//MismatchedRole means he tried to put a Code when it's a maker! + add exception for ended games!
 		//Returns the Correction of the code played, in format [0]: whites, [1]: blacks
 		if (activeUser == null) throw new NoUserLoggedIn();
@@ -219,7 +224,7 @@ public class CtrlDomain {
 		}
 		return null; //fake, never gets here
 	}
-	public Vector<Integer> playCorrection(int w, int b) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, NoGuessToBeCorrected, InvalidNumberOfPins, IncorrectCorrection {
+	public Vector<Integer> playCorrection(int w, int b) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, NoGuessToBeCorrected, InvalidNumberOfPins, IncorrectCorrection, FileNotFoundException, ClassNotFoundException, IOException {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame == null) throw new NoActiveGame();
 		if (! activeGame.getUserIsBreaker()) throw new MismatchedRole();
@@ -248,7 +253,7 @@ public class CtrlDomain {
 		}
 		return null; //fake never gets here
 	}
-	private void endGame() throws NoUserLoggedIn, NoActiveGame { //PRIVATE FUNCTION FOR MANAGING THE END OF THE GAME!
+	private void endGame() throws NoUserLoggedIn, NoActiveGame, FileNotFoundException, IOException, ClassNotFoundException { //PRIVATE FUNCTION FOR MANAGING THE END OF THE GAME!
 		if (activeGame == null) throw new NoActiveGame();
 		if (activeUser == null) throw new NoUserLoggedIn();
 		Board b = activeGame.getBoard();
