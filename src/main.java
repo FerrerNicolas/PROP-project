@@ -8,7 +8,7 @@ public class main {
 			    public void run() {
 			          //new VistaLEEME().hacerVisible(); //Meter vista primer menu (log in)
 			          CtrlPresentation ctrlPresentacion = new CtrlPresentation();
-			          //ctrlPresentacion.initialize(); unneeded?
+			          ctrlPresentacion.initialize();
 		}});
 	}
 }

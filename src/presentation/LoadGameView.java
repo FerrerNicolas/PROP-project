@@ -14,16 +14,16 @@ public class LoadGameView extends JFrame {
     private JTextField SelectedGame;
 
     private void initializeComponents() {
-        gameList = new JList();
-        loadButton = new JButton("Load Game");
-        eraseButton = new JButton("Erase Game");
-        backButton = new JButton("Back");
-        SelectedGame = new JTextField();
+
+        loadButton.setText("Load Game");
+        eraseButton.setText("Erase Game");
+        backButton.setText("Back");
 
         SelectedGame.setText("Write a name of a Game or select it");
 
         gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setTitle("Saved Games");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         gameList.setListData(ctrlPresentation.getSavedGamesList());
 
@@ -54,7 +54,7 @@ public class LoadGameView extends JFrame {
 
     }
 
-    public LoadGameView(CtrlPresentation ctrlPresentation) {
+    LoadGameView(CtrlPresentation ctrlPresentation) {
         this.ctrlPresentation = ctrlPresentation;
         initializeComponents();
     }
@@ -79,4 +79,6 @@ public class LoadGameView extends JFrame {
         gameList.setListData(p);
 
     }
+
+
 }

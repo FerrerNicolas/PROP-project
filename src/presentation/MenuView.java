@@ -11,18 +11,15 @@ public class MenuView extends JFrame{
     private JButton recordsButton;
     private JButton logOutButton;
     private JButton exitButton;
+    private JPanel panel;
 
     private void initializeComponents() {
-        greetingText = new JTextField();
-        newGameButton = new JButton();
-        loadGameButton = new JButton();
-        recordsButton = new JButton();
-        logOutButton = new JButton();
-        exitButton = new JButton();
+
 
         setTitle("Main menu");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+        setContentPane(panel);
+        setSize(200,400);
         greetingText.setText("Hello " + ctrlPresentation.getUser() + "!");
         greetingText.setEditable(false);
         newGameButton.setText("New Game");
@@ -63,11 +60,11 @@ public class MenuView extends JFrame{
     }
 
     private void newGameButtonPressed() {
-        //Load new Game View
+        ctrlPresentation.loadNewGameView();
     }
 
     private void loadGameButtonPressed() {
-        //Load loadGameView
+        ctrlPresentation.loadLoadGameView();
     }
 
     private void gameRecordsButtonPressed() {
@@ -81,5 +78,6 @@ public class MenuView extends JFrame{
     public MenuView(CtrlPresentation ctrlPresentation) {
         this.ctrlPresentation = ctrlPresentation;
         initializeComponents();
+        setVisible(true);
     }
 }

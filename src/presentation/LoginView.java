@@ -10,21 +10,18 @@ public class LoginView extends JFrame {
     private JButton newPlayerButton;
     private JTextField loginText;
     private JButton exitButton;
+    private JPanel panel;
+    private JLabel loginLabel;
 
 
     private void initializeComponents() {
-
-        loginButton = new JButton();
-        newPlayerButton = new JButton();
-        loginText = new JTextField();
-        exitButton = new JButton();
-
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
 
         loginButton.setText("Login");
         newPlayerButton.setText("New Player");
-
+        setContentPane(panel);
+        setSize(300,200);
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
                 loginButtonPress(event);
@@ -43,13 +40,14 @@ public class LoginView extends JFrame {
             }
         });
 
-        loginText.setText("Enter a previously created User");
+        loginLabel.setText("Enter a previously created User");
 
     }
 
     public LoginView(CtrlPresentation ctrlPresentation) {
         this.ctrlPresentation = ctrlPresentation;
         initializeComponents();
+        setVisible(true);
     }
 
     public void exitButtonPress(java.awt.event.ActionEvent event) {
@@ -62,10 +60,12 @@ public class LoginView extends JFrame {
     }
 
     public void newPlayerButtonPressed(java.awt.event.ActionEvent event) {
+        setVisible(false);
         ctrlPresentation.loadUserView();
     }
 
-    public static void notExistingUser() {
+    public void notExistingUser() {
+        setVisible(true);
         JOptionPane.showInputDialog("The username doesn't Exists, use a different username");
     }
 

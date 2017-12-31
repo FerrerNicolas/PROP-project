@@ -6,37 +6,46 @@ import model.Diff;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class CtrlPresentation {
 	private CtrlDomain ctrlDomain;
 	//Add here the views
-	
+	private LoginView loginView;
+	private NewUserView newUserView;
+	private MenuView menuView;
+	private NewGameView newGameView;
+	private BreakerView breakerView;
+	private CorrectionView correctionView;
+	private SetCodeView setCodeView;
+
 	public CtrlPresentation() {
 		try {
-			ctrlDomain = new CtrlDomain();
+			this.ctrlDomain = new CtrlDomain();
 		} catch (ClassNotFoundException e) {
-			//Should never happen, but added for it to compile
 		} catch (IOException e) {
-			//Should never happen but added for it to compile
 		}
 		//might need more stuff, specifically: instance the views with a reference to this class
+
+	}
+
+	public void initialize() {
+		loadLoginView();
 	}
 
 	public void loginUser(String username) {
 		try {
 			ctrlDomain.logIn(username);
 		} catch (UnexistingUser unexistingUser) {
-			LoginView.notExistingUser();
+			loginView.notExistingUser();
 		} catch (AlreadyLoggedIn alreadyLoggedIn) {
-			System.out.println("This should never happen");
-		} catch (FileNotFoundException e) {
-
-		} catch (IOException e) {
-
-		} catch (ClassNotFoundException e) {
+		} catch (FileNotFoundException e) {}
+		catch (IOException e) {}
+		catch (ClassNotFoundException e) {
 
 		}
-		//Load main menu view
+		loginView.setVisible(false);
+		loadMenuView();
 	}
 
 
@@ -47,9 +56,9 @@ public class CtrlPresentation {
 			//Should never happen
 		} catch (ExistingUser existingUser) {
 			//Dialog showing user already exists
-		} catch (IOException e) {
-
-		}
+		} catch (IOException e) {}
+		newUserView.setVisible(false);
+		loadMenuView();
 	}
 
 	public String getUser() {
@@ -60,7 +69,6 @@ public class CtrlPresentation {
 		try {
 			ctrlDomain.logOut();
 		} catch (NoUserLoggedIn noUserLoggedIn) {
-			System.out.println("This should never happen");
 		}
 		loadLoginView();
 	}
@@ -76,14 +84,12 @@ public class CtrlPresentation {
 		else if (userIsBreaker && !fiveGuessAI) gameParameters.add("Darwin");
 		try {
 			ctrlDomain.NewGame(gameParameters);
-		} catch (BadParameters badParameters) {
-			System.out.println("Bad parameters");
-		} catch (AlreadyGameLoaded alreadyGameLoaded) {
-			System.out.println("This should never happen");
-		} catch (NoUserLoggedIn noUserLoggedIn) {
-			System.out.println("This should never happen");
-		}
-		//Load gameView
+		} catch (BadParameters badParameters) {}
+		catch (AlreadyGameLoaded alreadyGameLoaded) {}
+		catch (NoUserLoggedIn noUserLoggedIn) {}
+
+		if (userIsBreaker) loadBreakerView(diff.equals(Diff.HARD), false);
+		else loadMakerView(diff.equals(Diff.HARD));
 	}
 
 
@@ -102,48 +108,119 @@ public class CtrlPresentation {
 			ctrlDomain.loadSavedGame(s);
 		} catch (AlreadyGameLoaded alreadyGameLoaded) {
 			//Should never hapen
-		} catch (GameUnexistentForUser gameUnexistentForUser) {
-
-		} catch (NoUserLoggedIn noUserLoggedIn) {
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (GameUnexistentForUser gameUnexistentForUser) {}
+		catch (NoUserLoggedIn noUserLoggedIn) {}
+		catch (ClassNotFoundException e) {}
+		catch (IOException e) {}
+		ArrayList<String> gameParameters = new ArrayList<>();
+		try {
+			gameParameters = ctrlDomain.getGameInfo();
+		} catch (NoActiveGame noActiveGame) {
 		}
-		//GameView
+		if(gameParameters.get(0).equals("Breaker")) {
+			loadBreakerView(gameParameters.get(1).equals("Hard"), true);
+		}
+		else loadCorrectionView(gameParameters.get(1).equals("Hard"));
+	}
 
+	private void loadCorrectionView(boolean isHard) {
 	}
 
 	public void eraseGame(String s) {
         try {
             ctrlDomain.deleteSavedGame(s);
-        } catch (GameUnexistentForUser gameUnexistentForUser) {
-            gameUnexistentForUser.printStackTrace();
-        } catch (NoUserLoggedIn noUserLoggedIn) {
-            noUserLoggedIn.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (GameUnexistentForUser gameUnexistentForUser) {}
+        catch (NoUserLoggedIn noUserLoggedIn) {}
+        catch (ClassNotFoundException e) {}
+        catch (IOException e) {}
     }
 
+    public ArrayList<Object> getBoard() {
+		return ctrlDomain.getBoard();
+	}
+
+	public Vector<Integer> correctCode(Vector<Integer> code) throws GameIsFinished, IOException, CodeIsInvalid, MismatchedRole, ClassNotFoundException, BadlyFormedCode, NoUserLoggedIn, NoActiveGame {
+		System.out.println(code.toString());
+		return ctrlDomain.playCode(code);
+	}
+	/*
+	public float showScore() {
+
+	}
+	*/
+
+	public void playCorrection(int blackPins, int white) throws IncorrectCorrection, NoGuessToBeCorrected, InvalidNumberOfPins, IOException, MismatchedRole, ClassNotFoundException, NoUserLoggedIn, NoActiveGame {
+		ctrlDomain.playCorrection(white, blackPins);
+	}
+
+	public void setSecretCode(Vector<Integer> code) {
+		try {
+			ctrlDomain.setSecretCode(code);
+		} catch (NoActiveGame noActiveGame) {}
+		catch (SecretCodeAlreadySet secretCodeAlreadySet) {}
+		catch (MismatchedRole mismatchedRole) {}
+		catch (BadlyFormedCode badlyFormedCode) {}
+		catch (CodeIsInvalid codeIsInvalid) {}
+		loadCorrectionView();
+	}
 	public void loadLoginView() {
-		new LoginView(this).setVisible(true);
+		loginView = new LoginView(this);
 	}
 
 	public void loadUserView() {
-		new NewUserView(this).setVisible(true);
+		newUserView = new NewUserView(this);
 	}
 
 	public void loadMenuView() {
-		new MenuView(this).setVisible(true);
+		menuView = new MenuView(this);
+	}
+
+	public void loadNewGameView() {
+		menuView.setVisible(false);
+		newGameView = new NewGameView(this);
 	}
 
 	public void loadLoadGameView() {
 	    new LoadGameView(this).setVisible(true);
     }
 
+    private void loadBreakerView(boolean isHard, boolean startedGame) {
+			newGameView.setVisible(false);
+			breakerView = new BreakerView(this, isHard, startedGame);
+	}
 
+	private void loadMakerView(boolean isHard) {
+		new SetCodeView(this, isHard);
+	}
 
+	private void loadCorrectionView() {
+		correctionView = new CorrectionView(this);
+	}
+
+	public void endGame() {
+		correctionView.setVisible(false);
+		breakerView.setVisible(false);
+		loadMenuView();
+	}
+
+	public void saveGame(String name) {
+		try {
+			ctrlDomain.saveAndExitCurrentGame(name);
+		} catch (NoActiveGame noActiveGame) {}
+		catch (UserSavesExistingID userSavesExistingID) {}
+		catch (ClassNotFoundException e) {}
+		catch (IOException e) {}
+	}
+
+	public void exitGame() {
+		try {
+			ctrlDomain.exitCurrentGame();
+		} catch (NoActiveGame noActiveGame) {
+			noActiveGame.printStackTrace();
+		}
+		breakerView.setVisible(false);
+		setCodeView.setVisible(false);
+		loadMenuView();
+
+	}
 }

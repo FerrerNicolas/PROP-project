@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class NewGameView {
+public class NewGameView extends JFrame {
     private CtrlPresentation ctrlPresentation;
 
     private JRadioButton makerButton;
@@ -24,53 +24,50 @@ public class NewGameView {
     private JRadioButton fiveGuessButton;
     private JButton createButton;
     private JButton backButton;
+    private JPanel panel;
 
     private ButtonGroup roleGroup;
     private ButtonGroup difficultyGroup;
     private ButtonGroup aiGroup;
 
 
-    private void initializeComponents() {
-        playAsText = new JLabel();
+    private void initializeComponents(){
         playAsText.setText("Choose a side to play as this game");
 
         roleGroup = new ButtonGroup();
-        makerButton = new JRadioButton("Code Maker");
-        breakerButton = new JRadioButton("Code Breaker");
+        makerButton.setText("Code Maker");
+        breakerButton.setText("Code Breaker");
         roleGroup.add(makerButton);
         roleGroup.add(breakerButton);
 
-        difficultyText = new JLabel();
         difficultyText.setText("Choose a difficulty for the game");
-
+        setSize(500,500);
         difficultyGroup = new ButtonGroup();
-        easyButton = new JRadioButton("Easy");
-        mediumButton = new JRadioButton("Medium");
-        hardButton = new JRadioButton("Hard");
+        easyButton.setText("Easy");
+        mediumButton.setText("Medium");
+        hardButton.setText("Hard");
+
         difficultyGroup.add(easyButton);
         difficultyGroup.add(mediumButton);
         difficultyGroup.add(hardButton);
 
-        aiText = new JLabel();
         aiText.setVisible(false);
         aiText.setText("Choose an AI to play against");
 
         aiGroup = new ButtonGroup();
-        geneticButton = new JRadioButton("Genetic AI");
-        fiveGuessButton = new JRadioButton("FiveGuess AI");
         geneticButton.setVisible(false);
         fiveGuessButton.setVisible(false);
         aiGroup.add(geneticButton);
         aiGroup.add(fiveGuessButton);
 
-        //default parameters are a medium game as breaker with fiveguess
+        //default parameters are a medium game as maker with fiveguess when breakerSelected
         fiveGuessButton.setSelected(true);
         mediumButton.setSelected(true);
         breakerButton.setSelected(true);
 
 
-        createButton = new JButton("Create Game");
-        backButton = new JButton("Back");
+        createButton.setText("Create Game");
+        backButton.setText("Back");
 
         //ItemListener activates only if state changes not on every button press
         makerButton.addItemListener(new ItemListener() {
@@ -78,9 +75,9 @@ public class NewGameView {
             public void itemStateChanged(ItemEvent event) {
                 int state = event.getStateChange();
                 if (state == ItemEvent.SELECTED) {
-                    geneticButton.setVisible(false);
-                    fiveGuessButton.setVisible(false);
-                    aiText.setVisible(false);
+                    geneticButton.setVisible(true);
+                    fiveGuessButton.setVisible(true);
+                    aiText.setVisible(true);
                 }
             }
         });
@@ -90,9 +87,9 @@ public class NewGameView {
             public void itemStateChanged(ItemEvent event) {
                 int state = event.getStateChange();
                 if (state == ItemEvent.SELECTED) {
-                    geneticButton.setVisible(true);
-                    fiveGuessButton.setVisible(true);
-                    aiText.setVisible(true);
+                    geneticButton.setVisible(false);
+                    fiveGuessButton.setVisible(false);
+                    aiText.setVisible(false);
                 }
             }
         });
@@ -108,6 +105,8 @@ public class NewGameView {
                 backButtonPressed();
             }
         });
+
+        setContentPane(panel);
     }
 
     private void backButtonPressed() {
@@ -117,6 +116,7 @@ public class NewGameView {
     public NewGameView(CtrlPresentation ctrlPresentation) {
         this.ctrlPresentation = ctrlPresentation;
         initializeComponents();
+        setVisible(true);
     }
 
     private void createGameButtonPressed() {
