@@ -39,7 +39,7 @@ public class DriverRanking { //Author:Luis
 				for(int i=0;i<r.getRanking().size() && i<10;i++) {
 					
 							System.out.println("Tuple nrº:" + (1+i) + " " + r.getRanking().get(i));
-							
+	/*						System.out.println("Name: "+ r.getRanking().get(i).getPlayerName() + "; Score: " + r.getRanking().get(i).getValue()); */
 					}
 				System.out.println("Ranking size:"+ r.getRanking().size());
 				

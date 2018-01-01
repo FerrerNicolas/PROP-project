@@ -20,7 +20,7 @@ public class Player implements Serializable {
 		minGuesses = 13.0f; //this is maximum
 	}
 	public String getPlayerName() {
-		return playerName;
+		return this.playerName;
 	}
 	public Float getFinishedGames() {
 		return gamesWon+gamesLost;

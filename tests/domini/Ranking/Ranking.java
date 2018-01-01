@@ -10,9 +10,9 @@ public class Ranking { //Author:Luis
 	
 	ArrayList<Tuple> ranking = new ArrayList<Tuple>(10);
 	
-	public void insert(Tuple t) {
+	public void insert(Tuple t) { //Method not efficient: should stop sort if goal is reached
 		
-		ranking.add(t);
+		ranking.add(t); 
 		
 	
 
