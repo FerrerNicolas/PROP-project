@@ -118,7 +118,7 @@ public class CtrlDomain {
 				try {
 					activeAi.codeBreakerTurn(b.getGuesses().get(i), b.getCorrections().get(i));
 				} catch (Exception e){
-					//Impossible or load bug, so will log it (remove from final version)
+					//Impossible or load bug
 					System.out.println("FATAL ERROR ON AI LOAD!");
 				}
 			}
@@ -201,7 +201,7 @@ public class CtrlDomain {
 		return toReturn;
 	}
 	public Vector<Integer> playCode(Vector<Integer> code) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, GameIsFinished, BadlyFormedCode, CodeIsInvalid, FileNotFoundException, ClassNotFoundException, IOException { 
-		//MismatchedRole means he tried to put a Code when it's a maker! + add exception for ended games!
+		//MismatchedRole means he tried to put a Code when it's a maker!
 		//Returns the Correction of the code played, in format [0]: whites, [1]: blacks
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame == null) throw new NoActiveGame();
@@ -214,7 +214,7 @@ public class CtrlDomain {
 			b.addGuess(guess);
 			Correction c = guess.correct(b.getSecretCode());
 			if(b.addCorrection(c)) endGame();
-			return c.parse(); //warn guillem!
+			return c.parse();
 		} catch(UncorrectedGuessExists e) {
 			System.out.println("Fatal error in Domain!");
 		} catch(NoGuessToBeCorrected e) {
@@ -228,11 +228,10 @@ public class CtrlDomain {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame == null) throw new NoActiveGame();
 		if (! activeGame.getUserIsBreaker()) throw new MismatchedRole();
-		//might call endGame
 		Correction c = new Correction(w,b);
 		Board board = activeGame.getBoard();
 		try {
-			if(board.addCorrection(c)) { //probably exception!
+			if(board.addCorrection(c)) {
 				endGame();
 				return null;
 			} else {
@@ -240,7 +239,6 @@ public class CtrlDomain {
 				Code newCode = activeAi.codeBreakerTurn(lastCode, c);
 				board.addGuess(newCode);
 				return newCode.getCodeArray();
-				
 			}
 		} catch (CodeAlreadyUsed e) {
 			System.out.println("Error on Ai!");
@@ -253,9 +251,17 @@ public class CtrlDomain {
 		}
 		return null; //fake never gets here
 	}
+	public Vector<Integer> getHint(Vector<Boolean> mask){
+		//mask leaves a 1 in positions which are empty. I will pick one randomly and send the correct color for that one
+		//BUT IT WILL UNRANK THE GAME! Should probably warn about that when clicking the button.
+		//will return the color code in 0 and the position in 1
+		
+		return new Vector<Integer>();
+	}
 	private void endGame() throws NoUserLoggedIn, NoActiveGame, FileNotFoundException, IOException, ClassNotFoundException { //PRIVATE FUNCTION FOR MANAGING THE END OF THE GAME!
 		if (activeGame == null) throw new NoActiveGame();
 		if (activeUser == null) throw new NoUserLoggedIn();
+		if (!activeGame.isRanked()) return; //not ranked so no punctuation
 		Board b = activeGame.getBoard();
 		float F; //score Multiplier by difficulty;
 		if(activeGame.getDifficulty() == Diff.EASY) F = 0.5f;
@@ -266,7 +272,7 @@ public class CtrlDomain {
 		if (!b.hasWon()) { score = 0; guesses = 13; }
 		if(activeGame.getUserIsBreaker()) {
 			activeUser.updateRecords(b.hasWon(), score, guesses);
-			//Record persistence here;
+			cdr.insertInRR(activeUser);
 			ctrlPersistence.saveUser(activeUser.getPlayerName(), activeUser);
 			//activeGame=null; better leave it not touched, let Presentation get info until game is closed. Should add an exception in rest of classes?
 		} else { //Ai was breaker, not user
@@ -274,6 +280,7 @@ public class CtrlDomain {
 			if(activeGame.isAiFG()) aiName = "Knuth";
 			Player aiPlayer = (Player) ctrlPersistence.loadAi(aiName);
 			aiPlayer.updateRecords(b.hasWon(), score, guesses);
+			cdr.insertInRR(aiPlayer);
 			ctrlPersistence.saveAi(aiName, aiPlayer); //this surrounded on try catch!
 		}
 	}
