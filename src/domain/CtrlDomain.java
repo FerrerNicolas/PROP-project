@@ -14,17 +14,17 @@ public class CtrlDomain {
 	protected User activeUser = null;
 	private Game activeGame = null;
 	private Ai activeAi = null;
-	//private CtrlDomainRecord cdr;
+	private CtrlDomainRecords cdr;
 	//Creation related functions + getter of domain Record Ctrl
 	public CtrlDomain() throws FileNotFoundException, ClassNotFoundException, IOException {
 		ctrlPersistence = new CtrlPersistence(this); 
-		//CtrlPersistenceRecords cpr = ctrlPersistence.getControllerRecords();
-		//cdr = new CtrlDomainRecord(cpr);
+		CtrlPersistenceRecords cpr = ctrlPersistence.getControllerRecords();
+		cdr = new CtrlDomainRecords(cpr);
 	}
 	
-	/*public CtrlDomainRecord getCdr(){
-	 * 	return cdr;
-	 * }*/
+	public CtrlDomainRecords getCdr(){
+	    return cdr;
+	}
 	public Object getInstanceOfPlayer(String name) { //This is for permanency!
 		return new Player(name);
 	}
