@@ -4,6 +4,7 @@ import domain.CtrlDomain;
 import domain.CtrlDomainRecords;
 import domini.Tuple.Tuple;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +12,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
@@ -26,7 +29,8 @@ public class RecordsGUI {
     //View Objects
     private JFrame frame;
     private JButton newButton;
-    private JTable table;
+    private JTable grTable;
+    private JTable rTable;
 
     private CtrlDomainRecords records;
     private CtrlDomain ctrlDomain;
@@ -68,46 +72,55 @@ public class RecordsGUI {
         frame = new JFrame();
         
         //Frame dimensions
-        Dimension dimension = new Dimension(360, 120);
+        Dimension dimension = new Dimension(500,400);
         frame.setPreferredSize(dimension);
         
         frame.setResizable(true);
-        
-        
+        frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel, BorderLayout.CENTER);
+        
 
         ArrayList<model.Tuple> records = this.records.getGlobalRecords().getGlobalRecords();
+        
+        ArrayList<model.Tuple> rankings = this.records.getRankings().getRanking();
+         
+        List<String> recordTypes = Arrays.asList("Finished Games", "Games Lost", "Games Won", "Max Score","Min Guesses","Total Score");
 
-        Object[] columnNames = new Object[2];
-        columnNames[0] = "Name";
-        columnNames[1] = "Value";
+        
+        Object[] columnNames = new Object[3];
+        columnNames[0] = "Record type";
+        columnNames[1] = "Player";
+        columnNames[2] = "Value";
 
-        table = new JTable();
+        grTable = new JTable();
+        
 
-        DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+        DefaultTableModel dtm = (DefaultTableModel) grTable.getModel();
         dtm.setColumnIdentifiers(columnNames);
         for (int i = 0; i < records.size(); i++) {
-            Object[] row = new Object[2];
-            row[0] = records.get(i).getPlayerName();
+            Object[] row = new Object[3];
+            row[0] = recordTypes.get(i);
+            row[1] = records.get(i).getPlayerName();
             String value = "";
             if (records.get(i).getValue() != null) {
-                row[1] = records.get(i).getValue().toString();
+                row[2] = records.get(i).getValue().toString();
             } else {
-                row[1] = "N/A";
+                row[2] = "N/A";
             }
-
+            
             dtm.addRow(row);
         }
-        JScrollPane pane = new JScrollPane(table);
-        panel.add(table.getTableHeader(), BorderLayout.NORTH);
+        
+        
+        JScrollPane pane = new JScrollPane(grTable);
+        panel.add(grTable.getTableHeader(), BorderLayout.CENTER);
 
         panel.add(pane);
 
-        
     }
 
 }

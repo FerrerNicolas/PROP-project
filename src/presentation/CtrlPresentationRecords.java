@@ -31,8 +31,6 @@ public class CtrlPresentationRecords {
         
         Tuple playerScore = new Tuple(player.getPlayerName(), player.getMaxScore());
         
-        //
-        Tuple playerR
         
         this.recordsGui = new RecordsGUI(this.domain.getInstanceOfPlayer(playername), domain);
 
