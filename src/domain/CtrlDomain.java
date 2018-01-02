@@ -5,6 +5,7 @@ import model.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 
 import exceptions.*;
@@ -251,12 +252,31 @@ public class CtrlDomain {
 		}
 		return null; //fake never gets here
 	}
-	public Vector<Integer> getHint(Vector<Boolean> mask){
+	public Vector<Integer> getHint(Vector<Boolean> mask) throws EmptyMask, NoUserLoggedIn, NoActiveGame, MismatchedRole, BadParameters {
 		//mask leaves a 1 in positions which are empty. I will pick one randomly and send the correct color for that one
 		//BUT IT WILL UNRANK THE GAME! Should probably warn about that when clicking the button.
 		//will return the color code in 0 and the position in 1
-		
-		return new Vector<Integer>();
+		if (activeUser == null) throw new NoUserLoggedIn();
+		if (activeGame == null) throw new NoActiveGame();
+		if (! activeGame.getUserIsBreaker()) throw new MismatchedRole();
+		if (activeGame.getDifficulty() == Diff.HARD && mask.size() != 5) throw new BadParameters("Hard games should be sent a 5 length mask!");
+		if (activeGame.getDifficulty() == Diff.NORMAL && mask.size() != 4) throw new BadParameters("Normal games should be sent a 4 length mask!");
+		if (activeGame.getDifficulty() == Diff.EASY && mask.size() != 4) throw new BadParameters("Easy games should be sent a 4 length mask!");
+		Random rand = new Random();
+		int x = rand.nextInt(mask.size());
+		int exceptionCounter = 0;
+		while (!mask.get(x)) {
+			x++; exceptionCounter++;
+			if(x == mask.size()) 
+				x = 0;
+			if(exceptionCounter == mask.size()) throw new EmptyMask(); //this will be thrown if mask was all 0s
+		}
+		Code y = activeGame.getBoard().getSecretCode(); //no need to check if secretcode is set since then it would've sent mismatchedRole
+		Vector<Integer> returnTuple = new Vector<Integer>();
+		returnTuple.add(y.getCodeArray().get(x));
+		returnTuple.add(x);
+		activeGame.unRank();
+		return returnTuple;
 	}
 	private void endGame() throws NoUserLoggedIn, NoActiveGame, FileNotFoundException, IOException, ClassNotFoundException { //PRIVATE FUNCTION FOR MANAGING THE END OF THE GAME!
 		if (activeGame == null) throw new NoActiveGame();
