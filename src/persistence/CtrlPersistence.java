@@ -11,9 +11,11 @@ public class CtrlPersistence {
 	private String savingDirectory; //everything is saved  in the same place
 	private File IDsFile;
 	private CtrlDomain ctrlDomain;
+	private CtrlPersistenceRecords ctrlPersistenceRecords;
 	
 	public CtrlPersistence(CtrlDomain ctrlDomain) throws FileNotFoundException, IOException, ClassNotFoundException {
 		this.ctrlDomain = ctrlDomain;
+		this.ctrlPersistenceRecords = new CtrlPersistenceRecords();
 		this.savingDirectory = "src/persistence/DATA/";
 		IDsFile = new File(this.savingDirectory + "IDs.list");
 		if (!IDsFile.exists()) {
@@ -28,6 +30,11 @@ public class CtrlPersistence {
 		}else {
 			IDs = (HashMap<String,Integer>) loadObject(IDsFile);
 		}
+	}
+	
+	public CtrlPersistenceRecords getControllerRecords() {
+		return ctrlPersistenceRecords;
+		
 	}
 	
 	private void saveObject(File dir, Object obj) throws FileNotFoundException, IOException{
