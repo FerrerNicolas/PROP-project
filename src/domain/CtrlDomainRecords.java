@@ -20,15 +20,14 @@ public class CtrlDomainRecords {
 
     private CtrlPersistenceRecords persistenceRecords;
 
-    public CtrlDomainRecords(CtrlDomain domain) throws FileNotFoundException, IOException, ClassNotFoundException {
+    public CtrlDomainRecords(CtrlPersistenceRecords cpr) throws FileNotFoundException, IOException, ClassNotFoundException {
 
-        this.persistenceRecords = new CtrlPersistenceRecords();
+        this.persistenceRecords = cpr;
 
-        this.domain = domain;
     }
 
     /**
-     * Insert into rankings
+     * Insert into globalrecords and rankings
      *
      * @param p
      * @return Player
