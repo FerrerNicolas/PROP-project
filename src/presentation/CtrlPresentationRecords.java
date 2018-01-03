@@ -6,11 +6,12 @@ import domain.CtrlDomain;
 import domain.CtrlDomainRecords;
 
 
-public class CtrlPresentationRecords {
+public class CtrlPresentationRecords { //Author:Luis
 
     protected CtrlDomainRecords cdr;
 
     protected RecordsGUI recordsGui;
+    protected RankingsGUI rankingsGui;
 
     private CtrlDomain domain;
 
@@ -23,7 +24,7 @@ public class CtrlPresentationRecords {
             e.printStackTrace();
         
         }
-        // Plyer name
+        // Player name
         String playername = this.domain.getLoggedUsername();
         
         Player player =  (Player)this.domain.getInstanceOfPlayer(playername);
@@ -32,9 +33,16 @@ public class CtrlPresentationRecords {
         Tuple playerScore = new Tuple(player.getPlayerName(), player.getMaxScore());
         
         
-        this.recordsGui = new RecordsGUI(this.domain.getInstanceOfPlayer(playername), domain);
-
+        this.recordsGui = new RecordsGUI(this.domain.getInstanceOfPlayer(playername),domain);
+        this.rankingsGui = new RankingsGUI(this.domain.getInstanceOfPlayer(playername),domain);
     }
         
     
+	public void loadRecordsGUI(CtrlDomainRecords cdr) {
+		recordsGui = new RecordsGUI(cdr);
+	}
+
+	public void loadRankingsGUI(CtrlDomainRecords cdr) {
+		recordsGui = new RecordsGUI(cdr);
+	}
 }

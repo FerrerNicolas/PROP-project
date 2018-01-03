@@ -1,19 +1,11 @@
-package persistence;
+package permanencia.ObjectSaverRecords;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import domain.CtrlDomainRecords;
+import java.io.*;
+import persistence.CtrlPersistenceRecords;
 
-import domain.*;
-import model.*;
-
-
-public class CtrlPersistenceRecords { //Author:Luis
-
+public class ObjectSaverRecords {
+    
     private GlobalRecords globalRecords;
     private Ranking ranking;
 
@@ -23,9 +15,9 @@ public class CtrlPersistenceRecords { //Author:Luis
     private String savingDirectory; //everything is saved  in the same place
     private CtrlDomainRecords ctrlDomainRecords;
 
-    public CtrlPersistenceRecords() throws FileNotFoundException, IOException, ClassNotFoundException {
+    public ObjectSaverRecords(String savingDirectory) throws FileNotFoundException, IOException, ClassNotFoundException {
 
-        this.savingDirectory = "c:/persistenceRecords/DATA/";
+        this.savingDirectory = savingDirectory;
 
         // Global Records
         this.globalRecordsFile = new File(this.savingDirectory + CtrlPersistenceRecords.GLOBAL_RECORDS_FILE_NAME);
@@ -102,6 +94,3 @@ public class CtrlPersistenceRecords { //Author:Luis
     public static final String GLOBAL_RECORDS_FILE_NAME = "global_records.list";
 
 }
-
-// Update Records, save
-// And retreive records
