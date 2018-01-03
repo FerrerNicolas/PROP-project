@@ -14,7 +14,7 @@ import model.Player;
 import model.Ranking;
 import model.Tuple;
 
-public class CtrlDomainRecords {
+public class CtrlDomainRecords { //Author:Luis
 
     private CtrlDomain domain;
 
@@ -23,7 +23,7 @@ public class CtrlDomainRecords {
     public CtrlDomainRecords(CtrlPersistenceRecords cpr) throws FileNotFoundException, IOException, ClassNotFoundException {
 
         this.persistenceRecords = cpr;
-
+        
     }
 
     /**
@@ -43,7 +43,7 @@ public class CtrlDomainRecords {
             e.printStackTrace();
         }
         
-        //Global records Hndling
+        //Global records Handling
         
         GlobalRecords records = this.persistenceRecords.getGlobalRecords();
         records.update(p);
@@ -61,6 +61,7 @@ public class CtrlDomainRecords {
     }
     
     public GlobalRecords getGlobalRecords() {
-        return this.persistenceRecords.getGlobalRecords();
+        if(this.persistenceRecords.getGlobalRecords().getGlobalRecords().isEmpty()) return null;
+        else return this.persistenceRecords.getGlobalRecords();
     }
 }

@@ -1,30 +1,34 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package presentation;
 
 import domain.CtrlDomain;
 import domain.CtrlDomainRecords;
 import domini.Tuple.Tuple;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import persistence.CtrlPersistence;
 import persistence.CtrlPersistenceRecords;
-import presentation.*;
 
-public class RecordsGUI {
+/**
+ *
+ * @author Luis Mendes
+ */
+public class RankingsGUI {
+    
+
 
     //View Objects
     private JFrame frame;
@@ -32,7 +36,7 @@ public class RecordsGUI {
     private JTable grTable;
     private JTable rTable;
 
-    private CtrlDomainRecords cdr;
+    private CtrlDomainRecords records;
     private CtrlDomain ctrlDomain;
     CtrlPresentationRecords cpr;
 
@@ -41,7 +45,7 @@ public class RecordsGUI {
      */
     public static void main(String[] args) {
         try {
-            RecordsGUI g = new RecordsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
+            RankingsGUI g = new RankingsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
             g.initialize();
         } catch (IOException ex) {
             Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,12 +54,11 @@ public class RecordsGUI {
         }
     }
 
-    public RecordsGUI(CtrlDomainRecords recordsControl) {
-        this.cdr = recordsControl;
-        initialize();
+    public RankingsGUI(CtrlDomainRecords recordsControl) {
+        this.records = recordsControl;
     }
 
-    public RecordsGUI(Object player, CtrlDomain domain) {
+    public RankingsGUI(Object player, CtrlDomain domain) {
 
         try {
             this.ctrlDomain = domain;
@@ -85,40 +88,33 @@ public class RecordsGUI {
         frame.getContentPane().add(panel, BorderLayout.CENTER);
         
 
-        ArrayList<model.Tuple> records = this.cdr.getGlobalRecords().getGlobalRecords();
+        ArrayList<model.Tuple> rankings = this.records.getRankings().getRanking();
         
-        //ArrayList<model.Tuple> rankings = this.cdr.getRankings().getRanking();
-         
-        List<String> recordTypes = Arrays.asList("Finished Games", "Games Lost", "Games Won", "Max Score","Min Guesses","Total Score");
+        Object[] columnNames = new Object[2];
+        columnNames[0] = "Player";
+        columnNames[1] = "Value";
 
-        
-        Object[] columnNames = new Object[3];
-        columnNames[0] = "Record type";
-        columnNames[1] = "Player";
-        columnNames[2] = "Value";
-
-        grTable = new JTable();
+        rTable = new JTable();
         
 
-        DefaultTableModel dtm = (DefaultTableModel) grTable.getModel();
+        DefaultTableModel dtm = (DefaultTableModel) rTable.getModel();
         dtm.setColumnIdentifiers(columnNames);
-        for (int i = 0; i < records.size(); i++) {
+        for (int i = 0; i < rankings.size(); i++) {
             Object[] row = new Object[3];
-            row[0] = recordTypes.get(i);
-            row[1] = records.get(i).getPlayerName();
+            row[0] = rankings.get(i).getPlayerName();
             String value = "";
-            if (records.get(i).getValue() != null) {
-                row[2] = records.get(i).getValue().toString();
+            if (rankings.get(i).getValue() != null) {
+                row[1] = rankings.get(i).getValue().toString();
             } else {
-                row[2] = "N/A";
+                row[1] = "N/A";
             }
             
             dtm.addRow(row);
         }
         
         
-        JScrollPane pane = new JScrollPane(grTable);
-        panel.add(grTable.getTableHeader(), BorderLayout.CENTER);
+        JScrollPane pane = new JScrollPane(rTable);
+        panel.add(rTable.getTableHeader(), BorderLayout.CENTER);
 
         panel.add(pane);
 
