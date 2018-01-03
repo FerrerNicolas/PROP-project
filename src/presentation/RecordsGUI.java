@@ -41,7 +41,7 @@ public class RecordsGUI {
      */
     public static void main(String[] args) {
         try {
-            RecordsGUI g = new RecordsGUI(new CtrlDomainRecords(null));
+            RecordsGUI g = new RecordsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
             g.initialize();
         } catch (IOException ex) {
             Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,6 +52,7 @@ public class RecordsGUI {
 
     public RecordsGUI(CtrlDomainRecords recordsControl) {
         this.cdr = recordsControl;
+        initialize();
     }
 
     public RecordsGUI(Object player, CtrlDomain domain) {
@@ -86,7 +87,7 @@ public class RecordsGUI {
 
         ArrayList<model.Tuple> records = this.cdr.getGlobalRecords().getGlobalRecords();
         
-        ArrayList<model.Tuple> rankings = this.cdr.getRankings().getRanking();
+        //ArrayList<model.Tuple> rankings = this.cdr.getRankings().getRanking();
          
         List<String> recordTypes = Arrays.asList("Finished Games", "Games Lost", "Games Won", "Max Score","Min Guesses","Total Score");
 

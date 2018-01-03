@@ -74,7 +74,7 @@ public class CtrlPresentation {
 	}
 
 	public void createNewGame(Diff diff, boolean userIsBreaker, boolean fiveGuessAI) {
-		ArrayList<String> gameParameters = new ArrayList<>();
+		ArrayList<String> gameParameters = new ArrayList<String>();
 		if (userIsBreaker) gameParameters.add("Breaker");
 		else gameParameters.add("Maker");
 		if (diff.equals(Diff.EASY)) gameParameters.add("Easy");

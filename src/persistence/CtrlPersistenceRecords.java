@@ -14,7 +14,7 @@ import model.*;
 
 public class CtrlPersistenceRecords { //Author:Luis
 
-    private GlobalRecords globalRecords;
+    private GlobalRecords globalRecords = null;
     private Ranking ranking;
 
     private File globalRecordsFile;
@@ -25,7 +25,7 @@ public class CtrlPersistenceRecords { //Author:Luis
 
     public CtrlPersistenceRecords() throws FileNotFoundException, IOException, ClassNotFoundException {
 
-        this.savingDirectory = "c:/persistenceRecords/DATA/";
+        this.savingDirectory = "src/persistence/DATARECORDS/";
 
         // Global Records
         this.globalRecordsFile = new File(this.savingDirectory + CtrlPersistenceRecords.GLOBAL_RECORDS_FILE_NAME);

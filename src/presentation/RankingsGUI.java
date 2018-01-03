@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import persistence.CtrlPersistenceRecords;
 
 /**
  *
@@ -44,7 +45,7 @@ public class RankingsGUI {
      */
     public static void main(String[] args) {
         try {
-            RankingsGUI g = new RankingsGUI(new CtrlDomainRecords(null));
+            RankingsGUI g = new RankingsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
             g.initialize();
         } catch (IOException ex) {
             Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);

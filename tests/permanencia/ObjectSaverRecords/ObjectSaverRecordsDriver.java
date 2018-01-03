@@ -9,7 +9,7 @@ public class ObjectSaverRecordsDriver {
 	
 	public static void main(String[] args) throws IOException, FileNotFoundException, ClassNotFoundException {
 		
-		ObjectSaverRecords o = new ObjectSaverRecords("c:/persistenceRecords/DATA/"); 
+		ObjectSaverRecords o = new ObjectSaverRecords("tests/permanencia/ObjectSaverRecords/savedRecords/"); 
 		
 		Player p1 = new Player("Luis");
        		Player p2 = new Player("Victor");
@@ -27,6 +27,7 @@ public class ObjectSaverRecordsDriver {
                 
 		GlobalRecords gr = new GlobalRecords();
                 gr.update(p1);
+                gr.update(p2);
                 
                 Ranking ranking = new Ranking();
                 Tuple t1 = new Tuple(p1.getPlayerName(),p1.getMaxScore());
