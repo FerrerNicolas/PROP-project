@@ -11,7 +11,9 @@ public class LoadGameView extends JFrame {
     private JButton loadButton;
     private JButton eraseButton;
     private JButton backButton;
-    private JTextField SelectedGame;
+    private JTextField selectedGame;
+    private JPanel panel;
+    private JLabel gameLabel;
 
     private void initializeComponents() {
 
@@ -19,14 +21,17 @@ public class LoadGameView extends JFrame {
         eraseButton.setText("Erase Game");
         backButton.setText("Back");
 
-        SelectedGame.setText("Write a name of a Game or select it");
+        gameLabel.setText("Write a name of a Game or select it");
+
+        setSize(400,400);
+        setTitle("Load a Game");
 
         gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setTitle("Saved Games");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         gameList.setListData(ctrlPresentation.getSavedGamesList());
-
+        System.out.println(gameList.getSize());
         loadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
                 loadButtonPressed();
@@ -51,7 +56,7 @@ public class LoadGameView extends JFrame {
                 clickOnListElement(event);
             }
         });
-
+        setContentPane(panel);
     }
 
     LoadGameView(CtrlPresentation ctrlPresentation) {
@@ -60,20 +65,21 @@ public class LoadGameView extends JFrame {
     }
 
     private void backButtonPressed() {
+        setVisible(false);
         ctrlPresentation.loadMenuView();
     }
 
     private void clickOnListElement(ListSelectionEvent event) {
         String s = (String) gameList.getSelectedValue();
-        SelectedGame.setText(s);
+        selectedGame.setText(s);
     }
 
     private void loadButtonPressed() {
-        ctrlPresentation.loadGame(SelectedGame.getText());
+        ctrlPresentation.loadGame(selectedGame.getText());
     }
 
     private void eraseButtonPressed() {
-        ctrlPresentation.eraseGame(SelectedGame.getText());
+        ctrlPresentation.eraseGame(selectedGame.getText());
         //We reload the saved games list
         Object[] p = ctrlPresentation.getSavedGamesList();
         gameList.setListData(p);

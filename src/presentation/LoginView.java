@@ -1,6 +1,7 @@
 package presentation;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class LoginView extends JFrame {
 
@@ -21,7 +22,10 @@ public class LoginView extends JFrame {
         loginButton.setText("Login");
         newPlayerButton.setText("New Player");
         setContentPane(panel);
-        setSize(300,200);
+        setSize(300,150);
+        //This function makes the window appear in the middle of the screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2 - this.getSize().height/2);
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
                 loginButtonPress(event);
@@ -66,7 +70,7 @@ public class LoginView extends JFrame {
 
     public void notExistingUser() {
         setVisible(true);
-        JOptionPane.showInputDialog("The username doesn't Exists, use a different username");
+        JOptionPane.showMessageDialog(this, "The username doesn't Exists, use a different username");
     }
 
 

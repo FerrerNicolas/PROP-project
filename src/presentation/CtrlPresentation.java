@@ -10,13 +10,14 @@ import java.util.Vector;
 
 public class CtrlPresentation {
 	private CtrlDomain ctrlDomain;
+	private CtrlPresentationRecords ctrlPresentationRecords;
 	//Add here the views
 	private LoginView loginView;
 	private NewUserView newUserView;
 	private MenuView menuView;
 	private NewGameView newGameView;
 	private BreakerView breakerView;
-	private CorrectionView correctionView;
+	private MakerView makerView;
 	private SetCodeView setCodeView;
 
 	public CtrlPresentation() {
@@ -33,32 +34,42 @@ public class CtrlPresentation {
 		loadLoginView();
 	}
 
+
+	//Function used by the LoginView
 	public void loginUser(String username) {
+		boolean succesfulLogin = true;
 		try {
 			ctrlDomain.logIn(username);
 		} catch (UnexistingUser unexistingUser) {
+			succesfulLogin = false;
 			loginView.notExistingUser();
 		} catch (AlreadyLoggedIn alreadyLoggedIn) {
 		} catch (FileNotFoundException e) {}
 		catch (IOException e) {}
 		catch (ClassNotFoundException e) {
-
 		}
-		loginView.setVisible(false);
-		loadMenuView();
+		if (succesfulLogin) {
+			loginView.setVisible(false);
+			loadMenuView();
+		}
 	}
 
 
 	public void createUser(String username) {
+		boolean createdUser = true;
 		try {
 			ctrlDomain.register(username);
 		} catch (AlreadyLoggedIn alreadyLoggedIn) {
 			//Should never happen
 		} catch (ExistingUser existingUser) {
-			//Dialog showing user already exists
+			createdUser = false;
+			newUserView.userAlredyExists(username);
 		} catch (IOException e) {}
-		newUserView.setVisible(false);
-		loadMenuView();
+		if (createdUser) {
+			newUserView.setVisible(false);
+			loadMenuView();
+		}
+
 	}
 
 	public String getUser() {
@@ -74,7 +85,7 @@ public class CtrlPresentation {
 	}
 
 	public void createNewGame(Diff diff, boolean userIsBreaker, boolean fiveGuessAI) {
-		ArrayList<String> gameParameters = new ArrayList<>();
+		ArrayList<String> gameParameters = new ArrayList<String>();
 		if (userIsBreaker) gameParameters.add("Breaker");
 		else gameParameters.add("Maker");
 		if (diff.equals(Diff.EASY)) gameParameters.add("Easy");
@@ -98,6 +109,7 @@ public class CtrlPresentation {
 			return ctrlDomain.loadUsersSavedGames().toArray();
 		} catch (NoUserLoggedIn noUserLoggedIn) {
 		}
+
 		//Should never come here!
 		return null;
 	}
@@ -143,11 +155,11 @@ public class CtrlPresentation {
 		System.out.println(code.toString());
 		return ctrlDomain.playCode(code);
 	}
-	/*
-	public float showScore() {
 
+	public void showRecords() {
+		menuView.setVisible(false);
+		ctrlPresentationRecords = new CtrlPresentationRecords();
 	}
-	*/
 
 	public void playCorrection(int blackPins, int white) throws IncorrectCorrection, NoGuessToBeCorrected, InvalidNumberOfPins, IOException, MismatchedRole, ClassNotFoundException, NoUserLoggedIn, NoActiveGame {
 		ctrlDomain.playCorrection(white, blackPins);
@@ -194,11 +206,11 @@ public class CtrlPresentation {
 	}
 
 	private void loadCorrectionView() {
-		correctionView = new CorrectionView(this);
+		makerView = new MakerView(this);
 	}
 
 	public void endGame() {
-		correctionView.setVisible(false);
+		makerView.setVisible(false);
 		breakerView.setVisible(false);
 		loadMenuView();
 	}
@@ -210,6 +222,9 @@ public class CtrlPresentation {
 		catch (UserSavesExistingID userSavesExistingID) {}
 		catch (ClassNotFoundException e) {}
 		catch (IOException e) {}
+		breakerView.setVisible(false);
+		makerView.setVisible(false);
+		loadMenuView();
 	}
 
 	public void exitGame() {

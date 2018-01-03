@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 
-public class CorrectionView extends JFrame{
+public class MakerView extends JFrame{
     private CtrlPresentation ctrlPresentation;
 
     private JTextField blackPinsText;
@@ -113,7 +113,7 @@ public class CorrectionView extends JFrame{
     }
 
 
-    CorrectionView(CtrlPresentation ctrlPresentation) {
+    MakerView(CtrlPresentation ctrlPresentation) {
         this.ctrlPresentation = ctrlPresentation;
         initializeComponents();
         this.setVisible(true);

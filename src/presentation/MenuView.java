@@ -1,6 +1,7 @@
 package presentation;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MenuView extends JFrame{
     private CtrlPresentation ctrlPresentation;
@@ -20,6 +21,9 @@ public class MenuView extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(panel);
         setSize(200,400);
+        //The below function makes the screen appear in the center
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2 - this.getSize().height/2);
         greetingText.setText("Hello " + ctrlPresentation.getUser() + "!");
         greetingText.setEditable(false);
         newGameButton.setText("New Game");
@@ -68,10 +72,11 @@ public class MenuView extends JFrame{
     }
 
     private void gameRecordsButtonPressed() {
-        //Load gameRecordsView
+        ctrlPresentation.showRecords();
     }
 
     private void logOutButtonPressed() {
+        setVisible(false);
         ctrlPresentation.logOutUser();
     }
 
