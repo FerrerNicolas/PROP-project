@@ -50,7 +50,11 @@ public class CtrlPresentation {
 		catch (ClassNotFoundException e) {
 		}
 		if (succesfulLogin) {
-			loginView.setVisible(false);
+            try {
+                this.ctrlPresentationRecords = new CtrlPresentationRecords();
+            } catch (IOException e) {}
+            catch (ClassNotFoundException e) {}
+            loginView.setVisible(false);
 			loadMenuView();
 		}
 	}
@@ -163,7 +167,19 @@ public class CtrlPresentation {
 
 	public void showRecords() {
 		menuView.setVisible(false);
-		ctrlPresentationRecords = new CtrlPresentationRecords();
+		try {
+			ctrlPresentationRecords.loadRecordsGUI();
+		} catch (IOException e) {}
+		catch (ClassNotFoundException e) {}
+	}
+
+	public void showRankings() {
+		menuView.setVisible(false);
+		try {
+			ctrlPresentationRecords.loadRankingsGUI();
+		} catch (FileNotFoundException e) {}
+		catch (IOException e) {}
+		catch (ClassNotFoundException e) {}
 	}
 
     public Vector<Integer> playCorrection(int blackPins, int white) throws IncorrectCorrection, NoGuessToBeCorrected, InvalidNumberOfPins, IOException, MismatchedRole, ClassNotFoundException, NoUserLoggedIn, NoActiveGame {

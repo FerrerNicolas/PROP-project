@@ -75,7 +75,7 @@ public class RecordsGUI {
         //Frame dimensions
         Dimension dimension = new Dimension(500,400);
         frame.setPreferredSize(dimension);
-
+        frame.setSize(dimension);
         frame.setResizable(true);
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,7 +119,6 @@ public class RecordsGUI {
 
         JScrollPane pane = new JScrollPane(grTable);
         panel.add(grTable.getTableHeader(), BorderLayout.CENTER);
-
         panel.add(pane);
 
     }
