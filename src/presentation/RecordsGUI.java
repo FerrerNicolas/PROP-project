@@ -2,7 +2,7 @@ package presentation;
 
 import domain.CtrlDomain;
 import domain.CtrlDomainRecords;
-import domini.Tuple.Tuple;
+//import domini.Tuple.Tuple;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
@@ -25,7 +25,7 @@ import persistence.CtrlPersistenceRecords;
 import presentation.*;
 
 public class RecordsGUI {
-
+    /*
     //View Objects
     private JFrame frame;
     private JButton newButton;
@@ -39,6 +39,7 @@ public class RecordsGUI {
     /**
      * Launch the application.
      */
+    /*
     public static void main(String[] args) {
         try {
             RecordsGUI g = new RecordsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
@@ -69,6 +70,7 @@ public class RecordsGUI {
     /**
      * Initialize the contents of the frame.
      */
+    /*
     private void initialize() {
         frame = new JFrame();
         
@@ -123,5 +125,5 @@ public class RecordsGUI {
         panel.add(pane);
 
     }
-
+    */
 }

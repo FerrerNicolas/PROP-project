@@ -1,6 +1,6 @@
 package presentation;
 
-import domini.Tuple.Tuple;
+
 import model.Player;
 import domain.CtrlDomain;
 import domain.CtrlDomainRecords;
@@ -10,7 +10,7 @@ import persistence.CtrlPersistenceRecords;
 
 
 public class CtrlPresentationRecords { //Author:Luis
-
+/*
     protected CtrlDomainRecords cdr;
 
     protected RecordsGUI recordsGui;
@@ -48,4 +48,5 @@ public class CtrlPresentationRecords { //Author:Luis
 	public void loadRankingsGUI() throws IOException, FileNotFoundException, ClassNotFoundException {
 		this.rankingsGui = new RankingsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
 	}
+	*/
 }

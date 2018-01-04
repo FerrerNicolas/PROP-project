@@ -7,7 +7,7 @@ package presentation;
 
 import domain.CtrlDomain;
 import domain.CtrlDomainRecords;
-import domini.Tuple.Tuple;
+//import domini.Tuple.Tuple;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import persistence.CtrlPersistenceRecords;
  * @author Luis Mendes
  */
 public class RankingsGUI {
-    
+    /*
 
 
     //View Objects
@@ -43,6 +43,7 @@ public class RankingsGUI {
     /**
      * Launch the application.
      */
+    /*
     public static void main(String[] args) {
         try {
             RankingsGUI g = new RankingsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
@@ -72,6 +73,8 @@ public class RankingsGUI {
     /**
      * Initialize the contents of the frame.
      */
+
+    /*
     private void initialize() {
         frame = new JFrame();
         
@@ -119,5 +122,5 @@ public class RankingsGUI {
         panel.add(pane);
 
     }
-
+*/
 }

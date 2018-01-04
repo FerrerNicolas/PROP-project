@@ -4,6 +4,7 @@ import domain.CtrlDomain;
 import model.Diff;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -107,9 +108,13 @@ public class NewGameView extends JFrame {
         });
 
         setContentPane(panel);
+        //The below function makes the screen appear in the center
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
     private void backButtonPressed() {
+        setVisible(false);
         ctrlPresentation.loadMenuView();
     }
 
@@ -124,6 +129,7 @@ public class NewGameView extends JFrame {
         if (easyButton.isSelected()) diff = Diff.EASY;
         else if (mediumButton.isSelected()) diff = Diff.NORMAL;
         else diff = Diff.HARD;
+        setVisible(false);
         ctrlPresentation.createNewGame(diff, breakerButton.isSelected(), fiveGuessButton.isSelected());
     }
 }

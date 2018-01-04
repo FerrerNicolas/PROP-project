@@ -6,6 +6,7 @@ import model.Diff;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 
 public class CtrlPresentation {
@@ -91,8 +92,8 @@ public class CtrlPresentation {
 		if (diff.equals(Diff.EASY)) gameParameters.add("Easy");
 		else if (diff.equals(Diff.NORMAL)) gameParameters.add("Normal");
 		else gameParameters.add("Hard");
-		if (userIsBreaker && fiveGuessAI) gameParameters.add("Knuth");
-		else if (userIsBreaker && !fiveGuessAI) gameParameters.add("Darwin");
+        if (!userIsBreaker && fiveGuessAI) gameParameters.add("Knuth");
+        else if (!userIsBreaker) gameParameters.add("Darwin");
 		try {
 			ctrlDomain.NewGame(gameParameters);
 		} catch (BadParameters badParameters) {}
@@ -100,7 +101,12 @@ public class CtrlPresentation {
 		catch (NoUserLoggedIn noUserLoggedIn) {}
 
 		if (userIsBreaker) loadBreakerView(diff.equals(Diff.HARD), false);
-		else loadMakerView(diff.equals(Diff.HARD));
+        else loadSetCodeView(diff.equals(Diff.HARD));
+
+    }
+
+    private void loadSetCodeView(boolean isHard) {
+        setCodeView = new SetCodeView(this, isHard);
 	}
 
 
@@ -131,11 +137,11 @@ public class CtrlPresentation {
 		}
 		if(gameParameters.get(0).equals("Breaker")) {
 			loadBreakerView(gameParameters.get(1).equals("Hard"), true);
-		}
-		else loadCorrectionView(gameParameters.get(1).equals("Hard"));
-	}
+		} else loadMakerView(gameParameters.get(1).equals("Hard"), true);
+    }
 
-	private void loadCorrectionView(boolean isHard) {
+    private void loadMakerView(boolean isHard, boolean startedGame) {
+        makerView = new MakerView(this, isHard, true);
 	}
 
 	public void eraseGame(String s) {
@@ -152,7 +158,6 @@ public class CtrlPresentation {
 	}
 
 	public Vector<Integer> correctCode(Vector<Integer> code) throws GameIsFinished, IOException, CodeIsInvalid, MismatchedRole, ClassNotFoundException, BadlyFormedCode, NoUserLoggedIn, NoActiveGame {
-		System.out.println(code.toString());
 		return ctrlDomain.playCode(code);
 	}
 
@@ -161,20 +166,15 @@ public class CtrlPresentation {
 		ctrlPresentationRecords = new CtrlPresentationRecords();
 	}
 
-	public void playCorrection(int blackPins, int white) throws IncorrectCorrection, NoGuessToBeCorrected, InvalidNumberOfPins, IOException, MismatchedRole, ClassNotFoundException, NoUserLoggedIn, NoActiveGame {
-		ctrlDomain.playCorrection(white, blackPins);
-	}
+    public Vector<Integer> playCorrection(int blackPins, int white) throws IncorrectCorrection, NoGuessToBeCorrected, InvalidNumberOfPins, IOException, MismatchedRole, ClassNotFoundException, NoUserLoggedIn, NoActiveGame {
+        return ctrlDomain.playCorrection(white, blackPins);
+    }
 
-	public void setSecretCode(Vector<Integer> code) {
-		try {
-			ctrlDomain.setSecretCode(code);
-		} catch (NoActiveGame noActiveGame) {}
-		catch (SecretCodeAlreadySet secretCodeAlreadySet) {}
-		catch (MismatchedRole mismatchedRole) {}
-		catch (BadlyFormedCode badlyFormedCode) {}
-		catch (CodeIsInvalid codeIsInvalid) {}
-		loadCorrectionView();
-	}
+    public void saveGame(String name) throws ClassNotFoundException, UserSavesExistingID, NoActiveGame, IOException {
+        ctrlDomain.saveAndExitCurrentGame(name);
+        loadMenuView();
+    }
+
 	public void loadLoginView() {
 		loginView = new LoginView(this);
 	}
@@ -201,29 +201,7 @@ public class CtrlPresentation {
 			breakerView = new BreakerView(this, isHard, startedGame);
 	}
 
-	private void loadMakerView(boolean isHard) {
-		new SetCodeView(this, isHard);
-	}
-
-	private void loadCorrectionView() {
-		makerView = new MakerView(this);
-	}
-
 	public void endGame() {
-		makerView.setVisible(false);
-		breakerView.setVisible(false);
-		loadMenuView();
-	}
-
-	public void saveGame(String name) {
-		try {
-			ctrlDomain.saveAndExitCurrentGame(name);
-		} catch (NoActiveGame noActiveGame) {}
-		catch (UserSavesExistingID userSavesExistingID) {}
-		catch (ClassNotFoundException e) {}
-		catch (IOException e) {}
-		breakerView.setVisible(false);
-		makerView.setVisible(false);
 		loadMenuView();
 	}
 
@@ -233,9 +211,28 @@ public class CtrlPresentation {
 		} catch (NoActiveGame noActiveGame) {
 			noActiveGame.printStackTrace();
 		}
-		breakerView.setVisible(false);
-		setCodeView.setVisible(false);
-		loadMenuView();
+        loadMenuView();
 
+    }
+
+    public Vector<Integer> takeHint(Vector<Boolean> mask) throws BadParameters, NoUserLoggedIn, EmptyMask, MismatchedRole, NoActiveGame {
+        return ctrlDomain.getHint(mask);
+    }
+
+    public Vector<Integer> getSecretCode() {
+        return (Vector<Integer>) ctrlDomain.getBoard().get(0);
+    }
+
+    public void setSecretCode(Vector<Integer> code) {
+        try {
+            ctrlDomain.setSecretCode(code);
+        } catch (NoActiveGame noActiveGame) {
+        } catch (SecretCodeAlreadySet secretCodeAlreadySet) {
+        } catch (MismatchedRole mismatchedRole) {
+        } catch (BadlyFormedCode badlyFormedCode) {
+        } catch (CodeIsInvalid codeIsInvalid) {
+        }
+		setCodeView.setVisible(false);
+        loadMakerView(code.size() == 5, false);
 	}
 }

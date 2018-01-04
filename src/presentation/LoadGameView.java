@@ -3,6 +3,7 @@ package presentation;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 
 public class LoadGameView extends JFrame {
     private CtrlPresentation ctrlPresentation;
@@ -24,14 +25,15 @@ public class LoadGameView extends JFrame {
         gameLabel.setText("Write a name of a Game or select it");
 
         setSize(400,400);
+        //The below function makes the screen appear in the center
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         setTitle("Load a Game");
-
         gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setTitle("Saved Games");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         gameList.setListData(ctrlPresentation.getSavedGamesList());
-        System.out.println(gameList.getSize());
         loadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent event) {
                 loadButtonPressed();
@@ -75,6 +77,7 @@ public class LoadGameView extends JFrame {
     }
 
     private void loadButtonPressed() {
+        setVisible(false);
         ctrlPresentation.loadGame(selectedGame.getText());
     }
 

@@ -64,14 +64,17 @@ public class MenuView extends JFrame{
     }
 
     private void newGameButtonPressed() {
+        setVisible(false);
         ctrlPresentation.loadNewGameView();
     }
 
     private void loadGameButtonPressed() {
+        setVisible(false);
         ctrlPresentation.loadLoadGameView();
     }
 
     private void gameRecordsButtonPressed() {
+        setVisible(false);
         ctrlPresentation.showRecords();
     }
 

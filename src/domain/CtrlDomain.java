@@ -228,7 +228,7 @@ public class CtrlDomain {
 	public Vector<Integer> playCorrection(int w, int b) throws NoUserLoggedIn, NoActiveGame, MismatchedRole, NoGuessToBeCorrected, InvalidNumberOfPins, IncorrectCorrection, FileNotFoundException, ClassNotFoundException, IOException {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame == null) throw new NoActiveGame();
-		if (! activeGame.getUserIsBreaker()) throw new MismatchedRole();
+		if (activeGame.getUserIsBreaker()) throw new MismatchedRole();
 		Correction c = new Correction(w,b);
 		Board board = activeGame.getBoard();
 		try {

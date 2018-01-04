@@ -1,9 +1,12 @@
 package presentation;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Vector;
 
 public class SetCodeView extends JFrame {
@@ -18,7 +21,7 @@ public class SetCodeView extends JFrame {
     private void initializeComponents() {
         codePanel.setLayout(new BoxLayout(codePanel, BoxLayout.LINE_AXIS));
         colorPanel.setLayout(new BoxLayout(colorPanel, BoxLayout.LINE_AXIS));
-        setTitle("Mastermind!");
+        setTitle("Create a Secret code");
         for (int i = 0; i < codeSize; ++i) {
             JButton codePos = new JButton();
             codePos.addActionListener(new ActionListener() {
@@ -27,6 +30,7 @@ public class SetCodeView extends JFrame {
                     changeColor(event);
                 }
             });
+            colorButton(0, codePos);
             codePanel.add(codePos);
         }
         if (isHard) {
@@ -63,33 +67,77 @@ public class SetCodeView extends JFrame {
                 confirmButtonPressed();
             }
         });
-        codePanel.add(confirmButton);
+        codePanel.add(confirmButton, RIGHT_ALIGNMENT);
         setContentPane(panel);
-        setSize(250,200);
+        setSize(1000, 300);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
-    private void colorButton(int color, JComponent button) {
+    private void colorButton(int color, JButton button) {
         switch (color) {
             case 0:
+                try {
+                    Image icon = ImageIO.read(new FileInputStream("src/presentation/icons/blank.png"));
+                    button.setIcon(new ImageIcon(icon));
+                } catch (IOException e) {
+                }
                 button.setBackground(Color.BLACK);
+                button.setContentAreaFilled(false);
                 break;
             case 1:
+                try {
+                    Image icon = ImageIO.read(new FileInputStream("src/presentation/icons/red_color.png"));
+                    button.setIcon(new ImageIcon(icon));
+                } catch (IOException e) {
+                }
                 button.setBackground(Color.RED);
+                button.setContentAreaFilled(false);
                 break;
             case 2:
+                try {
+                    Image icon = ImageIO.read(new FileInputStream("src/presentation/icons/blue_color.png"));
+                    button.setIcon(new ImageIcon(icon));
+                } catch (IOException e) {
+                }
                 button.setBackground(Color.BLUE);
+                button.setContentAreaFilled(false);
                 break;
             case 3:
+                try {
+                    Image icon = ImageIO.read(new FileInputStream("src/presentation/icons/green_color.png"));
+                    button.setIcon(new ImageIcon(icon));
+                } catch (IOException e) {
+                }
                 button.setBackground(Color.GREEN);
+                button.setContentAreaFilled(false);
                 break;
             case 4:
+                try {
+                    Image icon = ImageIO.read(new FileInputStream("src/presentation/icons/yellow_color.png"));
+                    button.setIcon(new ImageIcon(icon));
+                } catch (IOException e) {
+                }
                 button.setBackground(Color.YELLOW);
+                button.setContentAreaFilled(false);
                 break;
             case 5:
+                try {
+                    Image icon = ImageIO.read(new FileInputStream("src/presentation/icons/pink_color.png"));
+                    button.setIcon(new ImageIcon(icon));
+                } catch (IOException e) {
+                }
                 button.setBackground(Color.CYAN);
+                button.setContentAreaFilled(false);
                 break;
             case 6:
+                try {
+                    Image icon = ImageIO.read(new FileInputStream("src/presentation/icons/orange_color.png"));
+                    button.setIcon(new ImageIcon(icon));
+                } catch (IOException e) {
+                }
                 button.setBackground(Color.WHITE);
+                button.setContentAreaFilled(false);
                 break;
             default:
         }
@@ -138,6 +186,7 @@ public class SetCodeView extends JFrame {
             }
         }
         if (validCode) {
+            setVisible(false);
             ctrlPresentation.setSecretCode(numericalCode);
         }
     }
