@@ -10,22 +10,22 @@ public class Ranking implements Serializable { //Author:Luis
     private ArrayList<Tuple> ranking = new ArrayList<Tuple>(10);
 
     public Ranking insert(Tuple t) {
-        
-         if(ranking.size()<10){
-        ranking.add(t);
-        
-        Collections.sort(ranking, new Comparator<Tuple>() { //function is not efficient. No need to sort the array everytime
-            @Override
-            public int compare(Tuple t1, Tuple t2) {
-                return t2.getValue().compareTo(t1.getValue());
-            }
-        });
-        return new Ranking().setRanking(ranking);
-    }else
-        return null;
+
+        if(ranking.size()<10){
+            ranking.add(t);
+
+            Collections.sort(ranking, new Comparator<Tuple>() { //function is not efficient. No need to sort the array everytime
+                @Override
+                public int compare(Tuple t1, Tuple t2) {
+                    return t2.getValue().compareTo(t1.getValue());
+                }
+            });
+            return new Ranking().setRanking(ranking);
+        }else
+            return null;
     }
 
-    
+
     public ArrayList<Tuple> getRanking() {
         return ranking;
     }
@@ -34,5 +34,5 @@ public class Ranking implements Serializable { //Author:Luis
         this.ranking = ranking;
         return this;
     }
-    
+
 }

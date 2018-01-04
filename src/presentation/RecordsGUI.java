@@ -2,7 +2,7 @@ package presentation;
 
 import domain.CtrlDomain;
 import domain.CtrlDomainRecords;
-//import domini.Tuple.Tuple;
+import domini.Tuple.Tuple;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
@@ -25,7 +25,7 @@ import persistence.CtrlPersistenceRecords;
 import presentation.*;
 
 public class RecordsGUI {
-    /*
+
     //View Objects
     private JFrame frame;
     private JButton newButton;
@@ -39,7 +39,6 @@ public class RecordsGUI {
     /**
      * Launch the application.
      */
-    /*
     public static void main(String[] args) {
         try {
             RecordsGUI g = new RecordsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
@@ -70,14 +69,13 @@ public class RecordsGUI {
     /**
      * Initialize the contents of the frame.
      */
-    /*
     private void initialize() {
         frame = new JFrame();
-        
+
         //Frame dimensions
         Dimension dimension = new Dimension(500,400);
         frame.setPreferredSize(dimension);
-        
+
         frame.setResizable(true);
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,22 +83,22 @@ public class RecordsGUI {
 
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel, BorderLayout.CENTER);
-        
+
 
         ArrayList<model.Tuple> records = this.cdr.getGlobalRecords().getGlobalRecords();
-        
+
         //ArrayList<model.Tuple> rankings = this.cdr.getRankings().getRanking();
-         
+
         List<String> recordTypes = Arrays.asList("Finished Games", "Games Lost", "Games Won", "Max Score","Min Guesses","Total Score");
 
-        
+
         Object[] columnNames = new Object[3];
         columnNames[0] = "Record type";
         columnNames[1] = "Player";
         columnNames[2] = "Value";
 
         grTable = new JTable();
-        
+
 
         DefaultTableModel dtm = (DefaultTableModel) grTable.getModel();
         dtm.setColumnIdentifiers(columnNames);
@@ -114,16 +112,16 @@ public class RecordsGUI {
             } else {
                 row[2] = "N/A";
             }
-            
+
             dtm.addRow(row);
         }
-        
-        
+
+
         JScrollPane pane = new JScrollPane(grTable);
         panel.add(grTable.getTableHeader(), BorderLayout.CENTER);
 
         panel.add(pane);
 
     }
-    */
+
 }

@@ -23,7 +23,7 @@ public class CtrlDomainRecords { //Author:Luis
     public CtrlDomainRecords(CtrlPersistenceRecords cpr) throws FileNotFoundException, IOException, ClassNotFoundException {
 
         this.persistenceRecords = cpr;
-        
+
     }
 
     /**
@@ -42,9 +42,9 @@ public class CtrlDomainRecords { //Author:Luis
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         //Global records Handling
-        
+
         GlobalRecords records = this.persistenceRecords.getGlobalRecords();
         records.update(p);
         try {
@@ -52,14 +52,14 @@ public class CtrlDomainRecords { //Author:Luis
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
         return p;
     }
-    
+
     public Ranking getRankings() {
         return this.persistenceRecords.getRankings();
     }
-    
+
     public GlobalRecords getGlobalRecords() {
         if(this.persistenceRecords.getGlobalRecords().getGlobalRecords().isEmpty()) return null;
         else return this.persistenceRecords.getGlobalRecords();
