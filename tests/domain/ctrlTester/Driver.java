@@ -6,14 +6,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import domain.CtrlDomain;
+import domain.CtrlDomainRecords;
 import exceptions.*;
+import model.Tuple;
+import persistence.CtrlPersistenceRecords;
 
 public class Driver {
 	CtrlDomain cd;
+        CtrlDomainRecords cdr;
 	static Scanner sc = new Scanner(System.in);
 	//This is a tester class, but also an example of use of the class CtrlDomain.
 	public void start() throws FileNotFoundException, ClassNotFoundException, IOException {
 		cd = new CtrlDomain();
+                cdr = new CtrlDomainRecords(new CtrlPersistenceRecords());
 		Status currentstatus;
 		currentstatus = Status.LOGINSCREEN;
 		while (currentstatus != Status.EXIT) {
@@ -76,7 +81,7 @@ public class Driver {
 			System.out.println("User logged in: " + cd.getLoggedUsername());
 			System.out.println("Input 1 for New Game");
 			System.out.println("Input 2 for Load Game");
-			System.out.println("Input 3 for Records (not supported)");
+			System.out.println("Input 3 for Records");
 			System.out.println("Input 4 for Log out");
 			System.out.println("Input 5 for Exit");
 			Integer opt = sc.nextInt();
@@ -117,7 +122,7 @@ public class Driver {
 			case 2: 
 				return Status.SAVEDGAMES;
 			case 3:
-				System.out.println("Sorry, Luis's work");
+				System.out.println("Global Records\n" + getRecordstoString()+"\nRankings \n"+getRankingstoString());
 				break;
 			case 4:
 				try {
@@ -203,6 +208,30 @@ public class Driver {
 			}
 		}
 	}
+            
+            public String getRankingstoString(){
+                String result = null;
+                ArrayList<Tuple> rankings = cdr.getRankings().getRanking();
+                if(!rankings.isEmpty()){
+                    for(int i=0;i<rankings.size();i++){
+                    result += rankings.get(i).getPlayerName() + " " + rankings.get(i).getValue() + "\n";
+                    }
+                    return result="";
+                }else 
+                    return "Rankings are empty";
+                                                }
+            
+            public String getRecordstoString(){
+                String result = null;
+                ArrayList<Tuple> globalrecords = cdr.getGlobalRecords().getGlobalRecords();
+                if(!globalrecords.isEmpty()){
+                    for(int i=0;i<globalrecords.size();i++){
+                    result += globalrecords.get(i).getPlayerName() + " " + globalrecords.get(i).getValue() + "\n";
+                    }
+                    return result ="";
+                }else
+                    return "Records are empty";
+                                                }
 	public enum Status {
 		LOGINSCREEN,
 		MAINMENU,
