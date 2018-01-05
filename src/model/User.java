@@ -4,6 +4,7 @@ import exceptions.*;
 //Victor
 public class User extends Player {
 	private ArrayList<String> savedGames;
+	private static final long serialVersionUID = 1L;
 	public User(String name) {
 		super(name);
 		savedGames = new ArrayList<String>();

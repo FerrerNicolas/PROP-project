@@ -10,7 +10,7 @@ public class Player implements Serializable {
 	private Float totalScore;
 	private Float maxScore;
 	private Float minGuesses;
-	
+	private static final long serialVersionUID = 2L;
 	public Player(String name) {
 		playerName = name;
 		gamesWon = 0.0f;

@@ -1,15 +1,16 @@
 package model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
 import exceptions.*;
 // Guillem
-public class Board {
+public class Board implements Serializable{
 	private ArrayList<Code> guesses;
 	private ArrayList<Correction> corrections;
 	private Code secretCode;
 	private Game game;
-	
+	private static final long serialVersionUID = 4L;
 	public Board(Game g) {
 		guesses = new ArrayList<Code>();
 		corrections = new ArrayList<Correction>();

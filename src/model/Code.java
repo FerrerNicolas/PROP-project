@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,9 +12,9 @@ import exceptions.BadlyFormedCode;
 //import domini.*;
 
 // Javi
-public class Code implements Cloneable {
+public class Code implements Cloneable, Serializable {
     private Vector<Integer> code; // CHANGE TO INTEGER! SIMPLIFIES CODE ALL AROUND
-
+    private static final long serialVersionUID = 5L;
     //Getter
     public Integer getCode() {
         int codeNum = 0;
