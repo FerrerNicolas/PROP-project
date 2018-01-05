@@ -24,45 +24,23 @@ import persistence.CtrlPersistence;
 import persistence.CtrlPersistenceRecords;
 import presentation.*;
 
+//Author:Luis
 public class RecordsGUI {
 
     //View Objects
     private JFrame frame;
-    private JButton newButton;
     private JTable grTable;
-    private JTable rTable;
 
     private CtrlDomainRecords cdr;
-    private CtrlDomain ctrlDomain;
-    CtrlPresentationRecords cpr;
+    private CtrlPresentationRecords cpr;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        try {
-            RecordsGUI g = new RecordsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
-            g.initialize();
-        } catch (IOException ex) {
-            Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public RecordsGUI(CtrlDomainRecords recordsControl) {
-        this.cdr = recordsControl;
-        initialize();
-    }
-
-    public RecordsGUI(Object player, CtrlDomain domain) {
-
-        try {
-            this.ctrlDomain = domain;
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        try{
+            this.cdr = recordsControl;
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
         initialize();
     }
 
@@ -86,8 +64,6 @@ public class RecordsGUI {
 
 
         ArrayList<model.Tuple> records = this.cdr.getGlobalRecords().getGlobalRecords();
-
-        //ArrayList<model.Tuple> rankings = this.cdr.getRankings().getRanking();
 
         List<String> recordTypes = Arrays.asList("Finished Games", "Games Lost", "Games Won", "Max Score","Min Guesses","Total Score");
 

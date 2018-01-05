@@ -32,40 +32,16 @@ public class RankingsGUI {
 
     //View Objects
     private JFrame frame;
-    private JButton newButton;
-    private JTable grTable;
     private JTable rTable;
 
     private CtrlDomainRecords records;
-    private CtrlDomain ctrlDomain;
-    CtrlPresentationRecords cpr;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        try {
-            RankingsGUI g = new RankingsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
-            g.initialize();
-        } catch (IOException ex) {
-            Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public RankingsGUI(CtrlDomainRecords recordsControl) {
-        this.records = recordsControl;
-    }
-
-    public RankingsGUI(Object player, CtrlDomain domain) {
-
-        try {
-            this.ctrlDomain = domain;
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        try{
+            this.records = recordsControl;
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
         initialize();
     }
 
