@@ -15,7 +15,7 @@ import model.*;
 public class CtrlPersistenceRecords { //Author:Luis
 
     private GlobalRecords globalRecords = null;
-    private Ranking ranking;
+    private Ranking ranking = null;
 
     private File globalRecordsFile;
     private File rankingsFile;
