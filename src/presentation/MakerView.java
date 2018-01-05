@@ -170,7 +170,7 @@ public class MakerView extends JFrame {
             JOptionPane.showMessageDialog(this, "The AI won");
             ctrlPresentation.endGame();
         }
-        if (blackPins == 4) exitGame();
+        if (blackPins == codeSize) exitGame();
         else if (correctCorrection) {
             JOptionPane.showMessageDialog(this, "The AI played the next code");
             ++turns;
