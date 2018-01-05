@@ -48,8 +48,7 @@ public class RankingsGUI {
      */
     private void initialize() {
         frame = new JFrame();
-        ctrlPresentation = new CtrlPresentation();
-
+        
         //Frame dimensions
         Dimension dimension = new Dimension(500,400);
         frame.setPreferredSize(dimension);
@@ -106,6 +105,7 @@ public class RankingsGUI {
         
     }
     private void backButtonPressed() {
+        ctrlPresentation = new CtrlPresentation();
         frame.setVisible(false);
         ctrlPresentation.loadMenuView();
     }

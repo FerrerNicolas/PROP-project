@@ -42,8 +42,6 @@ public class RecordsGUI {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        ctrlPresentation = new CtrlPresentation();
-
         frame = new JFrame();
 
         //Frame dimensions
@@ -107,6 +105,8 @@ public class RecordsGUI {
     }
     
     private void backButtonPressed() {
+                ctrlPresentation = new CtrlPresentation();
+
         frame.setVisible(false);
         
         ctrlPresentation.loadMenuView();
