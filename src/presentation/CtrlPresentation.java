@@ -23,6 +23,7 @@ public class CtrlPresentation {
 
 	public CtrlPresentation() {
 		try {
+                        this.ctrlPresentationRecords = new CtrlPresentationRecords();                       
 			this.ctrlDomain = new CtrlDomain();
 		} catch (ClassNotFoundException e) {
 		} catch (IOException e) {
@@ -149,7 +150,7 @@ public class CtrlPresentation {
 		catch (NoUserLoggedIn noUserLoggedIn) {}
 		catch (ClassNotFoundException e) {}
 		catch (IOException e) {}
-		ArrayList<String> gameParameters = new ArrayList<>();
+		ArrayList<String> gameParameters = new ArrayList<String>();
 		try {
 			gameParameters = ctrlDomain.getGameInfo();
 		} catch (NoActiveGame noActiveGame) {
