@@ -229,9 +229,14 @@ public class CtrlDomain {
 		if (activeUser == null) throw new NoUserLoggedIn();
 		if (activeGame == null) throw new NoActiveGame();
 		if (activeGame.getUserIsBreaker()) throw new MismatchedRole();
-		Correction c = new Correction(w,b);
+		Correction c;
+		if (activeGame.getDifficulty() == Diff.HARD) c = new Correction(w,b,5);
+		else c = new Correction(w,b);
 		Board board = activeGame.getBoard();
 		try {
+			//System.out.print(c);
+			//System.out.print(":");
+			//System.out.println(board.getGuesses().get(board.turnsDone()).correct(board.getSecretCode()));
 			if(board.addCorrection(c)) {
 				endGame();
 				return null;
