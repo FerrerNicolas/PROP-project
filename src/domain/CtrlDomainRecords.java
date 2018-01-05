@@ -43,7 +43,6 @@ public class CtrlDomainRecords { //Author:Luis
         this.persistenceRecords.saveRankings(r);
 
         //Global records Handling
-
         GlobalRecords records = this.persistenceRecords.getGlobalRecords();
         records.update(p);
         this.persistenceRecords.saveGlobalRecords(records);
@@ -54,6 +53,6 @@ public class CtrlDomainRecords { //Author:Luis
     }
 
     public GlobalRecords getGlobalRecords() {
-       return this.persistenceRecords.getGlobalRecords();
+        return this.persistenceRecords.getGlobalRecords();
     }
 }

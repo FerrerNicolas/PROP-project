@@ -42,7 +42,7 @@ public class RecordsGUI {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-                        ctrlPresentation = new CtrlPresentation();
+        ctrlPresentation = new CtrlPresentation();
 
         frame = new JFrame();
 
@@ -101,15 +101,14 @@ public class RecordsGUI {
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                //backButtonPressed();
-                setVisible(false);
-                ctrlPresentation.loadMenuView();
-            }
+                backButtonPressed();
+                }
         });
     }
     
     private void backButtonPressed() {
-        setVisible(false);
+        frame.setVisible(false);
+        
         ctrlPresentation.loadMenuView();
     }
 }

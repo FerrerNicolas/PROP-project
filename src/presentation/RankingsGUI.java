@@ -48,6 +48,7 @@ public class RankingsGUI {
      */
     private void initialize() {
         frame = new JFrame();
+        ctrlPresentation = new CtrlPresentation();
 
         //Frame dimensions
         Dimension dimension = new Dimension(500,400);
@@ -57,7 +58,15 @@ public class RankingsGUI {
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
+        //Back button handling
+        backButton = new JButton();
+        backButton.setText("Back");
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                backButtonPressed();
+            }
+        });
+        
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
@@ -91,20 +100,13 @@ public class RankingsGUI {
         panel.add(rTable.getTableHeader(), BorderLayout.CENTER);
 
         panel.add(pane);
+        panel.add(backButton);
         
         
-        //Back button handling
-        backButton.setText("Back");
-        
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                backButtonPressed();
-            }
-        });
         
     }
     private void backButtonPressed() {
-        setVisible(false);
+        frame.setVisible(false);
         ctrlPresentation.loadMenuView();
     }
 
