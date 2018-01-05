@@ -54,7 +54,6 @@ public class CtrlDomainRecords { //Author:Luis
     }
 
     public GlobalRecords getGlobalRecords() {
-        if(this.persistenceRecords.getGlobalRecords().getGlobalRecords().isEmpty()) return null;
-        else return this.persistenceRecords.getGlobalRecords();
+       return this.persistenceRecords.getGlobalRecords();
     }
 }
