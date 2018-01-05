@@ -102,23 +102,10 @@ public class CtrlPresentation {
 		try {
 			ctrlDomain.NewGame(gameParameters);
 		} catch (BadParameters badParameters) {
-			System.out.println("Bad parameters creating game");
 		}
 		catch (AlreadyGameLoaded alreadyGameLoaded) {
-			System.out.println("game not closed properly");
 		}
 		catch (NoUserLoggedIn noUserLoggedIn) {}
-
-		ArrayList<String> gameInfo = null;
-		try {
-			gameInfo = ctrlDomain.getGameInfo();
-		} catch (NoActiveGame noActiveGame) {
-			noActiveGame.printStackTrace();
-		}
-		for (int i = 0; i < gameInfo.size(); ++i) {
-			System.out.println(gameInfo.get(i));
-		}
-
 
 		if (userIsBreaker) loadBreakerView(diff.equals(Diff.HARD), false);
         else loadSetCodeView(diff.equals(Diff.HARD));
