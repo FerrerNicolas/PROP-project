@@ -35,7 +35,7 @@ public class CtrlPresentationRecords { //Author:Luis
 
         Tuple playerScore = new Tuple(player.getPlayerName(), player.getMaxScore());
 
-        loadRankingsGUI();
+        //loadRankingsGUI();
         //this.recordsGui = new RecordsGUI(this.domain.getInstanceOfPlayer(playername),domain);
         //this.rankingsGui = new RankingsGUI(this.domain.getInstanceOfPlayer(playername),domain);
     }

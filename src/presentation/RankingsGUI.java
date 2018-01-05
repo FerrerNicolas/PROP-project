@@ -5,10 +5,14 @@
  */
 package presentation;
 
+import static com.sun.glass.ui.Cursor.setVisible;
 import domain.CtrlDomainRecords;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,8 +30,9 @@ public class RankingsGUI {
     //View Objects
     private JFrame frame;
     private JTable rTable;
-
+    private JButton backButton;
     private CtrlDomainRecords records;
+    private CtrlPresentation ctrlPresentation;
 
     public RankingsGUI(CtrlDomainRecords recordsControl) {
         try{
@@ -86,7 +91,21 @@ public class RankingsGUI {
         panel.add(rTable.getTableHeader(), BorderLayout.CENTER);
 
         panel.add(pane);
-
+        
+        
+        //Back button handling
+        backButton.setText("Back");
+        
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                backButtonPressed();
+            }
+        });
+        
+    }
+    private void backButtonPressed() {
+        setVisible(false);
+        ctrlPresentation.loadMenuView();
     }
 
 }

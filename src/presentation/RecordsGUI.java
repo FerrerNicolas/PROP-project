@@ -1,5 +1,6 @@
 package presentation;
 
+import static com.sun.glass.ui.Cursor.setVisible;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -12,6 +13,9 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import domain.CtrlDomainRecords;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 //Author:Luis
 public class RecordsGUI {
 
@@ -21,6 +25,8 @@ public class RecordsGUI {
 
     private CtrlDomainRecords cdr;
     private CtrlPresentationRecords cpr;
+    private JButton backButton;
+    private CtrlPresentation ctrlPresentation;
 
 
     public RecordsGUI(CtrlDomainRecords recordsControl) {
@@ -36,6 +42,8 @@ public class RecordsGUI {
      * Initialize the contents of the frame.
      */
     private void initialize() {
+                        ctrlPresentation = new CtrlPresentation();
+
         frame = new JFrame();
 
         //Frame dimensions
@@ -46,7 +54,11 @@ public class RecordsGUI {
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
+        //Back button handling
+        backButton = new JButton();
+        backButton.setText("Back");
+        backButton.setVisible(true);
+        
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
@@ -84,7 +96,20 @@ public class RecordsGUI {
         JScrollPane pane = new JScrollPane(grTable);
         panel.add(grTable.getTableHeader(), BorderLayout.CENTER);
         panel.add(pane);
+        panel.add(backButton);
+        
 
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                //backButtonPressed();
+                setVisible(false);
+                ctrlPresentation.loadMenuView();
+            }
+        });
     }
-
+    
+    private void backButtonPressed() {
+        setVisible(false);
+        ctrlPresentation.loadMenuView();
+    }
 }
