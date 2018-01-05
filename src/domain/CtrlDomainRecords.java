@@ -31,29 +31,21 @@ public class CtrlDomainRecords { //Author:Luis
      *
      * @param p
      * @return Player
+     * @throws IOException 
+     * @throws FileNotFoundException 
      */
-    public Player insertInRR(Player p) {
-        Tuple t = new Tuple(p.getPlayerName(), p.getMaxScore());
+    public void insertInRR(Player p) throws FileNotFoundException, IOException {
+        Tuple t = new Tuple(p.getPlayerName(), p.getTotalScore());
 
         // Rankings handling
-        Ranking r = this.persistenceRecords.getRankings().insert(t);
-        try {
-            this.persistenceRecords.saveRankings(r);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Ranking r = this.persistenceRecords.getRankings();
+        r.insert(t);
+        this.persistenceRecords.saveRankings(r);
 
         //Global records Handling
-
         GlobalRecords records = this.persistenceRecords.getGlobalRecords();
         records.update(p);
-        try {
-            this.persistenceRecords.saveGlobalRecords(records);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        return p;
+        this.persistenceRecords.saveGlobalRecords(records);
     }
 
     public Ranking getRankings() {
@@ -61,7 +53,6 @@ public class CtrlDomainRecords { //Author:Luis
     }
 
     public GlobalRecords getGlobalRecords() {
-        if(this.persistenceRecords.getGlobalRecords().getGlobalRecords().isEmpty()) return null;
-        else return this.persistenceRecords.getGlobalRecords();
+        return this.persistenceRecords.getGlobalRecords();
     }
 }

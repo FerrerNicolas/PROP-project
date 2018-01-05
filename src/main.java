@@ -3,9 +3,8 @@ import java.io.IOException;
 import presentation.*;
 
 public class main {
-	public static void main(String[] args) throws IOException, FileNotFoundException, ClassNotFoundException {
-
-		CtrlPresentationRecords records = new CtrlPresentationRecords();
+	public static void main(String[] args)  {
+            
 		//Initialize controllers
 		javax.swing.SwingUtilities.invokeLater(
 				new Runnable() {

@@ -76,7 +76,7 @@ public class CtrlDomain {
 			else throw new BadParameters("Expected \"Knuth\"|\"Darwin\", got " + parameters.get(2));
 		} else aiIsFG = false; //irrelevant
 		activeGame = new Game(b,d,aiIsFG);
-		if(b && aiIsFG) activeAi = new FiveGuess(activeGame);
+		if(!b && aiIsFG) activeAi = new FiveGuess(activeGame);
 		else activeAi = new Genetic(activeGame);
 		try {
 			if(activeGame.getUserIsBreaker()) activeGame.getBoard().setSecretCode(activeAi.generateSecretCode());

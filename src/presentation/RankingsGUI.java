@@ -5,22 +5,19 @@
  */
 package presentation;
 
-import domain.CtrlDomain;
+import static com.sun.glass.ui.Cursor.setVisible;
 import domain.CtrlDomainRecords;
-import domini.Tuple.Tuple;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import persistence.CtrlPersistenceRecords;
 
 /**
  *
@@ -32,40 +29,17 @@ public class RankingsGUI {
 
     //View Objects
     private JFrame frame;
-    private JButton newButton;
-    private JTable grTable;
     private JTable rTable;
-
+    private JButton backButton;
     private CtrlDomainRecords records;
-    private CtrlDomain ctrlDomain;
-    CtrlPresentationRecords cpr;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        try {
-            RankingsGUI g = new RankingsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
-            g.initialize();
-        } catch (IOException ex) {
-            Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    private CtrlPresentation ctrlPresentation;
 
     public RankingsGUI(CtrlDomainRecords recordsControl) {
-        this.records = recordsControl;
-    }
-
-    public RankingsGUI(Object player, CtrlDomain domain) {
-
-        try {
-            this.ctrlDomain = domain;
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        try{
+            this.records = recordsControl;
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
         initialize();
     }
 
@@ -74,6 +48,7 @@ public class RankingsGUI {
      */
     private void initialize() {
         frame = new JFrame();
+        ctrlPresentation = new CtrlPresentation();
 
         //Frame dimensions
         Dimension dimension = new Dimension(500,400);
@@ -83,7 +58,15 @@ public class RankingsGUI {
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
+        //Back button handling
+        backButton = new JButton();
+        backButton.setText("Back");
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                backButtonPressed();
+            }
+        });
+        
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
@@ -117,7 +100,14 @@ public class RankingsGUI {
         panel.add(rTable.getTableHeader(), BorderLayout.CENTER);
 
         panel.add(pane);
-
+        panel.add(backButton);
+        
+        
+        
+    }
+    private void backButtonPressed() {
+        frame.setVisible(false);
+        ctrlPresentation.loadMenuView();
     }
 
 }

@@ -1,68 +1,40 @@
 package presentation;
 
-import domain.CtrlDomain;
-import domain.CtrlDomainRecords;
-import domini.Tuple.Tuple;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-
+import static com.sun.glass.ui.Cursor.setVisible;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import persistence.CtrlPersistence;
-import persistence.CtrlPersistenceRecords;
-import presentation.*;
 
+import domain.CtrlDomainRecords;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+//Author:Luis
 public class RecordsGUI {
 
     //View Objects
     private JFrame frame;
-    private JButton newButton;
     private JTable grTable;
-    private JTable rTable;
 
     private CtrlDomainRecords cdr;
-    private CtrlDomain ctrlDomain;
-    CtrlPresentationRecords cpr;
+    private CtrlPresentationRecords cpr;
+    private JButton backButton;
+    private CtrlPresentation ctrlPresentation;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        try {
-            RecordsGUI g = new RecordsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
-            g.initialize();
-        } catch (IOException ex) {
-            Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RecordsGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public RecordsGUI(CtrlDomainRecords recordsControl) {
-        this.cdr = recordsControl;
-        initialize();
-    }
-
-    public RecordsGUI(Object player, CtrlDomain domain) {
-
-        try {
-            this.ctrlDomain = domain;
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        try{
+            this.cdr = recordsControl;
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
         initialize();
     }
 
@@ -70,6 +42,8 @@ public class RecordsGUI {
      * Initialize the contents of the frame.
      */
     private void initialize() {
+        ctrlPresentation = new CtrlPresentation();
+
         frame = new JFrame();
 
         //Frame dimensions
@@ -80,14 +54,16 @@ public class RecordsGUI {
         frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
+        //Back button handling
+        backButton = new JButton();
+        backButton.setText("Back");
+        backButton.setVisible(true);
+        
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
 
         ArrayList<model.Tuple> records = this.cdr.getGlobalRecords().getGlobalRecords();
-
-        //ArrayList<model.Tuple> rankings = this.cdr.getRankings().getRanking();
 
         List<String> recordTypes = Arrays.asList("Finished Games", "Games Lost", "Games Won", "Max Score","Min Guesses","Total Score");
 
@@ -120,7 +96,19 @@ public class RecordsGUI {
         JScrollPane pane = new JScrollPane(grTable);
         panel.add(grTable.getTableHeader(), BorderLayout.CENTER);
         panel.add(pane);
+        panel.add(backButton);
+        
 
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                backButtonPressed();
+                }
+        });
     }
-
+    
+    private void backButtonPressed() {
+        frame.setVisible(false);
+        
+        ctrlPresentation.loadMenuView();
+    }
 }
