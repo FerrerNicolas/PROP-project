@@ -13,11 +13,12 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import domain.CtrlDomainRecords;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 //Author:Luis
-public class RecordsGUI {
+public class RecordsGUI extends JFrame {
 
     //View Objects
     private JFrame frame;
@@ -31,6 +32,7 @@ public class RecordsGUI {
 
     public RecordsGUI(CtrlDomainRecords recordsControl) {
         try{
+            ctrlPresentation = new CtrlPresentation();
             this.cdr = recordsControl;
         } catch (Exception e){
             e.printStackTrace();
@@ -42,23 +44,22 @@ public class RecordsGUI {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frame = new JFrame();
 
         //Frame dimensions
-        Dimension dimension = new Dimension(500,400);
-        frame.setPreferredSize(dimension);
-        frame.setSize(dimension);
-        frame.setResizable(true);
-        frame.setLocation(dimension.width/2-frame.getSize().width/2, dimension.height/2-frame.getSize().height/2);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(dimension.width/2-getSize().width/2, dimension.height/2-getSize().height/2);
+        setResizable(true);
+        setLocation(dimension.width/2-getSize().width/2, dimension.height/2-getSize().height/2);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+        
         //Back button handling
         backButton = new JButton();
         backButton.setText("Back");
         backButton.setVisible(true);
         
         JPanel panel = new JPanel();
-        frame.getContentPane().add(panel, BorderLayout.CENTER);
+        getContentPane().add(panel, BorderLayout.CENTER);
 
 
         ArrayList<model.Tuple> records = this.cdr.getGlobalRecords().getGlobalRecords();
@@ -72,8 +73,7 @@ public class RecordsGUI {
         columnNames[2] = "Value";
 
         grTable = new JTable();
-
-
+        
         DefaultTableModel dtm = (DefaultTableModel) grTable.getModel();
         dtm.setColumnIdentifiers(columnNames);
         for (int i = 0; i < records.size(); i++) {
@@ -105,10 +105,8 @@ public class RecordsGUI {
     }
     
     private void backButtonPressed() {
-                ctrlPresentation = new CtrlPresentation();
 
-        frame.setVisible(false);
-        
+        setVisible(false);
         ctrlPresentation.loadMenuView();
     }
 }
