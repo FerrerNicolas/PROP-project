@@ -1,29 +1,17 @@
 package presentation;
 
-import domain.CtrlDomain;
-import domain.CtrlDomainRecords;
-import domini.Tuple.Tuple;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import persistence.CtrlPersistence;
-import persistence.CtrlPersistenceRecords;
-import presentation.*;
 
+import domain.CtrlDomainRecords;
 //Author:Luis
 public class RecordsGUI {
 

@@ -209,7 +209,7 @@ public class Driver {
 		}
 	}
             
-            public String getRankingstoString(){
+            public String getRankingstoString(){//Author:Luis
                 String result = null;
                 ArrayList<Tuple> rankings = cdr.getRankings().getRanking();
                 if(!rankings.isEmpty()){
@@ -218,10 +218,10 @@ public class Driver {
                     }
                     return result="";
                 }else 
-                    return "Rankings are empty";
+                    return result = "Rankings are empty";
                                                 }
             
-            public String getRecordstoString(){
+            public String getRecordstoString(){ //Author:Luis
                 String result = null;
                 ArrayList<Tuple> globalrecords = cdr.getGlobalRecords().getGlobalRecords();
                 if(!globalrecords.isEmpty()){
@@ -230,7 +230,7 @@ public class Driver {
                     }
                     return result ="";
                 }else
-                    return "Records are empty";
+                    return result ="Records are empty";
                                                 }
 	public enum Status {
 		LOGINSCREEN,

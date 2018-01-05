@@ -5,22 +5,15 @@
  */
 package presentation;
 
-import domain.CtrlDomain;
 import domain.CtrlDomainRecords;
-import domini.Tuple.Tuple;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import persistence.CtrlPersistenceRecords;
 
 /**
  *
