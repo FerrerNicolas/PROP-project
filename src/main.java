@@ -3,9 +3,15 @@ import java.io.IOException;
 import presentation.*;
 
 public class main {
-	public static void main(String[] args) throws IOException, FileNotFoundException, ClassNotFoundException {
+	public static void main(String[] args)  {
 
-		CtrlPresentationRecords records = new CtrlPresentationRecords();
+		try {
+			CtrlPresentationRecords records = new CtrlPresentationRecords();
+		} catch (IOException e) {
+
+		} catch (ClassNotFoundException e) {
+
+		}
 		//Initialize controllers
 		javax.swing.SwingUtilities.invokeLater(
 				new Runnable() {

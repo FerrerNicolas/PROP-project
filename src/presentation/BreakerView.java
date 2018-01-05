@@ -52,7 +52,7 @@ public class BreakerView extends JFrame {
 
         codePanel.setLayout(new BoxLayout(codePanel, BoxLayout.LINE_AXIS));
         colorPanel.setLayout(new BoxLayout(colorPanel, BoxLayout.LINE_AXIS));
-        setTitle("Breake the code!");
+        setTitle("Break the code!");
         for (int i = 0; i < codeSize; ++i) {
             JButton codePos = new JButton();
             codePos.addActionListener(new ActionListener() {
