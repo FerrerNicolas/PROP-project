@@ -5,8 +5,7 @@ import exceptions.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -190,10 +189,23 @@ public class BreakerView extends JFrame {
             }
         });
         setContentPane(panel);
-        if (codeSize == 4) setSize(850, 700);
-        else setSize(1000, 700);
+        if (codeSize == 5) setSize(850, 700);
+        else setSize(750, 700);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        WindowListener exitListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to" +
+                                "close the game and exit without saving", "Exit", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (confirm == 0) {
+                    System.exit(0);
+                }
+            }
+        };
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(exitListener);
     }
 
     private void exitButtonPressed() {

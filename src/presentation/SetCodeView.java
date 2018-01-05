@@ -68,7 +68,8 @@ public class SetCodeView extends JFrame {
         });
         codePanel.add(confirmButton, RIGHT_ALIGNMENT);
         setContentPane(panel);
-        setSize(1000, 300);
+        if (codeSize == 5) setSize(850, 300);
+        else setSize(750, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }

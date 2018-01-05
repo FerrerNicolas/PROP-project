@@ -5,8 +5,7 @@ import exceptions.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -129,6 +128,20 @@ public class MakerView extends JFrame {
             colorButton(lastCode.get(i), codeColor);
             answerPanel.add(codeColor);
         }
+
+        WindowListener exitListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(null, "Are you sure you want to" +
+                        "close the game and exit without saving", "Exit", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (confirm == 0) {
+                    System.exit(0);
+                }
+            }
+        };
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(exitListener);
     }
 
     private void sendCodeButtonPressed() {
