@@ -5,7 +5,7 @@ Board: Guillem
 Code: Javi
 Correction: Guillem
 Diff: Victor (es una enum)
-FiveGuess: Guillem y Victor
+FiveGuess: Guillem y Victor 
 Game: Victor
 Genetic: Javi
 Player: Victor
