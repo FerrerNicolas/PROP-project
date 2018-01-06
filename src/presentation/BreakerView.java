@@ -268,6 +268,7 @@ public class BreakerView extends JFrame {
         } catch (MismatchedRole mismatchedRole) {
         } catch (ClassNotFoundException e) {
         } catch (BadlyFormedCode badlyFormedCode) {
+            validCode = false;
         } catch (NoUserLoggedIn noUserLoggedIn) {
         } catch (NoActiveGame noActiveGame) {
         }
@@ -353,7 +354,7 @@ public class BreakerView extends JFrame {
             if (turn == 12) gameEnded();
             revalidate();
             repaint();
-        }
+        } else wrongCode();
     }
 
     private void colorButton(int color, JButton button) {
