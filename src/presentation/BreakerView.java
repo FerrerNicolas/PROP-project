@@ -256,28 +256,28 @@ public class BreakerView extends JFrame {
             else if (c.equals(Color.WHITE)) numericalCode.add(6);
             else {
                 validCode = false;
-                wrongCode();
             }
         }
+        Vector<Integer> correction = null;
+        try {
+            correction = ctrlPresentation.correctCode(numericalCode);
+        } catch (GameIsFinished gameIsFinished) {
+        } catch (IOException e) {
+        } catch (CodeIsInvalid codeIsInvalid) {
+            validCode = false;
+        } catch (MismatchedRole mismatchedRole) {
+        } catch (ClassNotFoundException e) {
+        } catch (BadlyFormedCode badlyFormedCode) {
+        } catch (NoUserLoggedIn noUserLoggedIn) {
+        } catch (NoActiveGame noActiveGame) {
+        }
         if (validCode) {
-            Vector<Integer> correction = null;
-            try {
-                correction = ctrlPresentation.correctCode(numericalCode);
-            } catch (GameIsFinished gameIsFinished) {
-            } catch (IOException e) {
-            } catch (CodeIsInvalid codeIsInvalid) {
-            } catch (MismatchedRole mismatchedRole) {
-            } catch (ClassNotFoundException e) {
-            } catch (BadlyFormedCode badlyFormedCode) {
-            } catch (NoUserLoggedIn noUserLoggedIn) {
-            } catch (NoActiveGame noActiveGame) {
-            }
-
             int black_pins = correction.get(1);
             int white_pins = correction.get(0);
             if (black_pins == codeSize) {
                 JOptionPane.showMessageDialog(this, "Congratulations you won the game! :)");
                 setVisible(false);
+                if (notHintedColors.contains(false)) ctrlPresentation.exitGame();
                 ctrlPresentation.loadMenuView();
             } else {
                 JPanel correctionCodePanel = new JPanel();
@@ -347,13 +347,13 @@ public class BreakerView extends JFrame {
                 JScrollBar sb = correctionScrollPanel.getVerticalScrollBar();
                 sb.setValue(sb.getMaximum());
             }
-        }
-        ++turn;
-        turnLabel.setText("Turn: " + turn + "/12");
-        if (turn == 12) gameEnded();
-        revalidate();
-        repaint();
 
+            ++turn;
+            turnLabel.setText("Turn: " + turn + "/12");
+            if (turn == 12) gameEnded();
+            revalidate();
+            repaint();
+        }
     }
 
     private void colorButton(int color, JButton button) {
