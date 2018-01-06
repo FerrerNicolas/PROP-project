@@ -479,7 +479,7 @@ public class BreakerView extends JFrame {
                 int color = code.get(0);
                 JButton hintedColor = (JButton) codePanel.getComponent(codePosition);
                 colorButton(color, hintedColor);
-                hintedColor.removeActionListener(hintedColor.getAction());
+                hintedColor.removeActionListener(hintedColor.getActionListeners()[0]);
                 JOptionPane.showMessageDialog(null, "You have been given a color from the code. \n" +
                         "You can no longer interact with that color and your score will not have an effect on ranking.");
                 notHintedColors.set(codePosition, false);
