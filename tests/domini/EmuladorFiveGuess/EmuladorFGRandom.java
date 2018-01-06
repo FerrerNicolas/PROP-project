@@ -9,24 +9,15 @@ import model.*;
 //VictorGuillem
 public class EmuladorFGRandom {
 	public static void main (String[] args) {
-		//Scanner sc= new Scanner(System.in);
 		try {
-		while(true) {
-			Random rand = new Random();
-			Integer difficulty = rand.nextInt(3);
-			Game g;
-			if(difficulty.equals(0)) 
-				g = new Game(false, Diff.EASY);
-			else if (difficulty.equals(1)) 
-				g = new Game(false, Diff.NORMAL);
-			else 
-				g = new Game(false, Diff.HARD);
+		float max=0, median=0;
+		long timeNow = System.currentTimeMillis();
+		for(int i=0; i<10; i++) {
+			Game g = new Game(false, Diff.HARD, true);
 			Board b = g.getBoard();
 			FiveGuess fg = new FiveGuess(g);
 			Code secretCode = fg.generateSecretCode();
 			b.setSecretCode(secretCode);
-			
-			System.out.println("Playing game on difficulty " + g.getDifficulty() + " with secret code " + secretCode.getCode().toString());
 			Code nextGuess = new Code();
 			try {
 				nextGuess = fg.codeBreakerTurn(null, null);
@@ -38,21 +29,25 @@ public class EmuladorFGRandom {
 			b.addCorrection(correction);
 			try {
 				while (!b.hasWon() && ! (b.turnsDone()== 12)) {
-					System.out.println("Tried " + nextGuess.getCode().toString() + ", got correction " + correction.toString() );
+					//System.out.println("Tried " + nextGuess.getCode().toString() + ", got correction " + correction.toString() );
 						nextGuess=fg.codeBreakerTurn(nextGuess, correction); // CodeOrCorrectionNull, CodeAlreadyUsed
 						correction = nextGuess.correct(secretCode);
 						b.addGuess(nextGuess); b.addCorrection(correction);
 				}
-				if (b.hasWon()) System.out.println("AI won by guessing " + nextGuess.getCode());
-				else System.out.println("AI Lost by guessing  " + nextGuess.getCode());
-				System.out.println();
+
+				//System.out.println("AI won by guessing " + nextGuess.getCode());
+				max = Math.max(b.turnsDone(), max);
+				median += b.turnsDone();
+				System.out.println("GAME "+ i + " ENDED");
 			} catch (CodeOrCorrectionNull e) {
 				System.out.println("This should never happen, but one was null");
 			} catch (CodeAlreadyUsed e) {
 				System.out.println("This should never happen, code was already used");
 			}
-		//sc.close();
 		}
+		long ElapsedTime = System.currentTimeMillis() - timeNow;
+		System.out.println(max + " " +  median/100.0);
+		System.out.println(ElapsedTime/1000.0);
 		} catch (Exception e) {
 			System.out.println("FATAL EXCEPTION");
 		}
