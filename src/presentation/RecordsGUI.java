@@ -30,9 +30,9 @@ public class RecordsGUI extends JFrame {
     private CtrlPresentation ctrlPresentation;
 
 
-    public RecordsGUI(CtrlDomainRecords recordsControl) {
+    public RecordsGUI(CtrlDomainRecords recordsControl, CtrlPresentation cp){
         try{
-            ctrlPresentation = new CtrlPresentation();
+            ctrlPresentation =cp;
             this.cdr = recordsControl;
         } catch (Exception e){
             e.printStackTrace();

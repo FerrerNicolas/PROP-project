@@ -15,27 +15,27 @@ public class CtrlPresentationRecords { //Author:Luis
 
     protected RecordsGUI recordsGui;
     protected RankingsGUI rankingsGui;
+    private CtrlPresentation cp;
 
-    private CtrlDomain domain;
-
-    public CtrlPresentationRecords() throws IOException, FileNotFoundException, ClassNotFoundException {
-        /*try {
-            this.domain = new CtrlDomain();
-
+    public CtrlPresentationRecords(CtrlPresentation cp) throws IOException, FileNotFoundException, ClassNotFoundException {
+        try{
+            this.cdr = new CtrlDomainRecords();
+            this.cp = cp;
+            
         } catch (Exception e) {
 
             e.printStackTrace();
 
         }
-        */
+        
             }
 
 
     public void loadRecordsGUI() throws IOException, FileNotFoundException, ClassNotFoundException {
-        this.recordsGui = new RecordsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
+        this.recordsGui = new RecordsGUI(this.cdr, this.cp);
     }
 
     public void loadRankingsGUI() throws IOException, FileNotFoundException, ClassNotFoundException {
-        this.rankingsGui = new RankingsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()));
+        this.rankingsGui = new RankingsGUI(this.cdr, this.cp);
     }
 }

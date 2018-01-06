@@ -20,7 +20,7 @@ public class CtrlDomain {
 	public CtrlDomain() throws FileNotFoundException, ClassNotFoundException, IOException {
 		ctrlPersistence = new CtrlPersistence(this); 
 		CtrlPersistenceRecords cpr = ctrlPersistence.getControllerRecords();
-		cdr = new CtrlDomainRecords(cpr);
+		cdr = new CtrlDomainRecords();
 	}
 	
 	public CtrlDomainRecords getCdr(){

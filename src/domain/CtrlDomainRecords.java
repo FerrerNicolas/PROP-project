@@ -20,9 +20,9 @@ public class CtrlDomainRecords { //Author:Luis
 
     private CtrlPersistenceRecords persistenceRecords;
 
-    public CtrlDomainRecords(CtrlPersistenceRecords cpr) throws FileNotFoundException, IOException, ClassNotFoundException {
+    public CtrlDomainRecords() throws FileNotFoundException, IOException, ClassNotFoundException {
 
-        this.persistenceRecords = cpr;
+        this.persistenceRecords = new CtrlPersistenceRecords();
 
     }
 
