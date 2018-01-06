@@ -7,6 +7,10 @@ Five-Guess algorithm works by having a set S of "Potential" guesses. Initially, 
 Then, for choosing a guess to play, it must give the one unplayed guess that has the most 'score', which we will define as the minimum number of guesses from S it can 'delete'.
 After playing a guess, the algorithm will get a code correction, which will be used to tell which codes from S are no longer 'Potential', that is, they cannot be the secret code.
 
+There are two data structures, an ArrayList of ints of unplayed guesses and an ArrayList of ints of potential secret codes (named S)
+The unplayed guesses one, as the name indicates, contains all guesses that haven't been tried yet.
+The potential secret codes one contains all guesses that could be the secret code based on the corrections that have been given back so far.
+
 Entering into our particular version, what it does is:
 	1. When created, it generates all the valid codes for the game it receives as a parameter. It stores a copy in each of its two sets: unplayed guesses and S.
 	2. When the turn is called for the first time, it receives (null, null) as parameters. Then it plays one guess: 1122 for normal and hard and 1234 for easy.
@@ -26,7 +30,12 @@ The algorithm will win in 5 turns maximum for our normal difficulty.
 stats acquired from playing every possible secret code via EmuladorFiveGuessAll:
 Played 360.0 EASY games: Won in at most 5.0 turns. Took 4.138888888888889 turns in average to win.
 Played 1296.0 NORMAL games: Won in at most 5.0 turns. Took 4.47608024691358 turns in average to win.
-Played 2401.0 HARD games: Won in at most 6.0 turns. Took 4.90045814244065 turns in average to win.
+(hard mode stats deleted as the parameters of the difficulty changed)
+
+stats acquired from playing 100 (or 20 for hard) random games (as playing all of them with current difficulty parameters would've taken too long):
+Played 100 EASY games: Took 0.0402 seconds in average to win.
+Played 100 NORMAL games: Took 0.116 seconds in average to win.
+Played 20 HARD games: Won in at most 6.0 turns. Took 5.45 turns in average to win. Took 14.975 seconds in average to win.
 
 ----
 Guillem and Victor
