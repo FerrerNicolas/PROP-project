@@ -246,7 +246,7 @@ public class BreakerView extends JFrame {
         for (int i = 0; i < code.length - 1; ++i) {
             Color c = code[i].getBackground();
             int codePos;
-            if (c.equals(Color.BLACK) && isDiffHard) numericalCode.add(0);
+            if (c.equals(Color.BLACK)) numericalCode.add(0);
             else if (c.equals(Color.RED)) {
                 numericalCode.add(1);
             } else if (c.equals(Color.BLUE)) numericalCode.add(2);
@@ -277,6 +277,7 @@ public class BreakerView extends JFrame {
             int white_pins = correction.get(0);
             if (black_pins == codeSize) {
                 JOptionPane.showMessageDialog(this, "Congratulations you won the game! :)");
+                setVisible(false);
                 ctrlPresentation.loadMenuView();
             } else {
                 JPanel correctionCodePanel = new JPanel();
