@@ -327,7 +327,6 @@ public class MakerView extends JFrame {
             }
         }
         this.setVisible(false);
-        ctrlPresentation.loadMenuView();
 
     }
 
