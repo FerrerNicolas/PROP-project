@@ -18,4 +18,9 @@ EmuladorFiveGuess: Victor
 EmuladorFGRandom: Victor
 EmuladorFiveGuessAll: Guillem
 
+CtrlDomain: Victor
+CtrlPersistence: Guillem
+CtrlPresentation and most views: Javi
+CtrlPersistenceRecords, CtrlDomainRecords, CtrlPresentationRecords, RankingsGUI, RecordsGUI: Luis
+
 Every exception and test was done by the one implementing the related class
