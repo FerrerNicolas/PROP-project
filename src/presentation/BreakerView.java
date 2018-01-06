@@ -278,7 +278,7 @@ public class BreakerView extends JFrame {
             if (black_pins == codeSize) {
                 JOptionPane.showMessageDialog(this, "Congratulations you won the game! :)");
                 setVisible(false);
-                if (notHintedColors.contains(false)) ctrlPresentation.exitGame();
+                ctrlPresentation.exitGame();
                 ctrlPresentation.loadMenuView();
             } else {
                 JPanel correctionCodePanel = new JPanel();
