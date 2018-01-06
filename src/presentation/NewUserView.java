@@ -62,7 +62,7 @@ public class NewUserView extends JFrame {
         ctrlPresentation.loadLoginView();
     }
 
-    public void userAlredyExists(String username) {
+    public void userAlreadyExists(String username) {
         JOptionPane.showMessageDialog(this, "The entered user " + username + " alredy exists," +
                 " if you created that user login in the previous window");
     }

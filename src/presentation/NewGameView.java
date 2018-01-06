@@ -21,8 +21,8 @@ public class NewGameView extends JFrame {
 
     private JRadioButton easyButton;
     private JRadioButton mediumButton;
-    private JLabel difficultyText;
     private JRadioButton hardButton;
+    private JLabel difficultyText;
 
     private JLabel aiText;
     private JRadioButton geneticButton;

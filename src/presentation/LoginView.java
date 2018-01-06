@@ -34,19 +34,19 @@ public class LoginView extends JFrame {
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                loginButtonPress(event);
+                loginButtonPress();
             }
         });
 
         newPlayerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                newPlayerButtonPressed(event);
+                newPlayerButtonPressed();
             }
         });
 
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                exitButtonPress(event);
+                exitButtonPress();
             }
         });
 
@@ -60,16 +60,16 @@ public class LoginView extends JFrame {
         setVisible(true);
     }
 
-    public void exitButtonPress(ActionEvent event) {
+    private void exitButtonPress() {
         System.exit(0);
     }
 
-    public void loginButtonPress(ActionEvent event) {
+    private void loginButtonPress() {
         String userID = loginText.getText();
         ctrlPresentation.loginUser(userID);
     }
 
-    public void newPlayerButtonPressed(ActionEvent event) {
+    private void newPlayerButtonPressed() {
         setVisible(false);
         ctrlPresentation.loadUserView();
     }

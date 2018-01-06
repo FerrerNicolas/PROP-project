@@ -449,17 +449,17 @@ public class BreakerView extends JFrame {
         colorButton(selectionColor, codePos);
     }
 
-    public void wrongCode() {
+    private void wrongCode() {
         JOptionPane.showMessageDialog(this, "The code submitted is wrong, play a different code");
     }
 
-    public void gameEnded() {
+    private void gameEnded() {
         if (turn >= 12) JOptionPane.showMessageDialog(this, "You didn't get the code in the available turns :(");
         setVisible(false);
         ctrlPresentation.exitGame();
     }
 
-    public void hintButtonPressed() {
+    private void hintButtonPressed() {
         int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to take a hint. \n" +
                 "If you do the game score will not be counted", "Warning", dialogButton);
