@@ -10,17 +10,17 @@ public class EmuladorGenetic {
         System.out.println("Input a difficulty e|n|h");
         Scanner sc = new Scanner(System.in);
         boolean gameCreated = false;
-        Game g = new Game(false, Diff.NORMAL);
+        Game g = new Game(false, Diff.NORMAL,false);
         while (!gameCreated) {
             String diff = sc.nextLine();
             if (diff.equalsIgnoreCase("e")) {
-                g = new Game(false, Diff.EASY);
+                g = new Game(false, Diff.EASY,false);
                 gameCreated = true;
             } else if (diff.equalsIgnoreCase("n")) {
-                g = new Game(false, Diff.NORMAL);
+                g = new Game(false, Diff.NORMAL,false);
                 gameCreated = true;
             } else if (diff.equalsIgnoreCase("h")) {
-                g = new Game(false, Diff.HARD);
+                g = new Game(false, Diff.HARD,false);
                 gameCreated = true;
             }
         }
@@ -41,6 +41,8 @@ public class EmuladorGenetic {
             } catch (BadlyFormedCode badlyFormedCode) {
                 System.out.println("Wrong code inputted, valid codes are represented by numbers from 0 to 6");
                 System.out.println("Input a valid code");
+            } catch (SecretCodeAlreadySet secretCodeAlreadySet) {
+                secretCodeAlreadySet.printStackTrace();
             }
         }
         Genetic gen = new Genetic(g);
@@ -58,6 +60,8 @@ public class EmuladorGenetic {
             b.addCorrection(correction);
         } catch (NoGuessToBeCorrected correctionIsInvalid) {
             correctionIsInvalid.printStackTrace();
+        } catch (IncorrectCorrection incorrectCorrection) {
+            incorrectCorrection.printStackTrace();
         }
         while (!b.hasWon() && b.turnsDone() < 12) {
             System.out.println(
@@ -78,6 +82,8 @@ public class EmuladorGenetic {
                 b.addCorrection(correction);
             } catch (NoGuessToBeCorrected e) {
                 System.out.println("Correction returned by correct wrong");
+            } catch (IncorrectCorrection incorrectCorrection) {
+                incorrectCorrection.printStackTrace();
             }
             if (b.hasWon()) System.out.println("The ai guessed the code! " + guess.getCode().toString());
 

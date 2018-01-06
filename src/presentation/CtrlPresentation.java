@@ -144,11 +144,11 @@ public class CtrlPresentation {
 		}
 		if(gameParameters.get(0).equals("Breaker")) {
 			loadBreakerView(gameParameters.get(1).equals("Hard"), true);
-		} else loadMakerView(gameParameters.get(1).equals("Hard"), true);
+		} else loadMakerView(gameParameters.get(1).equals("Hard"));
     }
 
-    private void loadMakerView(boolean isHard, boolean startedGame) {
-        makerView = new MakerView(this, isHard, true);
+    public void loadMakerView(boolean isHard) {
+        makerView = new MakerView(this, isHard);
 	}
 
 	public void eraseGame(String s) {
@@ -242,16 +242,8 @@ public class CtrlPresentation {
         return (Vector<Integer>) ctrlDomain.getBoard().get(0);
     }
 
-    public void setSecretCode(Vector<Integer> code) {
-        try {
-            ctrlDomain.setSecretCode(code);
-        } catch (NoActiveGame noActiveGame) {
-        } catch (SecretCodeAlreadySet secretCodeAlreadySet) {
-        } catch (MismatchedRole mismatchedRole) {
-        } catch (BadlyFormedCode badlyFormedCode) {
-        } catch (CodeIsInvalid codeIsInvalid) {
-        }
-		setCodeView.setVisible(false);
-        loadMakerView(code.size() == 5, false);
+    public void setSecretCode(Vector<Integer> code) throws BadlyFormedCode, MismatchedRole, CodeIsInvalid, NoActiveGame, SecretCodeAlreadySet {
+	    ctrlDomain.setSecretCode(code);
+
 	}
 }
