@@ -1,15 +1,16 @@
 package model;
 //Guillem
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import exceptions.*;
 
-public class Correction implements Cloneable{
+public class Correction implements Cloneable, Serializable{
 	private int whitePins;
 	private int blackPins;
 	private int codeSize;
-	
+	private static final long serialVersionUID = 6L;
 	public Correction() {
 		whitePins = 0;
 		blackPins = 0;

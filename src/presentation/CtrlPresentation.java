@@ -23,7 +23,7 @@ public class CtrlPresentation {
 
 	public CtrlPresentation() {
 		try {
-                        this.ctrlPresentationRecords = new CtrlPresentationRecords();                       
+                        this.ctrlPresentationRecords = new CtrlPresentationRecords(this);                       
 			this.ctrlDomain = new CtrlDomain();
 		} catch (ClassNotFoundException e) {
 		} catch (IOException e) {
@@ -52,7 +52,7 @@ public class CtrlPresentation {
 		}
 		if (succesfulLogin) {
             try {
-                this.ctrlPresentationRecords = new CtrlPresentationRecords();
+                this.ctrlPresentationRecords = new CtrlPresentationRecords(this);
             } catch (IOException e) {}
             catch (ClassNotFoundException e) {}
             loginView.setVisible(false);

@@ -1,14 +1,16 @@
 package model;
 
+import java.io.Serializable;
+
 //import java.util.*;
 //Victor
-public class Game {
+public class Game implements Serializable{
 	private Boolean userIsBreaker;
 	private Diff difficulty;
 	private Board board;
 	private Boolean ranked;//NEED TO REWORK!
 	private Boolean aiIsFG;
-	
+	private static final long serialVersionUID = 3L;
 	public Game(Boolean uIB, Diff d, Boolean FG) {
 		userIsBreaker = uIB;
 		difficulty = d;

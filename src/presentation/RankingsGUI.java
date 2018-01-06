@@ -36,9 +36,9 @@ public class RankingsGUI extends JFrame {
     private CtrlPresentation ctrlPresentation;
     private MenuView menuview;
 
-    public RankingsGUI(CtrlDomainRecords recordsControl){
+    public RankingsGUI(CtrlDomainRecords recordsControl, CtrlPresentation cp){
         try{
-            ctrlPresentation = new CtrlPresentation();
+            ctrlPresentation =cp;
             this.records = recordsControl;
         } catch (Exception e){
             e.printStackTrace();
