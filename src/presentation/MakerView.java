@@ -36,15 +36,15 @@ public class MakerView extends JFrame {
     private JButton saveAndExitButton;
     private JButton exitButton;
 
-    MakerView(CtrlPresentation ctrlPresentation, boolean isHard, boolean startedGame) {
+    MakerView(CtrlPresentation ctrlPresentation, boolean isHard) {
         this.ctrlPresentation = ctrlPresentation;
         if (isHard) codeSize = 5;
         else codeSize = 4;
-        initializeComponents(startedGame);
+        initializeComponents();
         this.setVisible(true);
     }
 
-    private void initializeComponents(boolean startedGame) {
+    private void initializeComponents() {
         turns = 1;
         blackPinsText.setText("0");
         blackPinsText.setSize(30, 30);
@@ -157,11 +157,10 @@ public class MakerView extends JFrame {
         try {
             nextGuess = ctrlPresentation.playCorrection(blackPins, whitePins);
         } catch (IncorrectCorrection incorrectCorrection) {
-            JOptionPane.showMessageDialog(this, "Incorrect correction, check your correction");
             correctCorrection = false;
-            sendCodeButton.setEnabled(true);
         } catch (NoGuessToBeCorrected noGuessToBeCorrected) {
         } catch (InvalidNumberOfPins invalidNumberOfPins) {
+            correctCorrection = false;
         } catch (IOException e) {
         } catch (MismatchedRole mismatchedRole) {
         } catch (ClassNotFoundException e) {
@@ -170,49 +169,67 @@ public class MakerView extends JFrame {
             JOptionPane.showMessageDialog(this, "The AI won");
             ctrlPresentation.endGame();
         }
-        if (blackPins == codeSize) exitGame();
-        else if (correctCorrection) {
-            JOptionPane.showMessageDialog(this, "The AI played the next code");
-            ++turns;
-            ArrayList<Object> board = ctrlPresentation.getBoard();
-            answerPanel.removeAll();
-            for (int i = 0; i < nextGuess.size(); ++i) {
-                JButton codeColor = new JButton();
-                colorButton(nextGuess.get(i), codeColor);
-                answerPanel.add(codeColor);
+        if (correctCorrection) {
+            if (blackPins == codeSize) exitGame();
+            else {
+                JOptionPane.showMessageDialog(this, "The AI played the next code");
+                ++turns;
+                ArrayList<Object> board = ctrlPresentation.getBoard();
+                answerPanel.removeAll();
+                for (int i = 0; i < nextGuess.size(); ++i) {
+                    JButton codeColor = new JButton();
+                    colorButton(nextGuess.get(i), codeColor);
+                    answerPanel.add(codeColor);
+                }
+                whitePinsText.setText("0");
+                blackPinsText.setText("0");
+                revalidate();
+                repaint();
+                sendCodeButton.setEnabled(true);
             }
-            revalidate();
-            repaint();
+        } else {
+            JOptionPane.showMessageDialog(this, "Incorrect correction, check your correction");
             sendCodeButton.setEnabled(true);
+
         }
 
     }
 
     private void increaseWhitePinsPressed() {
         int whitePins = parseInt(whitePinsText.getText());
-        whitePinsText.setText(String.valueOf(++whitePins));
+        ++whitePins;
+        if (whitePins > codeSize)
+            JOptionPane.showMessageDialog(null, "There can't be more pins than number of color in the code");
+        whitePinsText.setText(String.valueOf(whitePins));
     }
 
     private void decreaseWhitePinsPressed() {
         int whitePins = parseInt(whitePinsText.getText());
-        whitePinsText.setText(String.valueOf(--whitePins));
+        --whitePins;
+        if (whitePins < 0) JOptionPane.showMessageDialog(null, "There can't be a negative number of pins");
+        else whitePinsText.setText(String.valueOf(whitePins));
     }
 
     private void increaseBlackPinsPressed() {
         int blackPins = parseInt(blackPinsText.getText());
-        blackPinsText.setText(String.valueOf(++blackPins));
+        ++blackPins;
+        if (blackPins > codeSize)
+            JOptionPane.showMessageDialog(null, "There can't be more pins than number of colors in the code");
+        else blackPinsText.setText(String.valueOf(blackPins));
     }
 
     private void decreaseBlackPinsPressed() {
         int blackPins = parseInt(blackPinsText.getText());
-        blackPinsText.setText(String.valueOf(--blackPins));
+        --blackPins;
+        if (blackPins < 0) JOptionPane.showMessageDialog(null, "There can't be a negative number of pins");
+        else blackPinsText.setText(String.valueOf(blackPins));
     }
 
     private void exitGame() {
         JOptionPane.showMessageDialog(null, "The AI won!");
         ctrlPresentation.exitGame();
         setVisible(false);
-        ctrlPresentation.loadMenuView();
+
     }
 
     private void colorButton(int color, JButton button) {

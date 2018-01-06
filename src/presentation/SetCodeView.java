@@ -3,6 +3,7 @@ package presentation;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import exceptions.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -184,15 +185,23 @@ public class SetCodeView extends JFrame {
             else if (c.equals(Color.YELLOW)) numericalCode.add(4);
             else if (c.equals(Color.CYAN)) numericalCode.add(5);
             else if (c.equals(Color.WHITE)) numericalCode.add(6);
-            else {
-                validCode = false;
-                wrongCode();
-            }
         }
+            try {
+                ctrlPresentation.setSecretCode(numericalCode);
+            } catch (BadlyFormedCode badlyFormedCode) {
+                validCode = false;
+            } catch (MismatchedRole mismatchedRole) {
+            } catch (CodeIsInvalid codeIsInvalid) {
+                validCode = false;
+            } catch (NoActiveGame noActiveGame) {
+            } catch (SecretCodeAlreadySet secretCodeAlreadySet) {
+
+            }
         if (validCode) {
             setVisible(false);
-            ctrlPresentation.setSecretCode(numericalCode);
+            ctrlPresentation.loadMakerView(codeSize == 5);
         }
+        else wrongCode();
     }
 
 
@@ -206,7 +215,7 @@ public class SetCodeView extends JFrame {
     }
 
     public void wrongCode() {
-        JOptionPane.showInputDialog("The code submitted is wrong, play a different code");
+        JOptionPane.showMessageDialog(null, "The code submitted is wrong, play a different code");
     }
 
     {

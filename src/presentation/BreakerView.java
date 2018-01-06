@@ -192,8 +192,8 @@ public class BreakerView extends JFrame {
             }
         });
         setContentPane(panel);
-        if (codeSize == 4) setSize(700, 700);
-        else setSize(800, 700);
+        if (codeSize == 4) setSize(800, 700);
+        else setSize(1000, 700);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         WindowListener exitListener = new WindowAdapter() {

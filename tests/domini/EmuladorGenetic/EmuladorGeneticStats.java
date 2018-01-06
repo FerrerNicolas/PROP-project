@@ -1,73 +1,68 @@
 package domini.EmuladorGenetic;
 
-import exceptions.BadlyFormedCode;
-import exceptions.CodeIsInvalid;
-import exceptions.NoGuessToBeCorrected;
-import exceptions.UncorrectedGuessExists;
+import exceptions.*;
 import model.*;
 
+import java.util.Date;
 import java.util.Random;
+import java.util.Vector;
 
 public class EmuladorGeneticStats {
 
     public static void main(String[] args) {
-        double playedGames = 0.0;
-        double easyGames = 0.0;
-        double mediumGames = 0.0;
-        double hardGames = 0.0;
-        double playedTurns = 0.0;
-        double easyTurns = 0.0;
-        double mediumTurns = 0.0;
-        double hardTurns = 0.0;
+
         int[] AvailableColors = {1, 2, 3, 4, 5, 6};
         int[] AvailableColorsHard = {0, 1, 2, 3, 4, 5, 6};
 
-        System.out.println("Initiating the genetic tester");
-        Game g = new Game(false, Diff.HARD);
-        Random rng = new Random(1234);
-        for (int i = 0; i < 300; i++) {
-            if ((i % 3) == 0) {
-                g = new Game(false, Diff.EASY);
-            } else if ((i % 3) == 1) {
-                g = new Game(false, Diff.NORMAL);
-                System.out.println("Created a medium game");
-            } else {
-                g = new Game(false, Diff.HARD);
-                System.out.println("Created a hard game");
-            }
-            Board b = g.getBoard();
-            int codeNum = 0;
-            int[] AvailableColorsEasy = AvailableColors.clone();
-            for (int j = 0; j < 4; ++j) {
-                int color;
-                if (i % 3 == 2) color = AvailableColorsHard[rng.nextInt(AvailableColorsHard.length)];
-                else if (i % 3 == 0) {
-                    int index = rng.nextInt(AvailableColorsEasy.length);
-                    color = AvailableColorsEasy[index];
-                    while (color == -1) {
-                        index = rng.nextInt(AvailableColorsEasy.length);
-                        color = AvailableColorsEasy[index];
-                    }
-                    AvailableColorsEasy[index] = -1;
-                } else color = AvailableColors[rng.nextInt(AvailableColors.length)];
-                codeNum *= 10;
-                codeNum += color;
-            }
+        System.out.println("Initiating the genetic tester. Every test does a million code tries");
+        Long easyTime = 0L;
+        Long mediumTime = 0L;
+        Long hardTime = 0L;
 
+
+        Long easyMinTime = Long.MAX_VALUE;
+        Long easyMaxTime = Long.MIN_VALUE;
+
+        Long mediumMinTime = Long.MAX_VALUE;
+        Long mediumMaxTime = Long.MIN_VALUE;
+
+        Long hardMinTime = Long.MAX_VALUE;
+        Long hardMaxTime = Long.MIN_VALUE;
+
+        int easyTurns = 0;
+        int mediumTurns = 0;
+        int hardTurns = 0;
+
+        System.out.println("Starting easy tests");
+        Random rng = new Random(12324);
+        int percentatge = 0;
+        for (int i = 0; i < 100000; i++) {
+            if (i %10000 == 0) {
+                ++percentatge;
+                System.out.println("Completed: " + percentatge + " %");
+            }
+            Game g = new Game(false, Diff.EASY, false);
+            Board b = g.getBoard();
+            Vector<Integer> codeNum = new Vector<>();
+            for (int j = 0; j < 4; ++j) {
+                int nextNum = rng.nextInt(AvailableColors.length);
+                while (codeNum.contains(AvailableColors[nextNum])) nextNum = rng.nextInt(AvailableColors.length);
+                codeNum.add(AvailableColors[nextNum]);
+            }
             Code scCode = new Code();
             try {
-                scCode = new Code(codeNum);
-            } catch (BadlyFormedCode badlyFormedCode) {
-                System.out.println("Tried to create a wrong code");
-            }
+                scCode.setCode(codeNum);
+            } catch (BadlyFormedCode badlyFormedCode) { }
             try {
                 b.setSecretCode(scCode);
             } catch (CodeIsInvalid codeIsInvalid) {
                 System.out.println("Failed to set secret code");
+            } catch (SecretCodeAlreadySet secretCodeAlreadySet) {
+                secretCodeAlreadySet.printStackTrace();
             }
-            System.out.println("Answering " + b.getSecretCode().toString());
             Genetic gen = new Genetic(g);
             Code answer;
+            Long startTime = System.currentTimeMillis();
             answer = gen.codeBreakerTurn(null, null);
             try {
                 b.addGuess(answer);
@@ -80,7 +75,7 @@ public class EmuladorGeneticStats {
             try {
                 b.addCorrection(correction);
             } catch (NoGuessToBeCorrected noGuessToBeCorrected) {
-                noGuessToBeCorrected.printStackTrace();
+            } catch (IncorrectCorrection incorrectCorrection) {
             }
             while (!b.hasWon()) {
                 answer = gen.codeBreakerTurn(answer, correction);
@@ -95,39 +90,169 @@ public class EmuladorGeneticStats {
                 try {
                     b.addCorrection(correction);
                 } catch (NoGuessToBeCorrected noGuessToBeCorrected) {
-                    noGuessToBeCorrected.printStackTrace();
+                } catch (IncorrectCorrection incorrectCorrection) {
+
                 }
-                System.out.println("Played the answer " + answer.toString() + " in the turn " + b.turnsDone() + " and got the answer "
-                        + correction.getBlackPins() + "B pins and " + correction.getWhitePins() + "W pins.");
+                ++easyTurns;
             }
-            System.out.println("Won the game answering to the code " + b.getSecretCode().toString() + " in " + b.turnsDone() + " turns.");
-            if (i % 3 == 0) {
-                easyTurns += b.turnsDone();
-                ++easyGames;
-            } else if (i % 2 == 1) {
-                mediumTurns += b.turnsDone();
-                ++mediumGames;
-            } else {
-                hardTurns += b.turnsDone();
-                ++hardGames;
-            }
-            ++playedGames;
-            playedTurns += b.turnsDone();
+            Long finalTime = System.currentTimeMillis();
+            Long gameTime = finalTime - startTime;
+            if (gameTime < easyMinTime) easyMinTime = gameTime;
+            if (gameTime > easyMaxTime) easyMaxTime = gameTime;
+            easyTime += gameTime;
         }
-        System.out.println("Played " + easyGames + " games at easy difficulty, it took in total " + easyTurns + " to complete all games");
-        double turnsForGameEasy = easyTurns / easyGames;
-        System.out.println("That is " + turnsForGameEasy + " turns in average per game in easy difficulty");
 
-        System.out.println("Played " + mediumGames + " games at normal difficulty, it took in total " + mediumTurns + " to complete all games");
-        double turnsForMediumGames = mediumTurns / mediumGames;
-        System.out.println("That is " + turnsForMediumGames + " turns in average to complete a game in medium difficulty");
+        System.out.println("Easy test finished");
+        System.out.println("In playing 1milion games in easy the algorithm took " + easyTime + "ms and " + easyTurns
+            + "turns. That makes a median of " + easyTime / 1000000 + "ms and " + easyTurns/1000000 + "turns. " +
+                "The minimum time for a game was " + easyMinTime + "ms and the maximum " + easyMaxTime + "ms");
 
-        System.out.println("Played " + hardGames + " game at hard difficulty, it took in total " + hardTurns + " to complete all games");
-        double turnsForHardGames = hardTurns / hardGames;
-        System.out.println("That is " + turnsForHardGames + " turns in average to complete a game in hard difficulty");
+        System.out.println("Starting normal tests");
+        percentatge = 0;
+        for (int i = 0; i < 1000000; ++i) {
+            if (i %10000 == 0) {
+                ++percentatge;
+                System.out.println("Completed: " + percentatge + " %");
+            }
+            Game g = new Game(false, Diff.NORMAL, false);
+            Board b = g.getBoard();
+            Vector<Integer> codeNum = new Vector<>();
+            for (int j = 0; j < 4; ++j) {
+                int nextNum = rng.nextInt(AvailableColors.length);
+                codeNum.add(AvailableColors[nextNum]);
+            }
+            Code scCode = new Code();
+            try {
+                scCode.setCode(codeNum);
+            } catch (BadlyFormedCode badlyFormedCode) { }
+            try {
+                b.setSecretCode(scCode);
+            } catch (CodeIsInvalid codeIsInvalid) {
+                System.out.println("Failed to set secret code");
+            } catch (SecretCodeAlreadySet secretCodeAlreadySet) {
+                secretCodeAlreadySet.printStackTrace();
+            }
+            Genetic gen = new Genetic(g);
+            Code answer;
+            Long startTime = System.currentTimeMillis();
+            answer = gen.codeBreakerTurn(null, null);
+            try {
+                b.addGuess(answer);
+            } catch (CodeIsInvalid codeIsInvalid) {
+                codeIsInvalid.printStackTrace();
+            } catch (UncorrectedGuessExists uncorrectedGuessExists) {
+                uncorrectedGuessExists.printStackTrace();
+            }
+            Correction correction = scCode.correct(answer);
+            try {
+                b.addCorrection(correction);
+            } catch (NoGuessToBeCorrected noGuessToBeCorrected) {
+            } catch (IncorrectCorrection incorrectCorrection) {
+            }
+            while (!b.hasWon()) {
+                answer = gen.codeBreakerTurn(answer, correction);
+                try {
+                    b.addGuess(answer);
+                } catch (CodeIsInvalid codeIsInvalid) {
+                    codeIsInvalid.printStackTrace();
+                } catch (UncorrectedGuessExists uncorrectedGuessExists) {
+                    System.out.println("Tried to add a guess with a previous one without correction");
+                }
+                correction = answer.correct(scCode);
+                try {
+                    b.addCorrection(correction);
+                } catch (NoGuessToBeCorrected noGuessToBeCorrected) {
+                } catch (IncorrectCorrection incorrectCorrection) {
 
+                }
+                ++mediumTurns;
+            }
+            Long finalTime = System.currentTimeMillis();
+            Long gameTime = finalTime - startTime;
+            if (gameTime < mediumMinTime) mediumMinTime = gameTime;
+            if (gameTime > mediumMaxTime) mediumMaxTime = gameTime;
+            mediumTime += gameTime;
+        }
+
+        System.out.println("Medium test finished");
         System.out.println();
-        double average = playedTurns / playedGames;
-        System.out.println("Total average of turns per game is " + average);
+        System.out.println("In playing 1milion games in normal the algorithm took " + mediumTime + "ms and " + mediumTurns
+                + "turns. That makes a median of " + mediumTime / 1000000 + "ms and " + mediumTurns/1000000 + "turns per game. "
+                + "The minimum time for a game was " + mediumMinTime + "ms and the maximum " + mediumMaxTime + "ms");
+
+        System.out.println("Starting hard tests");
+
+        percentatge = 0;
+        for (int i = 0; i < 1000000; ++i) {
+            if (i %10000 == 0) {
+                ++percentatge;
+                System.out.println("Completed: " + percentatge + " %");
+            }
+            Game g = new Game(false, Diff.HARD, false);
+            Board b = g.getBoard();
+            Vector<Integer> codeNum = new Vector<>();
+            for (int j = 0; j < 5; ++j) {
+                int nextNum = rng.nextInt(AvailableColors.length);
+                codeNum.add(AvailableColorsHard[nextNum]);
+            }
+            Code scCode = new Code();
+            try {
+                scCode.setCode(codeNum);
+            } catch (BadlyFormedCode badlyFormedCode) { }
+            try {
+                b.setSecretCode(scCode);
+            } catch (CodeIsInvalid codeIsInvalid) {
+                System.out.println("Failed to set secret code");
+            } catch (SecretCodeAlreadySet secretCodeAlreadySet) {
+                secretCodeAlreadySet.printStackTrace();
+            }
+            Genetic gen = new Genetic(g);
+            Code answer;
+            Long startTime = System.currentTimeMillis();
+            answer = gen.codeBreakerTurn(null, null);
+            try {
+                b.addGuess(answer);
+            } catch (CodeIsInvalid codeIsInvalid) {
+                codeIsInvalid.printStackTrace();
+            } catch (UncorrectedGuessExists uncorrectedGuessExists) {
+                uncorrectedGuessExists.printStackTrace();
+            }
+            Correction correction = scCode.correct(answer);
+            try {
+                b.addCorrection(correction);
+            } catch (NoGuessToBeCorrected noGuessToBeCorrected) {
+            } catch (IncorrectCorrection incorrectCorrection) {
+            }
+            while (!b.hasWon()) {
+                answer = gen.codeBreakerTurn(answer, correction);
+                try {
+                    b.addGuess(answer);
+                } catch (CodeIsInvalid codeIsInvalid) {
+                    codeIsInvalid.printStackTrace();
+                } catch (UncorrectedGuessExists uncorrectedGuessExists) {
+                    System.out.println("Tried to add a guess with a previous one without correction");
+                }
+                correction = answer.correct(scCode);
+                try {
+                    b.addCorrection(correction);
+                } catch (NoGuessToBeCorrected noGuessToBeCorrected) {
+                } catch (IncorrectCorrection incorrectCorrection) {
+
+                }
+                ++hardTurns;
+            }
+            Long finalTime = System.currentTimeMillis();
+            Long gameTime = finalTime - startTime;
+            if (gameTime < hardMinTime) hardMinTime = gameTime;
+            if (gameTime > hardMaxTime) hardMaxTime = gameTime;
+            hardTime += gameTime;
+        }
+
+        System.out.println("Medium test finished");
+        System.out.println();
+        System.out.println("In playing 1milion games in hard the algorithm took " + hardTime + "ms and " + hardTurns
+                + "turns. That makes a median of " + hardTime / 1000000 + "ms and " + hardTurns/1000000 + "turns per game. "
+                + "The minimum time for a game was " + hardMinTime + "ms and the maximum " + hardMaxTime + "ms");
+
     }
 }
