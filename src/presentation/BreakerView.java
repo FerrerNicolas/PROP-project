@@ -350,8 +350,8 @@ public class BreakerView extends JFrame {
             }
 
             ++turn;
+            if (turn > 12) gameEnded();
             turnLabel.setText("Turn: " + turn + "/12");
-            if (turn == 12) gameEnded();
             revalidate();
             repaint();
         } else wrongCode();
