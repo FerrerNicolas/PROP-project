@@ -177,7 +177,7 @@ public class SetCodeView extends JFrame {
         for (int i = 0; i < code.length - 1; ++i) {
             Color c = code[i].getBackground();
             int codePos;
-            if (c.equals(Color.BLACK) && isHard) numericalCode.add(0);
+            if (c.equals(Color.BLACK)) numericalCode.add(0);
             else if (c.equals(Color.RED)) {
                 numericalCode.add(1);
             } else if (c.equals(Color.BLUE)) numericalCode.add(2);

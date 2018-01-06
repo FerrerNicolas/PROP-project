@@ -2,6 +2,9 @@ package presentation;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import exceptions.AlreadyGameLoaded;
+import exceptions.GameUnexistentForUser;
+import exceptions.NoUserLoggedIn;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -9,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class LoadGameView extends JFrame {
     private CtrlPresentation ctrlPresentation;
@@ -82,8 +86,22 @@ public class LoadGameView extends JFrame {
     }
 
     private void loadButtonPressed() {
-        setVisible(false);
-        ctrlPresentation.loadGame(selectedGame.getText());
+        boolean loadedSuccesfully = true;
+        try {
+            ctrlPresentation.loadGame(selectedGame.getText());
+        } catch (ClassNotFoundException e) {
+        } catch (NoUserLoggedIn noUserLoggedIn) {
+        } catch (AlreadyGameLoaded alreadyGameLoaded) {
+        } catch (GameUnexistentForUser gameUnexistentForUser) {
+            loadedSuccesfully = false;
+            JOptionPane.showMessageDialog(null, "The saved game name doesn't exist.");
+        } catch (IOException e) {
+
+        }
+        if (loadedSuccesfully) {
+            setVisible(false);
+            ctrlPresentation.loadSavedGame();
+        }
     }
 
     private void eraseButtonPressed() {

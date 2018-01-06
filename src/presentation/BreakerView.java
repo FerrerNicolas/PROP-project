@@ -237,8 +237,6 @@ public class BreakerView extends JFrame {
             }
         }
         this.setVisible(false);
-        ctrlPresentation.loadMenuView();
-
     }
 
     private void sendButtonPressed() {

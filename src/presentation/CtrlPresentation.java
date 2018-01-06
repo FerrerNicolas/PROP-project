@@ -52,7 +52,7 @@ public class CtrlPresentation {
 		}
 		if (succesfulLogin) {
             try {
-                this.ctrlPresentationRecords = new CtrlPresentationRecords(this);
+                this.ctrlPresentationRecords 	 = new CtrlPresentationRecords(this);
             } catch (IOException e) {}
             catch (ClassNotFoundException e) {}
             loginView.setVisible(false);
@@ -127,16 +127,13 @@ public class CtrlPresentation {
 		return null;
 	}
 
-	public void loadGame(String s) {
+	public void loadGame(String s) throws ClassNotFoundException, NoUserLoggedIn, AlreadyGameLoaded, GameUnexistentForUser, IOException {
+		ctrlDomain.loadSavedGame(s);
 
-		try {
-			ctrlDomain.loadSavedGame(s);
-		} catch (AlreadyGameLoaded alreadyGameLoaded) {
-			//Should never hapen
-		} catch (GameUnexistentForUser gameUnexistentForUser) {}
-		catch (NoUserLoggedIn noUserLoggedIn) {}
-		catch (ClassNotFoundException e) {}
-		catch (IOException e) {}
+
+    }
+
+	public void loadSavedGame() {
 		ArrayList<String> gameParameters = new ArrayList<String>();
 		try {
 			gameParameters = ctrlDomain.getGameInfo();
@@ -145,7 +142,7 @@ public class CtrlPresentation {
 		if(gameParameters.get(0).equals("Breaker")) {
 			loadBreakerView(gameParameters.get(1).equals("Hard"), true);
 		} else loadMakerView(gameParameters.get(1).equals("Hard"));
-    }
+	}
 
     public void loadMakerView(boolean isHard) {
         makerView = new MakerView(this, isHard);
@@ -246,4 +243,6 @@ public class CtrlPresentation {
 	    ctrlDomain.setSecretCode(code);
 
 	}
+
+
 }
