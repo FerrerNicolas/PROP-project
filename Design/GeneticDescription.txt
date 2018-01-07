@@ -6,7 +6,7 @@ population set. That set is given a fitness function, that evaluates the set and
 individual code in the set could be the solution to the secret code. The most likely codes are added to an array of
 possible solutions and we add them to a new set of population in which we repeat the process, until the likely choices
 are filled, or we have arrived at a limit number of generations. To assign the next guess we give a random code that
-hasn't been played before from the random choices. The algorithm wins on average in 4.6 turns
+hasn't been played before from the random choices.
 
 --Genetic mutations--
 We have 4 types of genetic mutation functions, these are crossover, mutation, permutation and reversing.
@@ -32,4 +32,7 @@ all the differences to the previous code and return it, if the fitness score was
 add it to the chosen ones array. Once every code is given a fitness score, we take all the possible ones, and if the
 chosen ones array isn't filled, or we arrived the maximum number of generations, we add the chosen ones to the next
 population to apply the mutation functions and repeat the process till one of the conditions is fulfilled.
+
+
+--Genetic algorithm stats--
 

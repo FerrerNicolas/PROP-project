@@ -32,7 +32,8 @@ public class RecordsGUI extends JFrame {
 
     public RecordsGUI(CtrlDomainRecords recordsControl, CtrlPresentation cp){
         try{
-            ctrlPresentation =cp;
+            ctrlPresentation = cp
+            ;
             this.cdr = recordsControl;
         } catch (Exception e){
             e.printStackTrace();
@@ -52,12 +53,12 @@ public class RecordsGUI extends JFrame {
         setLocation(dimension.width/2-getSize().width/2, dimension.height/2-getSize().height/2);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        
+
         //Back button handling
         backButton = new JButton();
         backButton.setText("Back");
         backButton.setVisible(true);
-        
+
         JPanel panel = new JPanel();
         getContentPane().add(panel, BorderLayout.CENTER);
 
@@ -73,7 +74,7 @@ public class RecordsGUI extends JFrame {
         columnNames[2] = "Value";
 
         grTable = new JTable();
-        
+
         DefaultTableModel dtm = (DefaultTableModel) grTable.getModel();
         dtm.setColumnIdentifiers(columnNames);
         for (int i = 0; i < records.size(); i++) {
@@ -95,15 +96,15 @@ public class RecordsGUI extends JFrame {
         panel.add(grTable.getTableHeader(), BorderLayout.CENTER);
         panel.add(pane);
         panel.add(backButton);
-        
+
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 backButtonPressed();
-                }
+            }
         });
     }
-    
+
     private void backButtonPressed() {
 
         setVisible(false);

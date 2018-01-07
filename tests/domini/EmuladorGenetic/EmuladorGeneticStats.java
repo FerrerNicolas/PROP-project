@@ -36,6 +36,7 @@ public class EmuladorGeneticStats {
         System.out.println("Starting easy tests");
         Random rng = new Random(12324);
         int percentatge = 0;
+        /*
         for (int i = 0; i < 100000; i++) {
             if (i %10000 == 0) {
                 ++percentatge;
@@ -106,7 +107,7 @@ public class EmuladorGeneticStats {
         System.out.println("In playing 1milion games in easy the algorithm took " + easyTime + "ms and " + easyTurns
             + "turns. That makes a median of " + easyTime / 1000000 + "ms and " + easyTurns/1000000 + "turns. " +
                 "The minimum time for a game was " + easyMinTime + "ms and the maximum " + easyMaxTime + "ms");
-
+           */
         System.out.println("Starting normal tests");
         percentatge = 0;
         for (int i = 0; i < 1000000; ++i) {
@@ -182,9 +183,9 @@ public class EmuladorGeneticStats {
 
         System.out.println("Starting hard tests");
 
-        percentatge = 0;
-        for (int i = 0; i < 1000000; ++i) {
-            if (i %10000 == 0) {
+        /*percentatge = 0;
+        for (int i = 0; i < 10000; ++i) {
+            if (i %100 == 0) {
                 ++percentatge;
                 System.out.println("Completed: " + percentatge + " %");
             }
@@ -248,11 +249,11 @@ public class EmuladorGeneticStats {
             hardTime += gameTime;
         }
 
-        System.out.println("Medium test finished");
+        System.out.println("Hard test finished");
         System.out.println();
         System.out.println("In playing 1milion games in hard the algorithm took " + hardTime + "ms and " + hardTurns
                 + "turns. That makes a median of " + hardTime / 1000000 + "ms and " + hardTurns/1000000 + "turns per game. "
                 + "The minimum time for a game was " + hardMinTime + "ms and the maximum " + hardMaxTime + "ms");
-
+    */
     }
 }

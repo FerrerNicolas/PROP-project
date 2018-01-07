@@ -19,24 +19,22 @@ public class CtrlPresentationRecords { //Author:Luis
 
     public CtrlPresentationRecords(CtrlPresentation cp) throws IOException, FileNotFoundException, ClassNotFoundException {
         try{
-            this.cp = cp;
-            
+            this.cdr = new CtrlDomainRecords(new CtrlPersistenceRecords());
+            this.cp =cp;
         } catch (Exception e) {
 
             e.printStackTrace();
 
         }
-        
-            }
+
+    }
 
 
     public void loadRecordsGUI() throws IOException, FileNotFoundException, ClassNotFoundException {
-        this.cdr = new CtrlDomainRecords();
-        this.recordsGui = new RecordsGUI(this.cdr, this.cp);
+        this.recordsGui = new RecordsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()),cp);
     }
 
     public void loadRankingsGUI() throws IOException, FileNotFoundException, ClassNotFoundException {
-        this.cdr = new CtrlDomainRecords();
-        this.rankingsGui = new RankingsGUI(this.cdr, this.cp);
+        this.rankingsGui = new RankingsGUI(new CtrlDomainRecords(new CtrlPersistenceRecords()),cp );
     }
 }

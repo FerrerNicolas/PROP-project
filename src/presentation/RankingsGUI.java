@@ -38,7 +38,8 @@ public class RankingsGUI extends JFrame {
 
     public RankingsGUI(CtrlDomainRecords recordsControl, CtrlPresentation cp){
         try{
-            ctrlPresentation =cp;
+            ctrlPresentation = cp;
+
             this.records = recordsControl;
         } catch (Exception e){
             e.printStackTrace();
@@ -50,14 +51,14 @@ public class RankingsGUI extends JFrame {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-                //Frame dimensions
+        //Frame dimensions
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(dimension.width/2-getSize().width/2, dimension.height/2-getSize().height/2);
         setResizable(true);
         setLocation(dimension.width/2-getSize().width/2, dimension.height/2-getSize().height/2);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        
+
 //Back button handling
         backButton = new JButton();
         backButton.setText("Back");
@@ -66,7 +67,7 @@ public class RankingsGUI extends JFrame {
                 backButtonPressed();
             }
         });
-        
+
         JPanel panel = new JPanel();
         getContentPane().add(panel, BorderLayout.CENTER);
 
@@ -101,7 +102,7 @@ public class RankingsGUI extends JFrame {
 
         panel.add(pane);
         panel.add(backButton);
-        
+
     }
     private void backButtonPressed() {
         setVisible(false);
