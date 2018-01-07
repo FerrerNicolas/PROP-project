@@ -1,0 +1,50 @@
+User guide
+1. Introduction
+This app allows the user to play in a multi-user environment and against artificial intelligence the renowned game Mastermind. The app stores information about the records of each player and a general ranking for fomenting competitiveness in the game.
+Mastermind is a game of two players, where each take a different role: code-maker or code-breaker. Initially, the code-maker devises a 'secret code' composed of different colors or blanks, where the codes are valid or not depending on the 'difficulty' selected for that game (see below). Afterwards, the breaker tries to guess the code through trying other similarly valid codes, which the maker corrects with a number of black pins (a color is in its correct position), and white pins (there is a color from the code but in a wrong position).
+
+2. Creating a User and Loging in
+After opening the app, the first screen to appear will be the Log In screen. The first time, the user will need to create a new user under the New Player button below, and input his/her new username. There are no limits to the name's length and no unallowed characters.
+In case the user already has an account, he/she can directly input his username in the main box, and then press log in to proceed.
+
+3. Creating a Game
+The first button in the Main Menu, which is available after loging in, is the button for Game creation. Here, the user will be asked whether he/she wants to play code-breaker or code-maker, along with a difficulty selector (and an Ai selector in case of picking maker).
+The difficulty is divided in three options:
+	-Easy: The codes are made from 4 colours from a total of 6 possible colours, and must not have any repeated colour.
+	-Normal: The codes are made from 4 colours from a total of 6 possible colours.
+	-Hard: The codes are made from 5 colours from a total of 6 possible colours plus leaving the slot 'blank'
+The Ai choice is only available when being a code-maker, and it selects between an Ai based on Knuth's five guess algorithm (played by 'Knuth') or a genetic algorithm (played by 'Darwin').
+Once the game is created, the menu will change to the game view, depending on the role choice.
+
+4. Playing as Breaker
+The screen consists on an initially empty space, which we will name the board, and an input space below. To proceed, you need to create and send a code.
+To do so, simply click on one of the colours below and click again on the input board above it, initially coloured grey. The colours can be changed as many times as needed, so long as the code is not sent.
+To play the code, you simply need to click on the Send Code button to the side (Note that the code must be valid by the difficulty's rules).
+Once Send Code is pressed, the previous code will be put on the board, and to the right side a correction will be displayed. As the rules dictate, a black pin means there is one colour in its correct position, and a white one, that there is a colour of the code, but in the wrong position.
+The game keeps going until the code is guessed or twelve codes are played, in which case the user loses.
+As an additional help, on the top left part of the screen there is a 'Hint' button. Upon pressing it, one of the colours in the input will be changed and stuck to the correct colour of the code, but it will 'unrank' the game, thus not changing the player's records upon its end.
+For instructions on Save and Exit, see point 6.
+
+5. Playing as Maker
+Firstly, the program will display an input pad similar to the breaker's. This inputs the secret code, aka, the code the breaker must guess (Note that the code must be valid by the difficulty's rules). After confirming the code, the view will change to two codes and a different input pad.
+The code above is the play by the Ai, while the one below is your secret code. The input consists on two fields, one for black pins and one for white pins. The user can change them manually by typing the number or by using the increment and decrement buttons by the side.
+Once the player sends the correction (which must be accurate), the window will refresh with a new code, which is the next play from the Ai.
+The game keeps going until the code is guessed or twelve codes are played, in which case the user wins.
+
+6. Game Saving and Loading
+During any game, to the top right of the screen, the user will find two buttons, one for exiting and one for saving and exiting. The exit returns to the main menu.
+The save and exit prompts the user to input a 'Game Id' to use for saving and loading the game. This Id cannot be one already stored.
+After saving, the game will return to the Main Menu.
+From the Main Menu, the second option is 'Load a Game'. From there, a user can access to his/her saved games, from a list of game identifiers. A user can delete a saved game, or load it.
+Loading a saved game deletes the save to avoid cheating, but one can save and exit again from inside the game.
+
+7. Rankings and Records
+Each player has 6 records: the number of finished games, the number of games lost, the number of games won, the max score obtained in a single game, the minimum number of guesses he took to get the secret code and the total score. 
+All these records are updated only when playing as code-breaker in ranked (no hints) games.
+The score given to a game is (13 - #guesses) * modifier, that is: the number of guesses left multiplied by a modifier that depends on the difficulty.
+Hard is 1.5, Normal is 1.0 and Easy is 0.5.
+The Global Records store the best punctuations of all the players (including Knuth and Darwin). Best is generally defined as the greatest value, except for the fields Games Lost and Min Guesses, in which the minimum is preferrable.
+The Rankings are similar to the records, but it stores information of the record 'Total Score' exclusively. The difference between this and the Global Records is that one can see not only the best punctuation, but also the next 9. In short, this table stores the ten best scorers.
+
+8. Loging out
+A user can log out from the Main Menu to return to the Log in screen.
