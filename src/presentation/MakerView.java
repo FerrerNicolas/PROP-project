@@ -19,7 +19,6 @@ import static java.lang.Integer.parseInt;
 public class MakerView extends JFrame {
     private CtrlPresentation ctrlPresentation;
     private int codeSize;
-    private int turns;
     private JTextField blackPinsText;
     private JTextField whitePinsText;
     private JButton increaseBlackPins;
@@ -45,7 +44,6 @@ public class MakerView extends JFrame {
     }
 
     private void initializeComponents() {
-        turns = 1;
         blackPinsText.setText("0");
         blackPinsText.setSize(30, 30);
         whitePinsText.setSize(30, 30);
@@ -173,7 +171,6 @@ public class MakerView extends JFrame {
             if (blackPins == codeSize) exitGame();
             else {
                 JOptionPane.showMessageDialog(this, "The AI played the next code");
-                ++turns;
                 ArrayList<Object> board = ctrlPresentation.getBoard();
                 answerPanel.removeAll();
                 for (int i = 0; i < nextGuess.size(); ++i) {

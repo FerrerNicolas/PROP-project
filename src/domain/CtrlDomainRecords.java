@@ -20,9 +20,9 @@ public class CtrlDomainRecords { //Author:Luis
 
     private CtrlPersistenceRecords persistenceRecords;
 
-    public CtrlDomainRecords() throws FileNotFoundException, IOException, ClassNotFoundException {
+    public CtrlDomainRecords(CtrlPersistenceRecords cpr) throws FileNotFoundException, IOException, ClassNotFoundException {
 
-        this.persistenceRecords = new CtrlPersistenceRecords();
+        this.persistenceRecords = cpr;
 
     }
 
@@ -31,8 +31,8 @@ public class CtrlDomainRecords { //Author:Luis
      *
      * @param p
      * @return Player
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     * @throws IOException
+     * @throws FileNotFoundException
      */
     public void insertInRR(Player p) throws FileNotFoundException, IOException {
         Tuple t = new Tuple(p.getPlayerName(), p.getTotalScore());

@@ -13,26 +13,26 @@ import persistence.CtrlPersistenceRecords;
 
 public class Driver {
 	CtrlDomain cd;
-        CtrlDomainRecords cdr;
+	CtrlDomainRecords cdr;
 	static Scanner sc = new Scanner(System.in);
 	//This is a tester class, but also an example of use of the class CtrlDomain.
 	public void start() throws FileNotFoundException, ClassNotFoundException, IOException {
 		cd = new CtrlDomain();
-                cdr = new CtrlDomainRecords(new CtrlPersistenceRecords());
+		cdr = new CtrlDomainRecords(new CtrlPersistenceRecords());
 		Status currentstatus;
 		currentstatus = Status.LOGINSCREEN;
 		while (currentstatus != Status.EXIT) {
 			switch (currentstatus){
-			case LOGINSCREEN:
-				currentstatus = login();
-				break;
-			case MAINMENU:
-				currentstatus = mainmenu();
-			case GAME:
-				currentstatus = game();
-			case SAVEDGAMES:
-				currentstatus = savedGames();
-			default:
+				case LOGINSCREEN:
+					currentstatus = login();
+					break;
+				case MAINMENU:
+					currentstatus = mainmenu();
+				case GAME:
+					currentstatus = game();
+				case SAVEDGAMES:
+					currentstatus = savedGames();
+				default:
 			}
 		}
 	}
@@ -48,7 +48,7 @@ public class Driver {
 				System.out.println("Input username");
 				String username = sc.nextLine();
 				try {
-					cd.register(username); 
+					cd.register(username);
 					System.out.println("Success, going to MainMenu");
 					return Status.MAINMENU;
 				} catch (AlreadyLoggedIn e) {
@@ -60,7 +60,7 @@ public class Driver {
 			} else if(opt == 2) {
 				System.out.println("Input username");
 				String username = sc.nextLine();
-				
+
 				try {
 					cd.logIn(username);
 					return Status.MAINMENU;
@@ -70,7 +70,7 @@ public class Driver {
 					System.out.println("There was a player already logged in, so we send you to MainMenu");
 					return Status.MAINMENU;
 				}
-				
+
 			} else if(opt == 3) return Status.EXIT;
 			else System.out.println("Retry Opt Code");
 		}
@@ -87,55 +87,55 @@ public class Driver {
 			Integer opt = sc.nextInt();
 			sc.nextLine();
 			switch(opt) {
-			case 1:
-				System.out.println("Input the new Game's parameters:");
-				ArrayList<String> parameters = new ArrayList<String>();
-				/* Format on Parameters REMINDER:
-				 * 		*[0]: "Breaker"|"Maker" (referring to user)
-				 * 		*[1]: "Easy"|"Normal"|"Hard" (referring to game difficulty)
-				 * 		*[2]: "Knuth"|"Darwin" (referring to Ai Type, will be ignored if [0]="Breaker", so practice is: leave it blank (arraysize =2))
-				 */
-				System.out.println("Breaker | Maker ?");
-				parameters.add(sc.nextLine());
-				System.out.println("Easy | Normal | Hard ?");
-				parameters.add(sc.nextLine());
-				if(parameters.get(0).equals("Maker")) {
-					System.out.println("Knuth | Darwin ?");
+				case 1:
+					System.out.println("Input the new Game's parameters:");
+					ArrayList<String> parameters = new ArrayList<String>();
+					/* Format on Parameters REMINDER:
+					 * 		*[0]: "Breaker"|"Maker" (referring to user)
+					 * 		*[1]: "Easy"|"Normal"|"Hard" (referring to game difficulty)
+					 * 		*[2]: "Knuth"|"Darwin" (referring to Ai Type, will be ignored if [0]="Breaker", so practice is: leave it blank (arraysize =2))
+					 */
+					System.out.println("Breaker | Maker ?");
 					parameters.add(sc.nextLine());
-				}
-				try {
-					cd.NewGame(parameters);
-					return Status.GAME;
-				} catch (BadParameters e1) {
-					System.out.println("Bad Parameters:");
-					System.out.println(e1.getMessage());
-				} catch (AlreadyGameLoaded e1) {
-					System.out.println("Already a Game active! Should not happen in any case, but it will now be exited");
+					System.out.println("Easy | Normal | Hard ?");
+					parameters.add(sc.nextLine());
+					if(parameters.get(0).equals("Maker")) {
+						System.out.println("Knuth | Darwin ?");
+						parameters.add(sc.nextLine());
+					}
 					try {
-						cd.exitCurrentGame();
-					} catch (Exception x) {} //totally impossible
-				} catch (NoUserLoggedIn e1) {
-					System.out.println("No user logged in! Redirecting to log in screen");
-					return Status.LOGINSCREEN;
-				}
-				break;
-			case 2: 
-				return Status.SAVEDGAMES;
-			case 3:
-				System.out.println("Global Records\n" + getRecordstoString()+"\nRankings \n"+getRankingstoString());
-				break;
-			case 4:
-				try {
-					cd.logOut();
-					return Status.LOGINSCREEN;
-				} catch (NoUserLoggedIn e) {
-					System.out.println("There was no user logged in, returning to log in screen");
-					return Status.LOGINSCREEN;
-				}
-			case 5:
-				return Status.EXIT;
-			default:
-				break;
+						cd.NewGame(parameters);
+						return Status.GAME;
+					} catch (BadParameters e1) {
+						System.out.println("Bad Parameters:");
+						System.out.println(e1.getMessage());
+					} catch (AlreadyGameLoaded e1) {
+						System.out.println("Already a Game active! Should not happen in any case, but it will now be exited");
+						try {
+							cd.exitCurrentGame();
+						} catch (Exception x) {} //totally impossible
+					} catch (NoUserLoggedIn e1) {
+						System.out.println("No user logged in! Redirecting to log in screen");
+						return Status.LOGINSCREEN;
+					}
+					break;
+				case 2:
+					return Status.SAVEDGAMES;
+				case 3:
+					System.out.println("Global Records\n" + getRecordstoString()+"\nRankings \n"+getRankingstoString());
+					break;
+				case 4:
+					try {
+						cd.logOut();
+						return Status.LOGINSCREEN;
+					} catch (NoUserLoggedIn e) {
+						System.out.println("There was no user logged in, returning to log in screen");
+						return Status.LOGINSCREEN;
+					}
+				case 5:
+					return Status.EXIT;
+				default:
+					break;
 			}
 		}
 	}
@@ -146,7 +146,7 @@ public class Driver {
 			System.out.println(GI.get(0));
 			System.out.println(GI.get(1));
 			System.out.println(GI.get(2));
-			if(GI.get(0).equals("Maker")) 
+			if(GI.get(0).equals("Maker"))
 				System.out.println(GI.get(3));
 			System.out.println();
 			System.out.println("BOARD:-------------------------------------");
@@ -161,7 +161,7 @@ public class Driver {
 			System.out.println("No Game in progress, redirecting to Main Menu");
 			return Status.MAINMENU;
 		}
-		
+
 	}
 	public Status savedGames() throws FileNotFoundException, ClassNotFoundException, IOException {
 		while (true) {
@@ -175,32 +175,32 @@ public class Driver {
 				Integer opt = sc.nextInt();
 				sc.nextLine();
 				switch(opt) {
-				case 1:
-					System.out.println("Input Game Id");
-					String id = sc.nextLine();
-					try {
-						cd.loadSavedGame(id);
-						return Status.GAME;
-					} catch (AlreadyGameLoaded e) {
-						System.out.println("Already a Game active! Should not happen in any case, but it will now be exited");
+					case 1:
+						System.out.println("Input Game Id");
+						String id = sc.nextLine();
 						try {
-							cd.exitCurrentGame();
-						} catch (Exception x) {}
-					} catch (GameUnexistentForUser e) {
-						System.out.println("This game does not belong to the user!");
-					}
-					break;
-				case 2:
-					System.out.println("Input Game Id");
-					String id2 = sc.nextLine();
-					try {
-						cd.deleteSavedGame(id2);
-					} catch (GameUnexistentForUser e) {
-						System.out.println("This game does not belong to the user!");
-					}
-					break;
-				case 3:
-					return Status.MAINMENU;
+							cd.loadSavedGame(id);
+							return Status.GAME;
+						} catch (AlreadyGameLoaded e) {
+							System.out.println("Already a Game active! Should not happen in any case, but it will now be exited");
+							try {
+								cd.exitCurrentGame();
+							} catch (Exception x) {}
+						} catch (GameUnexistentForUser e) {
+							System.out.println("This game does not belong to the user!");
+						}
+						break;
+					case 2:
+						System.out.println("Input Game Id");
+						String id2 = sc.nextLine();
+						try {
+							cd.deleteSavedGame(id2);
+						} catch (GameUnexistentForUser e) {
+							System.out.println("This game does not belong to the user!");
+						}
+						break;
+					case 3:
+						return Status.MAINMENU;
 				}
 			} catch (NoUserLoggedIn e1) {
 				System.out.println("No user logged in! Redirecting to log in screen");
@@ -208,30 +208,30 @@ public class Driver {
 			}
 		}
 	}
-            
-            public String getRankingstoString(){//Author:Luis
-                String result = null;
-                ArrayList<Tuple> rankings = cdr.getRankings().getRanking();
-                if(!rankings.isEmpty()){
-                    for(int i=0;i<rankings.size();i++){
-                    result += rankings.get(i).getPlayerName() + " " + rankings.get(i).getValue() + "\n";
-                    }
-                    return result="";
-                }else 
-                    return result = "Rankings are empty";
-                                                }
-            
-            public String getRecordstoString(){ //Author:Luis
-                String result = null;
-                ArrayList<Tuple> globalrecords = cdr.getGlobalRecords().getGlobalRecords();
-                if(!globalrecords.isEmpty()){
-                    for(int i=0;i<globalrecords.size();i++){
-                    result += globalrecords.get(i).getPlayerName() + " " + globalrecords.get(i).getValue() + "\n";
-                    }
-                    return result ="";
-                }else
-                    return result ="Records are empty";
-                                                }
+
+	public String getRankingstoString(){//Author:Luis
+		String result = "";
+		ArrayList<Tuple> rankings = cdr.getRankings().getRanking();
+		if(!rankings.isEmpty()){
+			for(int i=0;i<rankings.size();i++){
+				result += rankings.get(i).getPlayerName() + " " + rankings.get(i).getValue() + "\n";
+			}
+			return result;
+		}else
+			return result = "Rankings are empty";
+	}
+
+	public String getRecordstoString(){ //Author:Luis
+		String result = "";
+		ArrayList<Tuple> globalrecords = cdr.getGlobalRecords().getGlobalRecords();
+		if(!globalrecords.isEmpty()){
+			for(int i=0;i<globalrecords.size();i++){
+				result += globalrecords.get(i).getPlayerName() + " " + globalrecords.get(i).getValue() + "\n";
+			}
+			return result;
+		}else
+			return "Records are empty";
+	}
 	public enum Status {
 		LOGINSCREEN,
 		MAINMENU,

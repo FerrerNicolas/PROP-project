@@ -246,7 +246,7 @@ public class BreakerView extends JFrame {
         for (int i = 0; i < code.length - 1; ++i) {
             Color c = code[i].getBackground();
             int codePos;
-            if (c.equals(Color.BLACK) && isDiffHard) numericalCode.add(0);
+            if (c.equals(Color.BLACK)) numericalCode.add(0);
             else if (c.equals(Color.RED)) {
                 numericalCode.add(1);
             } else if (c.equals(Color.BLUE)) numericalCode.add(2);
@@ -256,27 +256,29 @@ public class BreakerView extends JFrame {
             else if (c.equals(Color.WHITE)) numericalCode.add(6);
             else {
                 validCode = false;
-                wrongCode();
             }
         }
+        Vector<Integer> correction = null;
+        try {
+            correction = ctrlPresentation.correctCode(numericalCode);
+        } catch (GameIsFinished gameIsFinished) {
+        } catch (IOException e) {
+        } catch (CodeIsInvalid codeIsInvalid) {
+            validCode = false;
+        } catch (MismatchedRole mismatchedRole) {
+        } catch (ClassNotFoundException e) {
+        } catch (BadlyFormedCode badlyFormedCode) {
+            validCode = false;
+        } catch (NoUserLoggedIn noUserLoggedIn) {
+        } catch (NoActiveGame noActiveGame) {
+        }
         if (validCode) {
-            Vector<Integer> correction = null;
-            try {
-                correction = ctrlPresentation.correctCode(numericalCode);
-            } catch (GameIsFinished gameIsFinished) {
-            } catch (IOException e) {
-            } catch (CodeIsInvalid codeIsInvalid) {
-            } catch (MismatchedRole mismatchedRole) {
-            } catch (ClassNotFoundException e) {
-            } catch (BadlyFormedCode badlyFormedCode) {
-            } catch (NoUserLoggedIn noUserLoggedIn) {
-            } catch (NoActiveGame noActiveGame) {
-            }
-
             int black_pins = correction.get(1);
             int white_pins = correction.get(0);
             if (black_pins == codeSize) {
                 JOptionPane.showMessageDialog(this, "Congratulations you won the game! :)");
+                setVisible(false);
+                ctrlPresentation.exitGame();
                 ctrlPresentation.loadMenuView();
             } else {
                 JPanel correctionCodePanel = new JPanel();
@@ -346,13 +348,13 @@ public class BreakerView extends JFrame {
                 JScrollBar sb = correctionScrollPanel.getVerticalScrollBar();
                 sb.setValue(sb.getMaximum());
             }
-        }
-        ++turn;
-        turnLabel.setText("Turn: " + turn + "/12");
-        if (turn == 12) gameEnded();
-        revalidate();
-        repaint();
 
+            ++turn;
+            if (turn > 12) gameEnded();
+            turnLabel.setText("Turn: " + turn + "/12");
+            revalidate();
+            repaint();
+        } else wrongCode();
     }
 
     private void colorButton(int color, JButton button) {
@@ -447,17 +449,17 @@ public class BreakerView extends JFrame {
         colorButton(selectionColor, codePos);
     }
 
-    public void wrongCode() {
+    private void wrongCode() {
         JOptionPane.showMessageDialog(this, "The code submitted is wrong, play a different code");
     }
 
-    public void gameEnded() {
+    private void gameEnded() {
         if (turn >= 12) JOptionPane.showMessageDialog(this, "You didn't get the code in the available turns :(");
         setVisible(false);
         ctrlPresentation.exitGame();
     }
 
-    public void hintButtonPressed() {
+    private void hintButtonPressed() {
         int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to take a hint. \n" +
                 "If you do the game score will not be counted", "Warning", dialogButton);
@@ -478,7 +480,7 @@ public class BreakerView extends JFrame {
                 int color = code.get(0);
                 JButton hintedColor = (JButton) codePanel.getComponent(codePosition);
                 colorButton(color, hintedColor);
-                hintedColor.removeActionListener(hintedColor.getAction());
+                hintedColor.removeActionListener(hintedColor.getActionListeners()[0]);
                 JOptionPane.showMessageDialog(null, "You have been given a color from the code. \n" +
                         "You can no longer interact with that color and your score will not have an effect on ranking.");
                 notHintedColors.set(codePosition, false);

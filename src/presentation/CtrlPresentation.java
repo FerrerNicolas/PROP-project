@@ -6,7 +6,6 @@ import model.Diff;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Vector;
 
 public class CtrlPresentation {
@@ -17,13 +16,13 @@ public class CtrlPresentation {
 	private NewUserView newUserView;
 	private MenuView menuView;
 	private NewGameView newGameView;
-	private BreakerView breakerView;
-	private MakerView makerView;
-	private SetCodeView setCodeView;
+
+
+	//Functions to initialize the controller
 
 	public CtrlPresentation() {
 		try {
-                        this.ctrlPresentationRecords = new CtrlPresentationRecords(this);                       
+			this.ctrlPresentationRecords = new CtrlPresentationRecords(this);
 			this.ctrlDomain = new CtrlDomain();
 		} catch (ClassNotFoundException e) {
 		} catch (IOException e) {
@@ -32,10 +31,13 @@ public class CtrlPresentation {
 
 	}
 
+	//Function to load the initial view
 	public void initialize() {
 		loadLoginView();
 	}
 
+
+	//User control related functions
 
 	//Function used by the LoginView
 	public void loginUser(String username) {
@@ -69,7 +71,7 @@ public class CtrlPresentation {
 			//Should never happen
 		} catch (ExistingUser existingUser) {
 			createdUser = false;
-			newUserView.userAlredyExists(username);
+			newUserView.userAlreadyExists(username);
 		} catch (IOException e) {}
 		if (createdUser) {
 			newUserView.setVisible(false);
@@ -89,6 +91,8 @@ public class CtrlPresentation {
 		}
 		loadLoginView();
 	}
+
+	//Users related functions
 
 	public void createNewGame(Diff diff, boolean userIsBreaker, boolean fiveGuessAI) {
 		ArrayList<String> gameParameters = new ArrayList<String>();
@@ -113,7 +117,7 @@ public class CtrlPresentation {
     }
 
     private void loadSetCodeView(boolean isHard) {
-        setCodeView = new SetCodeView(this, isHard);
+        new SetCodeView(this, isHard);
 	}
 
 
@@ -127,8 +131,8 @@ public class CtrlPresentation {
 		return null;
 	}
 
-	public void loadGame(String s) throws ClassNotFoundException, NoUserLoggedIn, AlreadyGameLoaded, GameUnexistentForUser, IOException {
-		ctrlDomain.loadSavedGame(s);
+	public void loadGame(String gameID) throws ClassNotFoundException, NoUserLoggedIn, AlreadyGameLoaded, GameUnexistentForUser, IOException {
+		ctrlDomain.loadSavedGame(gameID);
 
 
     }
@@ -144,13 +148,10 @@ public class CtrlPresentation {
 		} else loadMakerView(gameParameters.get(1).equals("Hard"));
 	}
 
-    public void loadMakerView(boolean isHard) {
-        makerView = new MakerView(this, isHard);
-	}
 
-	public void eraseGame(String s) {
+	public void eraseGame(String gameID) {
         try {
-            ctrlDomain.deleteSavedGame(s);
+            ctrlDomain.deleteSavedGame(gameID);
         } catch (GameUnexistentForUser gameUnexistentForUser) {}
         catch (NoUserLoggedIn noUserLoggedIn) {}
         catch (ClassNotFoundException e) {}
@@ -163,6 +164,63 @@ public class CtrlPresentation {
 
 	public Vector<Integer> correctCode(Vector<Integer> code) throws GameIsFinished, IOException, CodeIsInvalid, MismatchedRole, ClassNotFoundException, BadlyFormedCode, NoUserLoggedIn, NoActiveGame {
 		return ctrlDomain.playCode(code);
+	}
+
+
+
+    public Vector<Integer> playCorrection(int blackPins, int white) throws IncorrectCorrection, NoGuessToBeCorrected, InvalidNumberOfPins, IOException, MismatchedRole, ClassNotFoundException, NoUserLoggedIn, NoActiveGame {
+        return ctrlDomain.playCorrection(white, blackPins);
+    }
+
+    public void saveGame(String name) throws ClassNotFoundException, UserSavesExistingID, NoActiveGame, IOException {
+        ctrlDomain.saveAndExitCurrentGame(name);
+        loadMenuView();
+    }
+
+	public void endGame() {
+		loadMenuView();
+	}
+
+	public void exitGame() {
+		try {
+			ctrlDomain.exitCurrentGame();
+		} catch (NoActiveGame noActiveGame) {
+			noActiveGame.printStackTrace();
+		}
+		loadMenuView();
+
+	}
+
+	public Vector<Integer> takeHint(Vector<Boolean> mask) throws BadParameters, NoUserLoggedIn, EmptyMask, MismatchedRole, NoActiveGame {
+		return ctrlDomain.getHint(mask);
+	}
+
+	public Vector<Integer> getSecretCode() {
+		return (Vector<Integer>) ctrlDomain.getBoard().get(0);
+	}
+
+	public void setSecretCode(Vector<Integer> code) throws BadlyFormedCode, MismatchedRole, CodeIsInvalid, NoActiveGame, SecretCodeAlreadySet {
+		ctrlDomain.setSecretCode(code);
+
+	}
+
+	//Views related functions, used to load views
+
+	public void loadLoginView() {
+		loginView = new LoginView(this);
+	}
+
+	public void loadUserView() {
+		newUserView = new NewUserView(this);
+	}
+
+	public void loadMenuView() {
+		menuView = new MenuView(this);
+	}
+
+	public void loadNewGameView() {
+		menuView.setVisible(false);
+		newGameView = new NewGameView(this);
 	}
 
 	public void showRecords() {
@@ -182,31 +240,10 @@ public class CtrlPresentation {
 		catch (ClassNotFoundException e) {}
 	}
 
-    public Vector<Integer> playCorrection(int blackPins, int white) throws IncorrectCorrection, NoGuessToBeCorrected, InvalidNumberOfPins, IOException, MismatchedRole, ClassNotFoundException, NoUserLoggedIn, NoActiveGame {
-        return ctrlDomain.playCorrection(white, blackPins);
-    }
-
-    public void saveGame(String name) throws ClassNotFoundException, UserSavesExistingID, NoActiveGame, IOException {
-        ctrlDomain.saveAndExitCurrentGame(name);
-        loadMenuView();
-    }
-
-	public void loadLoginView() {
-		loginView = new LoginView(this);
+	public void loadMakerView(boolean isHard) {
+		new MakerView(this, isHard);
 	}
 
-	public void loadUserView() {
-		newUserView = new NewUserView(this);
-	}
-
-	public void loadMenuView() {
-		menuView = new MenuView(this);
-	}
-
-	public void loadNewGameView() {
-		menuView.setVisible(false);
-		newGameView = new NewGameView(this);
-	}
 
 	public void loadLoadGameView() {
 	    new LoadGameView(this).setVisible(true);
@@ -214,35 +251,10 @@ public class CtrlPresentation {
 
     private void loadBreakerView(boolean isHard, boolean startedGame) {
 			newGameView.setVisible(false);
-			breakerView = new BreakerView(this, isHard, startedGame);
+			new BreakerView(this, isHard, startedGame);
 	}
 
-	public void endGame() {
-		loadMenuView();
-	}
 
-	public void exitGame() {
-		try {
-			ctrlDomain.exitCurrentGame();
-		} catch (NoActiveGame noActiveGame) {
-			noActiveGame.printStackTrace();
-		}
-        loadMenuView();
-
-    }
-
-    public Vector<Integer> takeHint(Vector<Boolean> mask) throws BadParameters, NoUserLoggedIn, EmptyMask, MismatchedRole, NoActiveGame {
-        return ctrlDomain.getHint(mask);
-    }
-
-    public Vector<Integer> getSecretCode() {
-        return (Vector<Integer>) ctrlDomain.getBoard().get(0);
-    }
-
-    public void setSecretCode(Vector<Integer> code) throws BadlyFormedCode, MismatchedRole, CodeIsInvalid, NoActiveGame, SecretCodeAlreadySet {
-	    ctrlDomain.setSecretCode(code);
-
-	}
 
 
 }
