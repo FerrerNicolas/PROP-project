@@ -36,3 +36,12 @@ population to apply the mutation functions and repeat the process till one of th
 
 --Genetic algorithm stats--
 
+When playing in easy the algorithm takes 1950972milliseconds and 312539turns to play a million games. In median it takes
+1.95 milliseconds to play a game and 3.13 turns. The maximum time it took the algorithm to play a game was 389milliseconds
+
+Playing a million games in medium the algorithm 19649820 milliseconds and 3611774turns. That makes a median of
+19.65 milliseconds and 3.61 turns per game. The maximum time it took the algorithm to play a game in medium was 450 milliseconds.
+
+THe hard tests played ten thousand games and it took 5845812 millisecons and 43786turns to complete the tests.
+That is a medium value of 584.58 milliseconds per game and 4.79 turns to complete a game. The game that took the most time
+in hard took 3666 milliseconds to complete.
